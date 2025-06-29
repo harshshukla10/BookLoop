@@ -1,0 +1,612 @@
+<% layout("/layouts/boilerplate") %>
+
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+  rel="stylesheet"
+/>
+<link rel="stylesheet" href="browseBooks.css" />
+
+<body>
+  <div class="container-fluid mt-4">
+    <div class="row">
+      <!-- Sidebar -->
+      <div class="col-lg-3 col-md-4">
+        <div class="sidebar">
+          <!-- Search in Sidebar -->
+          <div class="filter-section">
+            <h6 class="filter-title">Quick Search</h6>
+            <div class="input-group">
+              <input
+                type="text"
+                class="form-control form-control-sm"
+                id="sidebar-search"
+                placeholder="Search books..."
+              />
+              <button class="btn btn-outline-secondary btn-sm" type="button">
+                <i class="bi bi-search"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Genre Filter -->
+          <div class="filter-section">
+            <h6 class="filter-title">Genre</h6>
+            <div class="form-check">
+              <input
+                class="form-check-input genre-filter"
+                type="checkbox"
+                value="fiction"
+                id="genre-fiction"
+              />
+              <label class="form-check-label" for="genre-fiction"
+                >Fiction (45)</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input genre-filter"
+                type="checkbox"
+                value="non-fiction"
+                id="genre-nonfiction"
+              />
+              <label class="form-check-label" for="genre-nonfiction"
+                >Non-Fiction (32)</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input genre-filter"
+                type="checkbox"
+                value="mystery"
+                id="genre-mystery"
+              />
+              <label class="form-check-label" for="genre-mystery"
+                >Mystery (28)</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input genre-filter"
+                type="checkbox"
+                value="academic"
+                id="genre-academic"
+              />
+              <label class="form-check-label" for="genre-academic"
+                >Academic (67)</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input genre-filter"
+                type="checkbox"
+                value="romance"
+                id="genre-romance"
+              />
+              <label class="form-check-label" for="genre-romance"
+                >Romance (23)</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input genre-filter"
+                type="checkbox"
+                value="sci-fi"
+                id="genre-scifi"
+              />
+              <label class="form-check-label" for="genre-scifi"
+                >Sci-Fi (19)</label
+              >
+            </div>
+          </div>
+
+          <!-- Author Filter -->
+          <div class="filter-section">
+            <h6 class="filter-title">Author</h6>
+            <select class="form-select form-select-sm" id="author-filter">
+              <option value="">All Authors</option>
+              <option value="stephen-king">Stephen King</option>
+              <option value="agatha-christie">Agatha Christie</option>
+              <option value="j-k-rowling">J.K. Rowling</option>
+              <option value="george-orwell">George Orwell</option>
+              <option value="jane-austen">Jane Austen</option>
+            </select>
+          </div>
+
+          <!-- Price Range -->
+          <div class="filter-section">
+            <h6 class="filter-title">Price Range</h6>
+            <div class="price-range-container">
+              <div class="row">
+                <div class="col-6">
+                  <input
+                    type="number"
+                    class="form-control form-control-sm"
+                    id="price-min"
+                    placeholder="Min"
+                    min="0"
+                  />
+                </div>
+                <div class="col-6">
+                  <input
+                    type="number"
+                    class="form-control form-control-sm"
+                    id="price-max"
+                    placeholder="Max"
+                    min="0"
+                  />
+                </div>
+              </div>
+              <div class="mt-2">
+                <input
+                  type="range"
+                  class="form-range"
+                  id="price-range"
+                  min="0"
+                  max="100"
+                  value="50"
+                />
+                <div class="d-flex justify-content-between">
+                  <small>$0</small>
+                  <small>$100+</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Condition Filter -->
+          <div class="filter-section">
+            <h6 class="filter-title">Condition</h6>
+            <div class="form-check">
+              <input
+                class="form-check-input condition-filter"
+                type="checkbox"
+                value="new"
+                id="condition-new"
+              />
+              <label class="form-check-label" for="condition-new">New</label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input condition-filter"
+                type="checkbox"
+                value="like-new"
+                id="condition-likenew"
+              />
+              <label class="form-check-label" for="condition-likenew"
+                >Like New</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input condition-filter"
+                type="checkbox"
+                value="good"
+                id="condition-good"
+              />
+              <label class="form-check-label" for="condition-good">Good</label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input condition-filter"
+                type="checkbox"
+                value="acceptable"
+                id="condition-acceptable"
+              />
+              <label class="form-check-label" for="condition-acceptable"
+                >Acceptable</label
+              >
+            </div>
+          </div>
+
+          <!-- Location Filter -->
+          <div class="filter-section">
+            <h6 class="filter-title">Location</h6>
+            <select class="form-select form-select-sm" id="location-filter">
+              <option value="">All Locations</option>
+              <option value="new-york">New York, NY</option>
+              <option value="los-angeles">Los Angeles, CA</option>
+              <option value="chicago">Chicago, IL</option>
+              <option value="houston">Houston, TX</option>
+              <option value="online">Online Only</option>
+            </select>
+            <div class="mt-2">
+              <label for="distance-range" class="form-label"
+                >Distance: <span id="distance-value">25</span> miles</label
+              >
+              <input
+                type="range"
+                class="form-range"
+                id="distance-range"
+                min="5"
+                max="100"
+                value="25"
+              />
+            </div>
+          </div>
+
+          <!-- Language Filter -->
+          <div class="filter-section">
+            <h6 class="filter-title">Language</h6>
+            <select class="form-select form-select-sm" id="language-filter">
+              <option value="">All Languages</option>
+              <option value="english">English</option>
+              <option value="spanish">Spanish</option>
+              <option value="french">French</option>
+              <option value="german">German</option>
+              <option value="chinese">Chinese</option>
+            </select>
+          </div>
+
+          <!-- Format Filter -->
+          <div class="filter-section">
+            <h6 class="filter-title">Format</h6>
+            <div class="form-check">
+              <input
+                class="form-check-input format-filter"
+                type="checkbox"
+                value="paperback"
+                id="format-paperback"
+              />
+              <label class="form-check-label" for="format-paperback"
+                >Paperback</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input format-filter"
+                type="checkbox"
+                value="hardcover"
+                id="format-hardcover"
+              />
+              <label class="form-check-label" for="format-hardcover"
+                >Hardcover</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input format-filter"
+                type="checkbox"
+                value="ebook"
+                id="format-ebook"
+              />
+              <label class="form-check-label" for="format-ebook">eBook</label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input format-filter"
+                type="checkbox"
+                value="audiobook"
+                id="format-audiobook"
+              />
+              <label class="form-check-label" for="format-audiobook"
+                >Audiobook</label
+              >
+            </div>
+          </div>
+
+          <!-- Reset Filters -->
+          <button
+            class="btn btn-outline-secondary btn-sm w-100"
+            id="reset-filters"
+          >
+            <i class="bi bi-arrow-clockwise"></i> Reset Filters
+          </button>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="col-lg-9 col-md-8">
+        <!-- Search Bar with Notification and Wishlist Integration, styled and responsive with Bootstrap 5 -->
+        <div class="container my-4">
+          <div class="row align-items-center gy-2">
+            <!-- Search Input -->
+            <div class="col-12 col-md-7">
+              <div class="input-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="main-search"
+                  placeholder="Search by title, author, ISBN, or keywords..."
+                />
+                <button class="btn btn-primary" type="button" id="search-btn">
+                  <i class="bi bi-search"></i>
+                  <span class="d-none d-sm-inline">Search</span>
+                </button>
+              </div>
+            </div>
+            <!-- Notification and Wishlist -->
+            <div class="col-12 col-md-5">
+              <div
+                class="d-flex justify-content-md-end justify-content-start align-items-center gap-3 mt-2 mt-md-0"
+              >
+                <!-- Notifications -->
+                <div class="dropdown">
+                  <button
+                    class="btn btn-outline-primary position-relative"
+                    type="button"
+                    id="notificationsDropdown"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <i class="bi bi-bell"></i>
+                    <span
+                      class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                      style="font-size: 0.7em"
+                    >
+                      3
+                      <span class="visually-hidden">unread notifications</span>
+                    </span>
+                  </button>
+                  <ul
+                    class="dropdown-menu dropdown-menu-end"
+                    aria-labelledby="notificationsDropdown"
+                    style="min-width: 320px"
+                  >
+                    <li>
+                      <h6 class="dropdown-header">Notifications</h6>
+                    </li>
+                    <li>
+                      <a class="dropdown-item small" href="#">
+                        <i
+                          class="bi bi-bookmark-star-fill text-success me-2"
+                        ></i>
+                        New arrival in <b>Science Fiction</b>
+                        <div class="text-muted small">Just now</div>
+                      </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item small" href="#">
+                        <i class="bi bi-tag-fill text-warning me-2"></i>
+                        Price dropped for <b>The Great Gatsby</b>
+                        <div class="text-muted small">5 min ago</div>
+                      </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item small" href="#">
+                        <i class="bi bi-arrow-repeat text-info me-2"></i>
+                        Exchange request from <b>Amit</b>
+                        <div class="text-muted small">10 min ago</div>
+                      </a>
+                    </li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li>
+                      <a class="dropdown-item text-center" href="#"
+                        >View all notifications</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+                <!-- Wishlist -->
+                <div>
+                  <a
+                    href="#"
+                    class="btn btn-outline-danger position-relative"
+                    data-bs-toggle="modal"
+                    data-bs-target="#wishlistModal"
+                  >
+                    <i class="bi bi-heart"></i>
+                    <span class="d-none d-sm-inline">Wishlist</span>
+                    (<span id="wishlist-count">2</span>)
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Results Count -->
+          <div class="row mt-2">
+            <div class="col text-end">
+              <span class="text-muted"
+                >Showing <span id="results-count">24</span> of 156 books</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Sort Options -->
+        <div class="sort-container">
+          <div class="row align-items-center">
+            <div class="col-md-6">
+              <div class="d-flex align-items-center">
+                <label for="sort-select" class="form-label me-2 mb-0"
+                  >Sort by:</label
+                >
+                <select
+                  class="form-select form-select-sm"
+                  id="sort-select"
+                  style="width: auto"
+                >
+                  <option value="newest">Newest First</option>
+                  <option value="oldest">Oldest First</option>
+                  <option value="price-low">Price: Low to High</option>
+                  <option value="price-high">Price: High to Low</option>
+                  <option value="popularity">Most Popular</option>
+                  <option value="alphabetical">A-Z</option>
+                  <option value="alphabetical-desc">Z-A</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6 text-end">
+              <div class="btn-group" role="group">
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary btn-sm active"
+                  id="grid-view"
+                >
+                  <i class="bi bi-grid"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary btn-sm"
+                  id="list-view"
+                >
+                  <i class="bi bi-list"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Books Grid -->
+        <div class="row" id="books-container">
+          <!-- Book cards will be populated by JavaScript -->
+        </div>
+
+        <!-- Pagination -->
+        <nav aria-label="Books pagination" class="mt-4">
+          <ul class="pagination justify-content-center">
+            <li class="page-item disabled">
+              <a class="page-link" href="#" tabindex="-1">Previous</a>
+            </li>
+            <li class="page-item active">
+              <a class="page-link" href="#">1</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">4</a></li>
+            <li class="page-item"><a class="page-link" href="#">5</a></li>
+            <li class="page-item">
+              <a class="page-link" href="#">Next</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <!-- Book Details Modal -->
+  <div class="modal fade" id="bookDetailsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Book Details</h5>
+          <button
+            type="button"
+            class="btn-close btn-close-white"
+            data-bs-dismiss="modal"
+          ></button>
+        </div>
+        <div class="modal-body" id="book-details-content">
+          <!-- Content will be populated by JavaScript -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Login Modal -->
+  <div class="modal fade" id="loginModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Login to BookExchange</h5>
+          <button
+            type="button"
+            class="btn-close btn-close-white"
+            data-bs-dismiss="modal"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" class="form-control" id="email" required />
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                required
+              />
+            </div>
+            <div class="mb-3 form-check">
+              <input type="checkbox" class="form-check-input" id="remember" />
+              <label class="form-check-label" for="remember">Remember me</label>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Login</button>
+          </form>
+          <hr />
+          <div class="text-center">
+            <p>
+              Don't have an account?
+              <a href="#" data-bs-toggle="modal" data-bs-target="#signupModal"
+                >Sign up</a
+              >
+            </p>
+            <p><a href="#">Forgot password?</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Wishlist Modal -->
+  <div class="modal fade" id="wishlistModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">My Wishlist</h5>
+          <button
+            type="button"
+            class="btn-close btn-close-white"
+            data-bs-dismiss="modal"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div id="wishlist-content">
+            <p class="text-center text-muted">
+              Your wishlist is empty. Start adding books you're interested in!
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notifications Modal -->
+  <div class="modal fade" id="notificationsModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Notifications</h5>
+          <button
+            type="button"
+            class="btn-close btn-close-white"
+            data-bs-dismiss="modal"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="list-group">
+            <div class="list-group-item">
+              <div class="d-flex w-100 justify-content-between">
+                <h6 class="mb-1">New Mystery Books Available</h6>
+                <small>2 hours ago</small>
+              </div>
+              <p class="mb-1">
+                5 new mystery books have been added in your area.
+              </p>
+            </div>
+            <div class="list-group-item">
+              <div class="d-flex w-100 justify-content-between">
+                <h6 class="mb-1">Price Drop Alert</h6>
+                <small>1 day ago</small>
+              </div>
+              <p class="mb-1">"The Great Gatsby" is now $8.99 (was $12.99)</p>
+            </div>
+            <div class="list-group-item">
+              <div class="d-flex w-100 justify-content-between">
+                <h6 class="mb-1">Exchange Request</h6>
+                <small>3 days ago</small>
+              </div>
+              <p class="mb-1">
+                Someone wants to exchange "1984" for your "Animal Farm"
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="browseBooks.js"></script>
+</body>

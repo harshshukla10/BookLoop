@@ -26,3 +26,7 @@ app.get("/login", (req, res) => {
 app.get("/signup", (req, res) => {
   res.render("./listings/signup.ejs");
 });
+
+app.get("/browse", (req, res) => {
+  res.render("./listings/browseBooks.ejs");
+});
