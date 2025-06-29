@@ -16,5 +16,13 @@ app.listen(PORT, () => {
 });
 
 app.get("/", (req, res) => {
-  res.render("./listings/form.ejs");
+  res.render("./listings/landing.ejs");
+});
+
+app.get("/login", (req, res) => {
+  res.render("./listings/login.ejs");
+});
+
+app.get("/signup", (req, res) => {
+  res.render("./listings/signup.ejs");
 });

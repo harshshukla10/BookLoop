@@ -1,4 +1,4 @@
-<!-- Production Bootstrap Header with Custom Aesthetic Styling -->
+<!-- Vibrant, Simple, and Aesthetic BookLoop Header using Bootstrap & Modern Custom CSS -->
 <style>
     :root {
       --primary: #3B82F6;
@@ -7,14 +7,14 @@
       --background: #F9FAFB;
       --text: #111827;
       --brand-font: 'Inter', 'Roboto', 'Open Sans', Arial, sans-serif;
-      --header-blur: blur(8px);
+      --header-blur: blur(16px);
     }
   
     header.bookloop-header {
-      background: #6071cf;
+      background: linear-gradient(90deg, #3B82F6 55%, #F59E42 100%);
       color: #fff;
       font-family: var(--brand-font);
-      box-shadow: 0 4px 24px rgba(17,24,39,0.13);
+      box-shadow: 0 4px 24px rgba(59,130,246,0.08);
       position: sticky;
       top: 0;
       z-index: 1050;
@@ -23,59 +23,65 @@
     }
     .navbar .navbar-brand {
       font-weight: 900;
-      font-size: 2.1rem;
+      font-size: 2rem;
       letter-spacing: 1px;
       color: #fff !important;
       display: flex;
       align-items: center;
       gap: 0.65rem;
-      text-shadow: 0 2px 12px rgba(59,130,246,0.14);
+      text-shadow: 0 3px 16px rgba(0,0,0,0.13);
+      transition: text-shadow 0.2s;
     }
     .navbar .brand-logo {
-      width: 2.5rem;
-      height: 2.5rem;
+      width: 2.3rem;
+      height: 2.3rem;
       object-fit: contain;
       border-radius: 50%;
-      box-shadow: 0 2px 8px rgba(59,130,246,0.14);
       background: #fff;
-      padding: 0.15rem;
+      padding: 0.13rem;
+      box-shadow: 0 2px 8px rgba(59,130,246,0.14);
+    }
+    .navbar .navbar-brand:hover {
+      text-shadow: 0 5px 24px #fff, 0 3px 12px #3B82F6;
     }
     .navbar .nav-link {
       color: #fff !important;
       font-weight: 500;
-      font-size: 1.15rem;
-      border-radius: 50px;
-      transition: background 0.18s, color 0.18s, font-weight 0.18s;
-      padding: 0.45rem 1.2rem;
-      margin-right: .35rem;
-      letter-spacing: 0.3px;
+      font-size: 1.1rem;
+      border-radius: 99px;
+      padding: 0.47rem 1.20rem;
+      margin: 0 0.18rem;
+      letter-spacing: 0.2px;
+      transition: color 0.16s, background 0.16s;
       position: relative;
+      text-decoration: underline;
     }
     .navbar .nav-link.active,
     .navbar .nav-link:hover,
     .navbar .nav-link:focus {
-      background: var(--accent);
+      /* background: rgba(255,255,255,0.16); */
       color: #fff !important;
       font-weight: 700;
-      box-shadow: 0 2px 8px rgba(245,158,66,0.14);
-      text-shadow: 0 1px 7px rgba(0,0,0,0.09);
-      outline: none;
+      box-shadow: 0 2px 12px rgba(245,158,66,0.10);
+      text-shadow: 0 1px 6px rgba(0,0,0,0.07);
+      /* outline: none; */
+      
     }
     .navbar .btn-login {
       background: var(--secondary);
       color: #fff;
       font-weight: 700;
-      border-radius: 30px;
-      padding: 0.5rem 1.7rem;
+      border-radius: 24px;
+      padding: 0.48rem 1.35rem;
       margin-left: 1.1rem;
       transition: background 0.16s, box-shadow 0.18s;
-      box-shadow: 0 2px 12px rgba(16,163,74,0.10);
+      box-shadow: 0 2px 14px rgba(16,163,74,0.09);
       border: none;
-      letter-spacing: 0.4px;
-      font-size: 1.09rem;
       display: flex;
       align-items: center;
       gap: 0.4rem;
+      font-size: 1.08rem;
+      letter-spacing: 0.1px;
     }
     .navbar .btn-login:hover,
     .navbar .btn-login:focus {
@@ -85,7 +91,7 @@
       outline: none;
     }
     .navbar .nav-item + .nav-item {
-      margin-left: 0.4rem;
+      margin-left: 0.13rem;
     }
     .navbar-nav {
       align-items: center;
@@ -94,7 +100,6 @@
       .navbar .btn-login {
         margin: 0.8rem 0 0 0;
         width: 100%;
-        padding: 0.7rem 1.2rem;
         justify-content: center;
       }
       .navbar-nav {
@@ -102,18 +107,23 @@
         padding-bottom: 0.4rem;
       }
       .navbar .nav-link {
-        margin-bottom: 0.25rem;
+        margin-bottom: 0.18rem;
         padding: 0.6rem 1rem;
       }
+      header.bookloop-header {
+        border-bottom-left-radius: 0.7rem;
+        border-bottom-right-radius: 0.7rem;
+      }
     }
-    /* Divider below header for subtle separation */
+    /* Subtle shadow under header */
     header.bookloop-header:after {
       content: '';
       display: block;
       height: 2px;
-      background: linear-gradient(90deg, var(--primary) 60%, var(--accent) 100%);
-      opacity: 0.15;
+      background: linear-gradient(90deg, #fff 0%, var(--primary) 60%, var(--accent) 100%);
+      opacity: 0.10;
       margin-top: -2px;
+      border-radius: 1rem;
     }
   </style>
   
@@ -121,7 +131,6 @@
     <nav class="navbar navbar-expand-lg navbar-dark py-3">
       <div class="container">
         <a class="navbar-brand" href="/">
-          <!-- Optional: Logo image, uncomment and replace with your logo if available -->
           <!-- <img src="/logo1.png" alt="BookLoop Logo" class="brand-logo d-none d-md-inline" /> -->
           <span>
             <i class="fas fa-book-open-reader me-2 d-inline d-md-none" style="font-size:1.5rem"></i>
