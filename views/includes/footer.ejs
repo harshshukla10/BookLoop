@@ -1,124 +1,253 @@
-<!-- Production-Level Footer with Theme Integration and Bootstrap Layout -->
+<!-- Modern Footer with Newsletter Signup | Bootstrap Grid + Custom CSS -->
 <style>
-    :root {
-      --primary: #3B82F6;
-      --secondary: #16A34A;
-      --accent: #F59E42;
-      --background: #F9FAFB;
-      --text: #111827;
-      --brand-font: 'Inter', 'Roboto', 'Open Sans', Arial, sans-serif;
+  :root {
+    --primary: #3b82f6;
+    --secondary: #16a34a;
+    --accent: #f59e42;
+    --background: #f9fafb;
+    --text: #111827;
+    --brand-font: "Inter", "Roboto", "Open Sans", Arial, sans-serif;
+  }
+  footer.bookloop-footer {
+    background: #111827;
+    color: #f9fafb;
+    font-family: var(--brand-font);
+    padding: 2.8rem 0 1.2rem 0;
+    margin-top: auto;
+    box-shadow: 0 -2px 18px rgba(17, 24, 39, 0.09);
+    position: relative;
+    z-index: 10;
+  }
+  .footer-logo {
+    font-size: 2.2rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1.1rem;
+    text-shadow: 0 2px 12px rgba(59, 130, 246, 0.1);
+    justify-content: center;
+  }
+  .footer-logo img {
+    width: 2.3rem;
+    height: 2.3rem;
+    object-fit: contain;
+    border-radius: 50%;
+    background: #fff;
+    padding: 0.2rem;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.11);
+  }
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.3rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.1rem;
+  }
+  .footer-links a {
+    color: #f9fafb;
+    font-weight: 500;
+    font-size: 1.07rem;
+    letter-spacing: 0.13px;
+    border-radius: 5px;
+    padding: 0.28rem 0.8rem;
+    transition: color 0.15s, background 0.15s;
+    text-decoration: none;
+    position: relative;
+  }
+  .footer-links a:hover,
+  .footer-links a:focus {
+    color: var(--accent);
+    background: rgba(245, 158, 66, 0.1);
+    text-decoration: none;
+  }
+  .footer-social {
+    margin-bottom: 1.1rem;
+  }
+  .footer-social a {
+    color: #f9fafb;
+    margin: 0 0.35rem;
+    font-size: 1.3rem;
+    transition: color 0.16s;
+    vertical-align: middle;
+  }
+  .footer-social a:hover,
+  .footer-social a:focus {
+    color: var(--primary);
+  }
+  .newsletter-section {
+    background: none;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+    max-width: 370px;
+    width: 100%;
+    margin-left: auto;
+  }
+  .newsletter-section h4 {
+    color: var(--accent);
+    font-size: 1.12rem;
+    margin-bottom: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1px;
+  }
+  .newsletter-form {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.2rem;
+  }
+  .newsletter-form input[type="email"] {
+    flex: 1 1 0;
+    padding: 0.52rem 0.9rem;
+    border-radius: 7px;
+    border: none;
+    font-size: 1rem;
+    background: #232f43;
+    color: #fff;
+    outline: none;
+    border: 1.3px solid #222c3b;
+    transition: border 0.13s;
+  }
+  .newsletter-form input[type="email"]:focus {
+    border: 1.3px solid var(--primary);
+    background: #18203b;
+  }
+  .newsletter-form button {
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 7px;
+    padding: 0.52rem 1.15rem;
+    font-weight: 600;
+    font-size: 1.01rem;
+    transition: background 0.14s, box-shadow 0.14s;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.06);
+  }
+  .newsletter-form button:hover,
+  .newsletter-form button:focus {
+    background: #2563eb;
+    color: #fff;
+  }
+  .newsletter-section .small {
+    color: #c3c9d6 !important;
+    font-size: 0.96rem;
+    margin-top: 0.47rem;
+  }
+  .footer-copyright {
+    font-size: 0.99rem;
+    color: #9ca3af;
+    margin-top: 1.2rem;
+    letter-spacing: 0.12px;
+  }
+  .footer-social {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.7rem;
+    margin-bottom: 1.1rem;
+  }
+  @media (max-width: 991px) {
+    .newsletter-section {
+      margin-left: 0;
+      margin-top: 1.8rem;
+      max-width: 430px;
+      text-align: center;
     }
-    footer.bookloop-footer {
-      background: #111827;
-      color: #F9FAFB;
-      font-family: var(--brand-font);
-      padding: 2.5rem 0 1.2rem 0;
-      margin-top: auto;
-      box-shadow: 0 -2px 18px rgba(17,24,39,0.07);
-      position: relative;
-      z-index: 10;
+    .newsletter-form {
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: stretch;
+    }
+    .newsletter-section .small {
+      text-align: center;
+    }
+  }
+  @media (max-width: 767px) {
+    .footer-links {
+      flex-direction: column;
+      gap: 0.65rem;
     }
     .footer-logo {
-      font-size: 2rem;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-      color: var(--primary);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 1rem;
-      text-shadow: 0 1px 10px rgba(59,130,246,0.06);
-    }
-    .footer-logo img {
-      width: 2.2rem;
-      height: 2.2rem;
-      object-fit: contain;
-      border-radius: 50%;
-      background: #fff;
-      padding: 0.25rem;
-      box-shadow: 0 2px 8px rgba(59,130,246,0.10);
-    }
-    .footer-links {
-      display: flex;
-      justify-content: center;
-      gap: 2.2rem;
-      flex-wrap: wrap;
-      margin-bottom: 1.2rem;
-    }
-    .footer-links a {
-      color: #F9FAFB;
-      font-weight: 500;
-      font-size: 1.07rem;
-      letter-spacing: 0.15px;
-      border-radius: 5px;
-      padding: 0.3rem 0.9rem;
-      transition: color 0.18s, background 0.18s;
-      text-decoration: none;
-      position: relative;
-    }
-    .footer-links a:hover,
-    .footer-links a:focus {
-      color: var(--accent);
-      background: rgba(245,158,66,0.08);
-      text-decoration: none;
+      flex-direction: column;
+      gap: 0.2rem;
     }
     .footer-social {
-      margin-bottom: 1rem;
+      margin-bottom: 0.8rem;
     }
-    .footer-social a {
-      color: #F9FAFB;
-      margin: 0 0.45rem;
-      font-size: 1.3rem;
-      transition: color 0.17s;
-      vertical-align: middle;
+    .newsletter-section {
+      max-width: 100%;
     }
-    .footer-social a:hover,
-    .footer-social a:focus {
-      color: var(--primary);
-    }
-    .footer-copyright {
-      font-size: 0.98rem;
-      color: #9CA3AF;
-      margin-top: 0.8rem;
-      letter-spacing: 0.1px;
-    }
-    @media (max-width: 767px) {
-      .footer-links {
-        flex-direction: column;
-        gap: 0.65rem;
-      }
-      .footer-logo {
-        flex-direction: column;
-        gap: 0.2rem;
-      }
-      .footer-social {
-        margin-bottom: .8rem;
-      }
-    }
-  </style>
-  
-  <footer class="bookloop-footer">
-    <div class="container text-center">
-      <div class="footer-logo justify-content-center">
-        <!-- Optional: Logo image, replace 'logo1.png' if you have a brand logo -->
-        <!-- <img src="/logo1.png" alt="BookLoop Logo" class="d-none d-md-inline" /> -->
-        BookLoop
+  }
+</style>
+
+<footer class="bookloop-footer">
+  <div class="container">
+    <div class="row gy-5 align-items-start">
+      <!-- Left/Main Footer Column -->
+      <div class="col-lg-8 col-md-7">
+        <div class="footer-logo">
+          <!-- <img src="/logo1.png" alt="BookLoop Logo" class="d-none d-md-inline" /> -->
+          BookLoop
+        </div>
+        <div class="footer-links">
+          <a href="/about">About</a>
+          <a href="/faq">FAQ</a>
+          <a href="/contact">Contact</a>
+          <a href="/privacy">Privacy Policy</a>
+          <a href="/terms">Terms</a>
+        </div>
+        <div class="footer-social">
+          <a href="https://twitter.com/" target="_blank" aria-label="Twitter"
+            ><i class="fab fa-twitter"></i
+          ></a>
+          <a
+            href="https://instagram.com/"
+            target="_blank"
+            aria-label="Instagram"
+            ><i class="fab fa-instagram"></i
+          ></a>
+          <a href="https://facebook.com/" target="_blank" aria-label="Facebook"
+            ><i class="fab fa-facebook-f"></i
+          ></a>
+          <a href="mailto:info@bookloop.com" aria-label="Email"
+            ><i class="fas fa-envelope"></i
+          ></a>
+        </div>
       </div>
-      <div class="footer-links">
-        <a href="/about">About</a>
-        <a href="/faq">FAQ</a>
-        <a href="/contact">Contact</a>
-        <a href="/privacy">Privacy Policy</a>
-        <a href="/terms">Terms</a>
-      </div>
-      <div class="footer-social">
-        <a href="https://twitter.com/" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-        <a href="https://instagram.com/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-        <a href="https://facebook.com/" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-        <a href="mailto:info@bookloop.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
-      </div>
-      <div class="footer-copyright">
-        &copy; <%= new Date().getFullYear() %> BookLoop. All rights reserved.
+      <!-- Right/Newsletter Column -->
+      <div class="col-lg-4 col-md-5">
+        <section class="newsletter-section">
+          <h4 class="fw-bold mb-2">Get notified when new books are posted</h4>
+          <form
+            class="newsletter-form"
+            method="post"
+            action="/subscribe"
+            autocomplete="off"
+          >
+            <input
+              type="email"
+              name="email"
+              placeholder="Your email address"
+              required
+              autocomplete="email"
+            />
+            <button type="submit">Notify Me</button>
+          </form>
+          <div class="small text-secondary mt-2">
+            No spam. Only book updates!
+          </div>
+        </section>
       </div>
     </div>
-  </footer>
+    <div class="footer-copyright text-center">
+      &copy; <span id="footer-year"></span> BookLoop. All rights reserved.
+    </div>
+  </div>
+  <script>
+    // Set current year automatically
+    document.getElementById("footer-year").textContent =
+      new Date().getFullYear();
+  </script>
+</footer>

@@ -1,4 +1,4 @@
-<!-- Production-Level Bootstrap Header with Enhanced Styling and Theme Integration -->
+<!-- Production Bootstrap Header with Custom Aesthetic Styling -->
 <style>
     :root {
       --primary: #3B82F6;
@@ -11,10 +11,10 @@
     }
   
     header.bookloop-header {
-      background: rgba(59, 130, 246, 0.96);
+      background: #6071cf;
       color: #fff;
       font-family: var(--brand-font);
-      box-shadow: 0 4px 24px rgba(17,24,39,0.12);
+      box-shadow: 0 4px 24px rgba(17,24,39,0.13);
       position: sticky;
       top: 0;
       z-index: 1050;
@@ -22,31 +22,32 @@
       transition: box-shadow 0.3s;
     }
     .navbar .navbar-brand {
-      font-weight: 800;
-      font-size: 2rem;
-      letter-spacing: 0.5px;
+      font-weight: 900;
+      font-size: 2.1rem;
+      letter-spacing: 1px;
       color: #fff !important;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.65rem;
+      text-shadow: 0 2px 12px rgba(59,130,246,0.14);
     }
     .navbar .brand-logo {
-      width: 2.2rem;
-      height: 2.2rem;
+      width: 2.5rem;
+      height: 2.5rem;
       object-fit: contain;
       border-radius: 50%;
-      box-shadow: 0 2px 8px rgba(59,130,246,0.15);
+      box-shadow: 0 2px 8px rgba(59,130,246,0.14);
       background: #fff;
-      padding: 0.2rem;
+      padding: 0.15rem;
     }
     .navbar .nav-link {
       color: #fff !important;
       font-weight: 500;
-      font-size: 1.13rem;
-      margin-right: .4rem;
-      border-radius: 8px;
-      transition: background 0.18s, color 0.18s;
-      padding: 0.5rem 1.15rem;
+      font-size: 1.15rem;
+      border-radius: 50px;
+      transition: background 0.18s, color 0.18s, font-weight 0.18s;
+      padding: 0.45rem 1.2rem;
+      margin-right: .35rem;
       letter-spacing: 0.3px;
       position: relative;
     }
@@ -55,27 +56,33 @@
     .navbar .nav-link:focus {
       background: var(--accent);
       color: #fff !important;
-      font-weight: 600;
-      box-shadow: 0 2px 8px rgba(245,158,66,0.13);
-      text-shadow: 0 1px 6px rgba(0,0,0,0.07);
+      font-weight: 700;
+      box-shadow: 0 2px 8px rgba(245,158,66,0.14);
+      text-shadow: 0 1px 7px rgba(0,0,0,0.09);
+      outline: none;
     }
     .navbar .btn-login {
       background: var(--secondary);
       color: #fff;
       font-weight: 700;
-      border-radius: 8px;
-      padding: 0.47rem 1.5rem;
-      margin-left: 1.2rem;
-      transition: background 0.18s, box-shadow 0.2s;
-      box-shadow: 0 2px 8px rgba(16,163,74,0.10);
+      border-radius: 30px;
+      padding: 0.5rem 1.7rem;
+      margin-left: 1.1rem;
+      transition: background 0.16s, box-shadow 0.18s;
+      box-shadow: 0 2px 12px rgba(16,163,74,0.10);
       border: none;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.4px;
+      font-size: 1.09rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
     }
     .navbar .btn-login:hover,
     .navbar .btn-login:focus {
       background: #12803c;
       color: #fff;
       box-shadow: 0 4px 18px rgba(16,163,74,0.16);
+      outline: none;
     }
     .navbar .nav-item + .nav-item {
       margin-left: 0.4rem;
@@ -85,26 +92,28 @@
     }
     @media (max-width: 991px) {
       .navbar .btn-login {
-        margin: 0.9rem 0 0 0;
+        margin: 0.8rem 0 0 0;
         width: 100%;
         padding: 0.7rem 1.2rem;
+        justify-content: center;
       }
       .navbar-nav {
         text-align: center;
-        padding-bottom: 0.5rem;
+        padding-bottom: 0.4rem;
       }
       .navbar .nav-link {
-        margin-bottom: 0.28rem;
+        margin-bottom: 0.25rem;
+        padding: 0.6rem 1rem;
       }
     }
-    /* Optional: Subtle divider below header */
+    /* Divider below header for subtle separation */
     header.bookloop-header:after {
       content: '';
       display: block;
-      height: 1.5px;
-      background: linear-gradient(90deg, var(--primary) 70%, var(--accent));
-      opacity: 0.16;
-      margin-top: -1.5px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary) 60%, var(--accent) 100%);
+      opacity: 0.15;
+      margin-top: -2px;
     }
   </style>
   
@@ -112,9 +121,12 @@
     <nav class="navbar navbar-expand-lg navbar-dark py-3">
       <div class="container">
         <a class="navbar-brand" href="/">
-          <!-- Optional: Logo image, replace 'logo1.png' if you have a brand logo -->
+          <!-- Optional: Logo image, uncomment and replace with your logo if available -->
           <!-- <img src="/logo1.png" alt="BookLoop Logo" class="brand-logo d-none d-md-inline" /> -->
-          BookLoop
+          <span>
+            <i class="fas fa-book-open-reader me-2 d-inline d-md-none" style="font-size:1.5rem"></i>
+            BookLoop
+          </span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarBookLoop" aria-controls="navbarBookLoop" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -134,8 +146,9 @@
               <a class="nav-link" href="/about">About</a>
             </li>
           </ul>
-          <a href="/login" class="btn btn-login ms-lg-3 mt-2 mt-lg-0">
-            <i class="fas fa-user-circle me-2"></i>Login/Signup
+          <a href="/login" class="btn btn-login ms-lg-3 mt-2 mt-lg-0" tabindex="0">
+            <i class="fas fa-user-circle"></i>
+            <span class="d-none d-md-inline">Login/Signup</span>
           </a>
         </div>
       </div>
