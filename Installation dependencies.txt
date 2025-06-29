@@ -1,0 +1,6 @@
+npm init 
+npm i express
+npm install
+npm i views
+npm i path
+npm i ejs

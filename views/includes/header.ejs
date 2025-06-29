@@ -1,0 +1,143 @@
+<!-- Production-Level Bootstrap Header with Enhanced Styling and Theme Integration -->
+<style>
+    :root {
+      --primary: #3B82F6;
+      --secondary: #16A34A;
+      --accent: #F59E42;
+      --background: #F9FAFB;
+      --text: #111827;
+      --brand-font: 'Inter', 'Roboto', 'Open Sans', Arial, sans-serif;
+      --header-blur: blur(8px);
+    }
+  
+    header.bookloop-header {
+      background: rgba(59, 130, 246, 0.96);
+      color: #fff;
+      font-family: var(--brand-font);
+      box-shadow: 0 4px 24px rgba(17,24,39,0.12);
+      position: sticky;
+      top: 0;
+      z-index: 1050;
+      backdrop-filter: var(--header-blur);
+      transition: box-shadow 0.3s;
+    }
+    .navbar .navbar-brand {
+      font-weight: 800;
+      font-size: 2rem;
+      letter-spacing: 0.5px;
+      color: #fff !important;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .navbar .brand-logo {
+      width: 2.2rem;
+      height: 2.2rem;
+      object-fit: contain;
+      border-radius: 50%;
+      box-shadow: 0 2px 8px rgba(59,130,246,0.15);
+      background: #fff;
+      padding: 0.2rem;
+    }
+    .navbar .nav-link {
+      color: #fff !important;
+      font-weight: 500;
+      font-size: 1.13rem;
+      margin-right: .4rem;
+      border-radius: 8px;
+      transition: background 0.18s, color 0.18s;
+      padding: 0.5rem 1.15rem;
+      letter-spacing: 0.3px;
+      position: relative;
+    }
+    .navbar .nav-link.active,
+    .navbar .nav-link:hover,
+    .navbar .nav-link:focus {
+      background: var(--accent);
+      color: #fff !important;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(245,158,66,0.13);
+      text-shadow: 0 1px 6px rgba(0,0,0,0.07);
+    }
+    .navbar .btn-login {
+      background: var(--secondary);
+      color: #fff;
+      font-weight: 700;
+      border-radius: 8px;
+      padding: 0.47rem 1.5rem;
+      margin-left: 1.2rem;
+      transition: background 0.18s, box-shadow 0.2s;
+      box-shadow: 0 2px 8px rgba(16,163,74,0.10);
+      border: none;
+      letter-spacing: 0.5px;
+    }
+    .navbar .btn-login:hover,
+    .navbar .btn-login:focus {
+      background: #12803c;
+      color: #fff;
+      box-shadow: 0 4px 18px rgba(16,163,74,0.16);
+    }
+    .navbar .nav-item + .nav-item {
+      margin-left: 0.4rem;
+    }
+    .navbar-nav {
+      align-items: center;
+    }
+    @media (max-width: 991px) {
+      .navbar .btn-login {
+        margin: 0.9rem 0 0 0;
+        width: 100%;
+        padding: 0.7rem 1.2rem;
+      }
+      .navbar-nav {
+        text-align: center;
+        padding-bottom: 0.5rem;
+      }
+      .navbar .nav-link {
+        margin-bottom: 0.28rem;
+      }
+    }
+    /* Optional: Subtle divider below header */
+    header.bookloop-header:after {
+      content: '';
+      display: block;
+      height: 1.5px;
+      background: linear-gradient(90deg, var(--primary) 70%, var(--accent));
+      opacity: 0.16;
+      margin-top: -1.5px;
+    }
+  </style>
+  
+  <header class="bookloop-header shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-dark py-3">
+      <div class="container">
+        <a class="navbar-brand" href="/">
+          <!-- Optional: Logo image, replace 'logo1.png' if you have a brand logo -->
+          <!-- <img src="/logo1.png" alt="BookLoop Logo" class="brand-logo d-none d-md-inline" /> -->
+          BookLoop
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarBookLoop" aria-controls="navbarBookLoop" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarBookLoop">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/browse">Browse Books</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/sell">Sell a Book</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/about">About</a>
+            </li>
+          </ul>
+          <a href="/login" class="btn btn-login ms-lg-3 mt-2 mt-lg-0">
+            <i class="fas fa-user-circle me-2"></i>Login/Signup
+          </a>
+        </div>
+      </div>
+    </nav>
+  </header>
