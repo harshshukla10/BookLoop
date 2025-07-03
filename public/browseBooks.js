@@ -1,10 +1,8 @@
 let filteredBooks = [...booksData];
 let wishlist = [];
 let currentView = 'grid';
-
 // Initialize the page
 document.addEventListener('DOMContentLoaded', function() {
-    renderBooks();
     setupEventListeners();
 });
 
@@ -38,28 +36,6 @@ function setupEventListeners() {
     document.getElementById('reset-filters').addEventListener('click', resetFilters);
 }
 
-function renderBooks() {
-    const container = document.getElementById('books-container');
-    container.innerHTML = '';
-
-    if (filteredBooks.length === 0) {
-        container.innerHTML = `
-            <div class="col-12 text-center py-5">
-                <i class="bi bi-search display-1 text-muted"></i>
-                <h3 class="mt-3">No books found</h3>
-                <p class="text-muted">Try adjusting your filters or search terms</p>
-            </div>
-        `;
-        return;
-    }
-
-    filteredBooks.forEach(book => {
-        const bookCard = createBookCard(book);
-        container.appendChild(bookCard);
-    });
-
-    document.getElementById('results-count').textContent = filteredBooks.length;
-}
 
 function createBookCard(book) {
     const col = document.createElement('div');
@@ -107,101 +83,6 @@ function createBookCard(book) {
     `;
 
     return col;
-}
-
-function getConditionClass(condition) {
-    const classes = {
-        'new': 'bg-success',
-        'like-new': 'bg-info',
-        'good': 'bg-warning',
-        'acceptable': 'bg-secondary'
-    };
-    return classes[condition] || 'bg-secondary';
-}
-
-function formatCondition(condition) {
-    return condition.split('-').map(word => 
-        word.charAt(0).toUpperCase() + word.slice(1)
-    ).join(' ');
-}
-
-function showBookDetails(bookId) {
-    const book = booksData.find(b => b.id === bookId);
-    if (!book) return;
-
-    const modalContent = document.getElementById('book-details-content');
-    modalContent.innerHTML = `
-        <div class="row">
-            <div class="col-md-4">
-                <img src="${book.cover}" alt="${book.title}" class="img-fluid rounded">
-            </div>
-            <div class="col-md-8">
-                <h4>${book.title}</h4>
-                <p class="text-muted">by ${book.author}</p>
-                <h5 class="text-success">₹${book.price}</h5>
-                <p><strong>Condition:</strong> <span class="badge ${getConditionClass(book.condition)}">${formatCondition(book.condition)}</span></p>
-                <p><strong>Format:</strong> ${formatCondition(book.format)}</p>
-                <p><strong>Language:</strong> ${book.language.charAt(0).toUpperCase() + book.language.slice(1)}</p>
-                <p><strong>ISBN:</strong> ${book.isbn}</p>
-                <p><strong>Publisher:</strong> ${book.publisher} (${book.year})</p>
-                <p><strong>Location:</strong> ${book.location}</p>
-                <p><strong>Description:</strong></p>
-                <p>${book.description}</p>
-                
-                <div class="seller-info">
-                    <h6>Seller Information</h6>
-                    <div class="d-flex align-items-center">
-                        <strong>${book.seller.name}</strong>
-                        <span class="rating-stars ms-2">
-                            ${'★'.repeat(Math.floor(book.seller.rating))}${'☆'.repeat(5-Math.floor(book.seller.rating))}
-                        </span>
-                        <span class="ms-1">${book.seller.rating} (${book.seller.reviews} reviews)</span>
-                    </div>
-                </div>
-                
-                <div class="mt-3">
-                    <button class="btn btn-success me-2">
-                        <i class="bi bi-cart-plus"></i> Add to Cart
-                    </button>
-                    ${book.exchangeAvailable ? 
-                        '<button class="btn btn-warning me-2"><i class="bi bi-arrow-left-right"></i> Request Exchange</button>' : 
-                        ''
-                    }
-                    <button class="btn btn-outline-primary me-2">
-                        <i class="bi bi-chat"></i> Contact Seller
-                    </button>
-                    <button class="btn btn-outline-danger" onclick="toggleWishlist(${book.id})">
-                        <i class="bi bi-heart"></i> Add to Wishlist
-                    </button>
-                </div>
-            </div>
-        </div>
-        
-        <hr class="my-4">
-        
-        <h6>Related Books</h6>
-        <div class="row">
-            ${getRelatedBooks(book).map(relatedBook => `
-                <div class="col-md-3 mb-3">
-                    <div class="card">
-                        <img src="${relatedBook.cover}" class="card-img-top" style="height: 150px; object-fit: cover;">
-                        <div class="card-body p-2">
-                            <h6 class="card-title" style="font-size: 0.9rem;">${relatedBook.title}</h6>
-                            <p class="card-text text-success">₹${relatedBook.price}</p>
-                        </div>
-                    </div>
-                </div>
-            `).join('')}
-        </div>
-    `;
-
-    new bootstrap.Modal(document.getElementById('bookDetailsModal')).show();
-}
-
-function getRelatedBooks(book) {
-    return booksData
-        .filter(b => b.id !== book.id && (b.genre === book.genre || b.author === book.author))
-        .slice(0, 4);
 }
 
 function toggleWishlist(bookId) {
