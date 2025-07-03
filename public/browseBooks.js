@@ -1,6 +1,7 @@
 let filteredBooks = [...booksData];
 let wishlist = [];
 let currentView = 'grid';
+
 // Initialize the page
 document.addEventListener('DOMContentLoaded', function() {
     setupEventListeners();

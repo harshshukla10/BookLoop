@@ -1,528 +1,266 @@
 <% layout("/layouts/boilerplate") %>
 
-<body>
-  <!-- Hero Section -->
-  <section id="banner">
-    <img
-      src="hero-banner.png"
-      class="img-fluid w-100"
-      alt="Event Banner"
-      style="object-fit: cover; max-height: 550px; margin-top: 50px"
-    />
-  </section>
+  <body>
+    <!-- Hero Section -->
+    <section id="banner">
+      <img src="hero-banner.png" class="img-fluid w-100" alt="Event Banner"
+        style="object-fit: cover; max-height: 550px; margin-top: 50px" />
+    </section>
+    <section>
 
-  <section class="hiw-section py-5">
-    <div class="container">
-      <h2 class="fw-bold mb-4 text-center">How It Works</h2>
-      <div
-        class="d-flex flex-column flex-md-row justify-content-center align-items-stretch gap-4 hiw-steps"
-      >
-        <div class="card hiw-step flex-fill text-center border-0 shadow-sm">
-          <div class="card-body d-flex flex-column align-items-center">
-            <div class="hiw-icon mb-3">
-              <i class="fas fa-book-medical"></i>
-            </div>
-            <h5 class="mb-2 fw-semibold">1. List Your Book</h5>
-            <p class="mb-0">
-              Post your unused textbooks and study guides in just a few clicks.
-            </p>
-          </div>
-        </div>
-        <div class="card hiw-step flex-fill text-center border-0 shadow-sm">
-          <div class="card-body d-flex flex-column align-items-center">
-            <div class="hiw-icon mb-3">
-              <i class="fas fa-bell"></i>
-            </div>
-            <h5 class="mb-2 fw-semibold">2. Get Requests</h5>
-            <p class="mb-0">
-              Receive interest from students who need your books.
-            </p>
-          </div>
-        </div>
-        <div class="card hiw-step flex-fill text-center border-0 shadow-sm">
-          <div class="card-body d-flex flex-column align-items-center">
-            <div class="hiw-icon mb-3">
-              <i class="fas fa-handshake"></i>
-            </div>
-            <h5 class="mb-2 fw-semibold">3. Exchange Securely</h5>
-            <p class="mb-0">
-              Meet, exchange, or sell your book with safety and trust.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <section class="benefits-section py-5 bg-white">
-    <div class="container">
-      <h2 class="fw-bold text-center mb-4">Why Choose BookLoop?</h2>
-      <div class="row justify-content-center g-4">
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex">
-          <div
-            class="card flex-fill text-center shadow-sm border-0 benefit-item"
-          >
-            <div class="card-body d-flex flex-column align-items-center">
-              <div class="fa fa-wallet mb-3 fs-2 text-warning"></div>
-              <h6 class="fw-semibold mb-2">Save on Textbooks</h6>
-              <div class="small">Affordable and fair pricing, every time.</div>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex">
-          <div
-            class="card flex-fill text-center shadow-sm border-0 benefit-item"
-          >
-            <div class="card-body d-flex flex-column align-items-center">
-              <div class="fa fa-recycle mb-3 fs-2 text-success"></div>
-              <h6 class="fw-semibold mb-2">Eco-Friendly</h6>
-              <div class="small">Support sustainability by reusing books.</div>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex">
-          <div
-            class="card flex-fill text-center shadow-sm border-0 benefit-item"
-          >
-            <div class="card-body d-flex flex-column align-items-center">
-              <div class="fa fa-user-friends mb-3 fs-2 text-primary"></div>
-              <h6 class="fw-semibold mb-2">Connect Locally</h6>
-              <div class="small">
-                Meet other students in your campus or city.
+      <div class="container my-5">
+        <h2 class="mb-4 text-center fw-bold mb-4 text-center">Explore Books by Genre</h2>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
+          <!-- Science Fiction -->
+          <div class="col">
+            <div class="card h-100 shadow-sm border-primary">
+              <img src="science.png" class="card-img-top genre-img" alt="Science Fiction Book Cover">
+              <div class="card-body">
+                <h5 class="card-title text-primary">Science Fiction</h5>
+                <p class="card-text">Futuristic adventures, space odysseys, and bold explorations.</p>
+              </div>
+              <div class="card-footer bg-transparent border-0">
+                <a href="/browse" class="btn btn-primary btn-sm w-100">Browse Sci-Fi</a>
               </div>
             </div>
           </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex">
-          <div
-            class="card flex-fill text-center shadow-sm border-0 benefit-item"
-          >
-            <div class="card-body d-flex flex-column align-items-center">
-              <div class="fa fa-bolt mb-3 fs-2 text-info"></div>
-              <h6 class="fw-semibold mb-2">Easy Listings</h6>
-              <div class="small">Simple interface for fast posting.</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="trust-section mt-4 text-success fw-semibold text-center">
-        <span class="me-3">
-          <i class="fa fa-users"></i> Used by 1,000+ students
-        </span>
-        <span>
-          <i class="fa fa-shield-alt"></i> Safe &amp; Verified Listings
-        </span>
-      </div>
-    </div>
-  </section>
-
-  <section class="featured-listings-section py-5 bg-white">
-    <div class="container">
-      <h2 class="fw-bold text-center mb-4">Featured Books</h2>
-      <div class="row justify-content-center g-4">
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex">
-          <div class="card flex-fill book-card shadow-sm border-0">
-            <div class="card-body d-flex flex-column">
-              <div class="book-title fw-semibold fs-5 mb-1 text-primary">
-                Discrete Mathematics
+          <!-- Romance -->
+          <div class="col">
+            <div class="card h-100 shadow-sm border-danger">
+              <img src="love.png" class="card-img-top genre-img" alt="Romance Book Cover">
+              <div class="card-body">
+                <h5 class="card-title text-danger">Romance</h5>
+                <p class="card-text">Heartfelt tales of love, relationships, and passion.</p>
               </div>
-              <div class="book-meta mb-1 text-muted">by Kenneth Rosen</div>
-              <div class="book-condition mb-1 text-success">
-                Condition: Excellent
-              </div>
-              <div class="book-price mb-2 fw-bold text-success">₹350</div>
-              <button class="btn btn-warning btn-request mt-auto fw-semibold">
-                Request
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex">
-          <div class="card flex-fill book-card shadow-sm border-0">
-            <div class="card-body d-flex flex-column">
-              <div class="book-title fw-semibold fs-5 mb-1 text-primary">
-                Introduction to Algorithms
-              </div>
-              <div class="book-meta mb-1 text-muted">by Cormen et al.</div>
-              <div class="book-condition mb-1 text-success">
-                Condition: Good
-              </div>
-              <div class="book-price mb-2 fw-bold text-success">₹600</div>
-              <button class="btn btn-warning btn-request mt-auto fw-semibold">
-                Request
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex">
-          <div class="card flex-fill book-card shadow-sm border-0">
-            <div class="card-body d-flex flex-column">
-              <div class="book-title fw-semibold fs-5 mb-1 text-primary">
-                Engineering Chemistry
-              </div>
-              <div class="book-meta mb-1 text-muted">by O.P. Agarwal</div>
-              <div class="book-condition mb-1 text-success">
-                Condition: Very Good
-              </div>
-              <div class="book-price mb-2 fw-bold text-success">₹250</div>
-              <button class="btn btn-warning btn-request mt-auto fw-semibold">
-                Request
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex">
-          <div class="card flex-fill book-card shadow-sm border-0">
-            <div class="card-body d-flex flex-column">
-              <div class="book-title fw-semibold fs-5 mb-1 text-primary">
-                Data Structures
-              </div>
-              <div class="book-meta mb-1 text-muted">by S. Sahni</div>
-              <div class="book-condition mb-1 text-success">
-                Condition: Like New
-              </div>
-              <div class="book-price mb-2 fw-bold text-success">₹400</div>
-              <button class="btn btn-warning btn-request mt-auto fw-semibold">
-                Request
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA Repeat -->
-  <section class="py-5 bg-light cta-repeat-section">
-    <div class="container text-center">
-      <h3 class="fw-bold mb-3">
-        Have books lying around? Post your listing now!
-      </h3>
-      <div class="d-flex flex-column flex-sm-row justify-content-center gap-3">
-        <a href="/sell" class="btn btn-success fw-semibold px-4 py-2">Post a Book</a>
-        <a href="/browse" class="btn btn-outline-primary fw-semibold px-4 py-2">Browse Books</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Testimonials Section: Bootstrap Responsive Flex Cards -->
-<section class="testimonials-section py-5 bg-light">
-    <div class="container">
-      <h2 class="fw-bold text-center mb-4">What Students Say</h2>
-      <div class="row justify-content-center g-4">
-        <div class="col-12 col-md-6 col-lg-4 d-flex">
-          <div class="card flex-fill testimonial shadow-sm border-0">
-            <div class="card-body">
-              <div class="d-flex align-items-center mb-2">
-                <i class="fa fa-user-circle fa-2x text-primary me-2"></i>
-                <span class="testimonial-author fw-semibold">Amit (IIT Delhi)</span>
-              </div>
-              <div class="mt-2 fst-italic">
-                “I found my semester books for half the price here!”
+              <div class="card-footer bg-transparent border-0">
+                <a href="/browse" class="btn btn-danger btn-sm w-100">Browse Romance</a>
               </div>
             </div>
           </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-4 d-flex">
-          <div class="card flex-fill testimonial shadow-sm border-0">
-            <div class="card-body">
-              <div class="d-flex align-items-center mb-2">
-                <i class="fa fa-user-circle fa-2x text-primary me-2"></i>
-                <span class="testimonial-author fw-semibold">Priya (DU)</span>
+          <!-- Mystery -->
+          <div class="col">
+            <div class="card h-100 shadow-sm border-dark">
+              <img src="detective.png" class="card-img-top genre-img" alt="Mystery Book Cover">
+              <div class="card-body">
+                <h5 class="card-title text-dark">Mystery</h5>
+                <p class="card-text">Whodunits, thrillers, and puzzles to keep you guessing.</p>
               </div>
-              <div class="mt-2 fst-italic">
-                “Super easy to sell books and help juniors. Highly recommend!”
+              <div class="card-footer bg-transparent border-0">
+                <a href="/browse" class="btn btn-dark btn-sm w-100">Browse Mystery</a>
               </div>
             </div>
           </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-4 d-flex">
-          <div class="card flex-fill testimonial shadow-sm border-0">
-            <div class="card-body">
-              <div class="d-flex align-items-center mb-2">
-                <i class="fa fa-user-circle fa-2x text-primary me-2"></i>
-                <span class="testimonial-author fw-semibold">Rohan (BITS Pilani)</span>
+          <!-- Fantasy -->
+          <div class="col">
+            <div class="card h-100 shadow-sm border-success">
+              <img src="castle.png" class="card-img-top genre-img" alt="Fantasy Book Cover">
+              <div class="card-body">
+                <h5 class="card-title text-success">Fantasy</h5>
+                <p class="card-text">Magical realms, epic quests, and legendary creatures.</p>
               </div>
-              <div class="mt-2 fst-italic">
-                “Great platform, I connected with students in my hostel and saved money.”
+              <div class="card-footer bg-transparent border-0">
+                <a href="/books?genre=fantasy" class="btn btn-success  w-100">Browse Fantasy</a>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+    <section class="benefits-section py-5 bg-white">
+      <div class="container">
+        <h2 class="fw-bold text-center mb-4">Why Choose BookLoop?</h2>
+        <div class="row justify-content-center g-4">
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex">
+            <div class="card flex-fill text-center shadow-sm border-0 benefit-item">
+              <div class="card-body d-flex flex-column align-items-center">
+                <div class="fa fa-wallet mb-3 fs-2 text-warning"></div>
+                <h6 class="fw-semibold mb-2">Save on Textbooks</h6>
+                <div class="small">Affordable and fair pricing, every time.</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex">
+            <div class="card flex-fill text-center shadow-sm border-0 benefit-item">
+              <div class="card-body d-flex flex-column align-items-center">
+                <div class="fa fa-recycle mb-3 fs-2 text-success"></div>
+                <h6 class="fw-semibold mb-2">Eco-Friendly</h6>
+                <div class="small">Support sustainability by reusing books.</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex">
+            <div class="card flex-fill text-center shadow-sm border-0 benefit-item">
+              <div class="card-body d-flex flex-column align-items-center">
+                <div class="fa fa-user-friends mb-3 fs-2 text-primary"></div>
+                <h6 class="fw-semibold mb-2">Connect Locally</h6>
+                <div class="small">
+                  Meet other students in your campus or city.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex">
+            <div class="card flex-fill text-center shadow-sm border-0 benefit-item">
+              <div class="card-body d-flex flex-column align-items-center">
+                <div class="fa fa-bolt mb-3 fs-2 text-info"></div>
+                <h6 class="fw-semibold mb-2">Easy Listings</h6>
+                <div class="small">Simple interface for fast posting.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="trust-section mt-4 text-success fw-semibold text-center">
+          <span class="me-3">
+            <i class="fa fa-users"></i> Used by 1,000+ students
+          </span>
+          <span>
+            <i class="fa fa-shield-alt"></i> Safe &amp; Verified Listings
+          </span>
+        </div>
+      </div>
+    </section>
 
- 
-</body>
-<style>
-  :root {
-    --primary: #3b82f6;
-    --secondary: #16a34a;
-    --accent: #f59e42;
-    --background: #f9fafb;
-    --text: #111827;
-    --shadow: 0 2px 12px rgba(59, 130, 246, 0.07);
-    --radius: 1rem;
-  }
-  body {
-    background: var(--background);
-    color: var(--text);
-    font-family: var(--font-family);
-  }
-  .hero-section {
-    background: linear-gradient(
-      100deg,
-      var(--primary) 40%,
-      var(--secondary) 100%
-    );
-    color: #fff;
-    position: relative;
-    overflow: hidden;
-    margin-top: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 380px;
-    min-width: 100%;
-  }
-  .hero-image {
-    max-width: 360px;
-    width: 100%;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    display: block;
-  }
-  .cta-btn {
-    font-weight: 600;
-    font-size: 1.12rem;
-    padding: 0.7rem 2.2rem;
-    border-radius: 8px;
-    margin-right: 1rem;
-    margin-top: 1.2rem;
-    transition: background 0.17s, color 0.17s, box-shadow 0.18s;
-    border: none;
-    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
-  }
-  .cta-post {
-    background: var(--secondary);
-    color: #fff;
-  }
-  .cta-post:hover {
-    background: #12803c;
-  }
-  .cta-browse {
-    background: #fff;
-    color: var(--primary);
-    border: 2px solid var(--primary);
-  }
-  .cta-browse:hover {
-    background: var(--accent);
-    color: #fff;
-    border-color: var(--accent);
-  }
+    <section class="featured-listings-section py-5 bg-white">
+      <div class="container">
+        <h2 class="fw-bold text-center mb-4">Featured Books</h2>
+        <div class="row justify-content-center g-4">
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex">
+            <div class="card flex-fill book-card shadow-sm border-0">
+              <div class="card-body d-flex flex-column">
+                <img src="rosen.png" alt="Discrete Mathematics" class="img-fluid mb-3 rounded">
+                <div class="book-title fw-semibold fs-5 mb-1 text-primary">
+                  Discrete Mathematics
+                </div>
+                <div class="book-meta mb-1 text-muted">by Kenneth Rosen</div>
+                <div class="book-condition mb-1 text-success">
+                  Condition: Excellent
+                </div>
+                <div class="book-price mb-2 fw-bold text-success">₹350</div>
+                <button class="btn btn-warning btn-request mt-auto fw-semibold">
+                  Request
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex">
+            <div class="card flex-fill book-card shadow-sm border-0">
+              <div class="card-body d-flex flex-column">
+                <img src="et al.png" alt="algo" class="img-fluid mb-3 rounded">
+                <div class="book-title fw-semibold fs-5 mb-1 text-primary">
+                  Introduction to Algorithms
+                </div>
+                <div class="book-meta mb-1 text-muted">by Cormen et al.</div>
+                <div class="book-condition mb-1 text-success">
+                  Condition: Good
+                </div>
+                <div class="book-price mb-2 fw-bold text-success">₹600</div>
+                <button class="btn btn-warning btn-request mt-auto fw-semibold">
+                  Request
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex">
+            <div class="card flex-fill book-card shadow-sm border-0">
+              <div class="card-body d-flex flex-column">
+                <img src="agar.png" alt="Chemistry" class="img-fluid mb-3 rounded">
+                <div class="book-title fw-semibold fs-5 mb-1 text-primary">
+                  Engineering Chemistry
+                </div>
+                <div class="book-meta mb-1 text-muted">by O.P. Agarwal</div>
+                <div class="book-condition mb-1 text-success">
+                  Condition: Very Good
+                </div>
+                <div class="book-price mb-2 fw-bold text-success">₹250</div>
+                <button class="btn btn-warning btn-request mt-auto fw-semibold">
+                  Request
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex">
+            <div class="card flex-fill book-card shadow-sm border-0">
+              <img src="sahni.png" alt="dsa" class="img-fluid mb-3 rounded">
+              <div class="card-body d-flex flex-column">
+                <div class="book-title fw-semibold fs-5 mb-1 text-primary">
+                  Data Structures
+                </div>
+                <div class="book-meta mb-1 text-muted">by S. Sahni</div>
+                <div class="book-condition mb-1 text-success">
+                  Condition: Like New
+                </div>
+                <div class="book-price mb-2 fw-bold text-success">₹400</div>
+                <button class="btn btn-warning btn-request mt-auto fw-semibold">
+                  Request
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  .hiw-section {
-    background: var(--background);
-    padding: 3rem 0;
-  }
-  .hiw-steps {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-  }
-  .hiw-step {
-    background: #fff;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    min-width: 220px;
-    max-width: 280px;
-    transition: transform 0.16s, box-shadow 0.16s;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .hiw-step:hover {
-    transform: translateY(-6px) scale(1.03);
-    box-shadow: 0 6px 24px rgba(59, 130, 246, 0.13);
-  }
-  .hiw-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2.7rem;
-    color: var(--primary);
-    width: 64px;
-    height: 64px;
-    border-radius: 16px;
-    background: rgba(59, 130, 246, 0.08);
-    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.07);
-    margin-bottom: 1rem;
-  }
-  @media (max-width: 991px) {
-    .hiw-steps {
-      flex-direction: column;
-      gap: 1.2rem;
-      align-items: center;
-    }
-    .hiw-step {
-      width: 90%;
-      min-width: unset;
-      max-width: 400px;
-    }
-  }
-  /* Benefits */
-  .benefit-item {
-    border-radius: 1rem !important;
-    min-width: 180px;
-    transition: transform 0.15s;
-  }
-  .benefit-item:hover {
-    transform: translateY(-4px) scale(1.03);
-    box-shadow: 0 6px 24px rgba(59, 130, 246, 0.13) !important;
-  }
-  .trust-section {
-    margin-top: 2.4rem;
-  }
-  /* Featured Listings */
-  .book-card {
-    border-radius: 1rem !important;
-    min-width: 180px;
-    transition: transform 0.15s;
-  }
-  .book-card:hover {
-    transform: translateY(-4px) scale(1.03);
-    box-shadow: 0 6px 24px rgba(59, 130, 246, 0.13) !important;
-  }
-  .book-title {
-    color: #3b82f6;
-  }
-  .book-condition,
-  .book-price {
-    color: #16a34a;
-  }
-  .btn-request {
-    border-radius: 0.5rem;
-    background-color: #f59e42 !important;
-    color: #fff !important;
-    border: none;
-    transition: background 0.17s;
-  }
-  .btn-request:hover {
-    background-color: #ea851d !important;
-    color: #fff !important;
-  }
- /* CTA Repeat Section */
-.cta-repeat-section {
-  background-color: var(--primary);
-  color: #000000;
-  text-align: center;
-  padding-top: 2.5rem;
-  padding-bottom: 2.2rem;
-  margin-top: 2rem;
-}
-  /* Testimonials */
-  .testimonial {
-  border-radius: 1rem !important;
-  min-width: 180px;
-  transition: transform 0.15s;
-}
-.testimonial:hover {
-  transform: translateY(-4px) scale(1.03);
-  box-shadow: 0 6px 24px rgba(59,130,246,0.13) !important;
-}
-.testimonial-author {
-  color: #3B82F6;
-}
-  /* Newsletter */
-  .newsletter-section {
-    background: #fff;
-    padding: 2.2rem 0 2.6rem 0;
-    text-align: center;
-    border-radius: var(--radius);
-    max-width: 520px;
-    margin: 2.4rem auto 0 auto;
-    box-shadow: var(--shadow);
-  }
-  .newsletter-form {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.6rem;
-    margin-top: 1.1rem;
-  }
-  .newsletter-form input[type="email"] {
-    border: 1.5px solid var(--primary);
-    border-radius: 6px;
-    padding: 0.47rem 1rem;
-    font-size: 1rem;
-    width: 205px;
-    margin-right: 0.2rem;
-  }
-  .newsletter-form button {
-    background: var(--secondary);
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    padding: 0.48rem 1.1rem;
-    font-weight: 600;
-    transition: background 0.17s;
-  }
-  .newsletter-form button:hover {
-    background: #12803c;
-  }
-  /* Language Toggle / Blog */
-  .utils-row {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 1.4rem;
-    margin-bottom: 0.6rem;
-    margin-right: 1.1rem;
-  }
-  .lang-toggle {
-    background: #fff;
-    color: var(--primary);
-    border: 1.5px solid var(--primary);
-    border-radius: 6px;
-    padding: 0.28rem 1.1rem;
-    font-weight: 600;
-    transition: background 0.17s, color 0.17s;
-    font-size: 0.98rem;
-    margin-left: 0.5rem;
-  }
-  .lang-toggle:hover {
-    background: var(--primary);
-    color: #fff;
-  }
-  .blog-link {
-    color: var(--secondary);
-    font-weight: 500;
-    font-size: 1.02rem;
-  }
-  @media (max-width: 991px) {
-    .hero-section,
-    .hiw-section,
-    .benefits-section,
-    .featured-listings-section,
-    .testimonials-section,
-    .newsletter-section {
-      padding-left: 0.5rem;
-      padding-right: 0.5rem;
-    }
-    .hiw-steps,
-    .benefits-list,
-    .book-cards,
-    .testimonials-list {
-      flex-direction: column;
-      align-items: center;
-      gap: 1.2rem;
-    }
-    .newsletter-section {
-      max-width: 99vw;
-    }
-  }
-</style>
+    <!-- CTA Repeat -->
+    <section class="py-5 bg-light cta-repeat-section">
+      <div class="container text-center">
+        <h3 class="fw-bold mb-3">
+          Have books lying around? Post your listing now!
+        </h3>
+        <div class="d-flex flex-column flex-sm-row justify-content-center gap-3">
+          <a href="/sell" class="btn btn-success fw-semibold px-4 py-2">Post a Book</a>
+          <a href="/browse" class="btn btn-outline-primary fw-semibold px-4 py-2">Browse Books</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section: Bootstrap Responsive Flex Cards -->
+    <section class="testimonials-section py-5 bg-light">
+      <div class="container">
+        <h2 class="fw-bold text-center mb-4">What Students Say</h2>
+        <div class="row justify-content-center g-4">
+          <div class="col-12 col-md-6 col-lg-4 d-flex">
+            <div class="card flex-fill testimonial shadow-sm border-0">
+              <div class="card-body">
+                <div class="d-flex align-items-center mb-2">
+                  <i class="fa fa-user-circle fa-2x text-primary me-2"></i>
+                  <span class="testimonial-author fw-semibold">Amit (IIT Delhi)</span>
+                </div>
+                <div class="mt-2 fst-italic">
+                  “I found my semester books for half the price here!”
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 col-lg-4 d-flex">
+            <div class="card flex-fill testimonial shadow-sm border-0">
+              <div class="card-body">
+                <div class="d-flex align-items-center mb-2">
+                  <i class="fa fa-user-circle fa-2x text-primary me-2"></i>
+                  <span class="testimonial-author fw-semibold">Priya (DU)</span>
+                </div>
+                <div class="mt-2 fst-italic">
+                  “Super easy to sell books and help juniors. Highly recommend!”
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 col-lg-4 d-flex">
+            <div class="card flex-fill testimonial shadow-sm border-0">
+              <div class="card-body">
+                <div class="d-flex align-items-center mb-2">
+                  <i class="fa fa-user-circle fa-2x text-primary me-2"></i>
+                  <span class="testimonial-author fw-semibold">Rohan (BITS Pilani)</span>
+                </div>
+                <div class="mt-2 fst-italic">
+                  “Great platform, I connected with students in my hostel and saved money.”
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <link rel="stylesheet" href="landing.css" />
+
+  </body>

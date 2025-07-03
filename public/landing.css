@@ -1,0 +1,275 @@
+:root {
+    --primary: #3b82f6;
+    --secondary: #16a34a;
+    --accent: #f59e42;
+    --background: #f9fafb;
+    --text: #111827;
+    --shadow: 0 2px 12px rgba(59, 130, 246, 0.07);
+    --radius: 1rem;
+  }
+
+  body {
+    background: var(--background);
+    color: var(--text);
+    font-family: var(--font-family);
+  }
+
+  .hero-section {
+    background: linear-gradient(100deg,
+        var(--primary) 40%,
+        var(--secondary) 100%);
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+    margin-top: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 380px;
+    min-width: 100%;
+  }
+
+  .hero-image {
+    max-width: 360px;
+    width: 100%;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .cta-btn {
+    font-weight: 600;
+    font-size: 1.12rem;
+    padding: 0.7rem 2.2rem;
+    border-radius: 8px;
+    margin-right: 1rem;
+    margin-top: 1.2rem;
+    transition: background 0.17s, color 0.17s, box-shadow 0.18s;
+    border: none;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+  }
+
+  .cta-post {
+    background: var(--secondary);
+    color: #fff;
+  }
+
+  .cta-post:hover {
+    background: #12803c;
+  }
+
+  .cta-browse {
+    background: #fff;
+    color: var(--primary);
+    border: 2px solid var(--primary);
+  }
+
+  .cta-browse:hover {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+
+  
+  /* Benefits */
+  .benefit-item {
+    border-radius: 1rem !important;
+    min-width: 180px;
+    transition: transform 0.15s;
+  }
+
+  .benefit-item:hover {
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 6px 24px rgba(59, 130, 246, 0.13) !important;
+  }
+
+  .trust-section {
+    margin-top: 2.4rem;
+  }
+
+  /* Featured Listings */
+  .book-card {
+    border-radius: 1rem !important;
+    min-width: 180px;
+    transition: transform 0.15s;
+  }
+
+  .book-card:hover {
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 6px 24px rgba(59, 130, 246, 0.13) !important;
+  }
+
+  .book-title {
+    color: #3b82f6;
+  }
+
+  .book-condition,
+  .book-price {
+    color: #16a34a;
+  }
+
+  .btn-request {
+    border-radius: 0.5rem;
+    background-color: #f59e42 !important;
+    color: #fff !important;
+    border: none;
+    transition: background 0.17s;
+  }
+
+  .btn-request:hover {
+    background-color: #ea851d !important;
+    color: #fff !important;
+  }
+
+  /* CTA Repeat Section */
+  .cta-repeat-section {
+    background-color: var(--primary);
+    color: #000000;
+    text-align: center;
+    padding-top: 2.5rem;
+    padding-bottom: 2.2rem;
+    margin-top: 2rem;
+  }
+
+  /* Testimonials */
+  .testimonial {
+    border-radius: 1rem !important;
+    min-width: 180px;
+    transition: transform 0.15s;
+  }
+
+  .testimonial:hover {
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 6px 24px rgba(59, 130, 246, 0.13) !important;
+  }
+
+  .testimonial-author {
+    color: #3B82F6;
+  }
+
+  /* Newsletter */
+  .newsletter-section {
+    background: #fff;
+    padding: 2.2rem 0 2.6rem 0;
+    text-align: center;
+    border-radius: var(--radius);
+    max-width: 520px;
+    margin: 2.4rem auto 0 auto;
+    box-shadow: var(--shadow);
+  }
+
+  .newsletter-form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-top: 1.1rem;
+  }
+
+  .newsletter-form input[type="email"] {
+    border: 1.5px solid var(--primary);
+    border-radius: 6px;
+    padding: 0.47rem 1rem;
+    font-size: 1rem;
+    width: 205px;
+    margin-right: 0.2rem;
+  }
+
+  .newsletter-form button {
+    background: var(--secondary);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 0.48rem 1.1rem;
+    font-weight: 600;
+    transition: background 0.17s;
+  }
+
+  .newsletter-form button:hover {
+    background: #12803c;
+  }
+
+  /* Language Toggle / Blog */
+  .utils-row {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1.4rem;
+    margin-bottom: 0.6rem;
+    margin-right: 1.1rem;
+  }
+
+  .lang-toggle {
+    background: #fff;
+    color: var(--primary);
+    border: 1.5px solid var(--primary);
+    border-radius: 6px;
+    padding: 0.28rem 1.1rem;
+    font-weight: 600;
+    transition: background 0.17s, color 0.17s;
+    font-size: 0.98rem;
+    margin-left: 0.5rem;
+  }
+
+  .lang-toggle:hover {
+    background: var(--primary);
+    color: #fff;
+  }
+
+  .blog-link {
+    color: var(--secondary);
+    font-weight: 500;
+    font-size: 1.02rem;
+  }
+
+  @media (max-width: 991px) {
+
+    .hero-section,
+    .hiw-section,
+    .benefits-section,
+    .featured-listings-section,
+    .testimonials-section,
+    .newsletter-section {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+
+    .hiw-steps,
+    .benefits-list,
+    .book-cards,
+    .testimonials-list {
+      flex-direction: column;
+      align-items: center;
+      gap: 1.2rem;
+    }
+
+    .newsletter-section {
+      max-width: 99vw;
+    }
+  }
+
+  .genre-img {
+    width: 100%;
+    object-fit: cover;
+    min-height: 445px;
+    max-height: 200px;
+    border-radius: .6rem .6rem 0 0;
+    background: #f8f9fa;
+  }
+
+  @media (max-width: 575.98px) {
+    .container {
+      padding-left: 4px;
+      padding-right: 4px;
+    }
+
+    .card-body {
+      padding: .8rem;
+    }
+
+    .card-footer {
+      padding: .6rem 1rem;
+    }
+  }

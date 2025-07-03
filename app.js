@@ -60,3 +60,8 @@ app.get('/browse', async (req, res) => {
   }
 });
 
+app.get("/sell", (req, res) => {
+  res.render("./listings/sellBooks.ejs");
+});
+
+
