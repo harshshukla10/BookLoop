@@ -1,208 +1,3 @@
-  // Demo book data
-  const booksData = [
-    {
-        id: 1,
-        title: "The Great Gatsby",
-        author: "F. Scott Fitzgerald",
-        price: 12.99,
-        originalPrice: 15.99,
-        condition: "like-new",
-        location: "New York, NY",
-        distance: "2.3 miles",
-        description: "A classic American novel about the Jazz Age and the American Dream.",
-        cover: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=300&h=400&fit=crop",
-        genre: "fiction",
-        format: "paperback",
-        language: "english",
-        isbn: "978-0-7432-7356-5",
-        publisher: "Scribner",
-        year: 2004,
-        seller: {
-            name: "BookLover123",
-            rating: 4.8,
-            reviews: 45
-        },
-        badges: ["Price Drop"],
-        exchangeAvailable: true,
-        dateAdded: "2024-01-15"
-    },
-    {
-        id: 2,
-        title: "To Kill a Mockingbird",
-        author: "Harper Lee",
-        price: 9.99,
-        condition: "good",
-        location: "Los Angeles, CA",
-        distance: "5.1 miles",
-        description: "A gripping tale of racial injustice and childhood innocence in the American South.",
-        cover: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=400&fit=crop",
-        genre: "fiction",
-        format: "paperback",
-        language: "english",
-        isbn: "978-0-06-112008-4",
-        publisher: "Harper Perennial",
-        year: 2006,
-        seller: {
-            name: "ClassicReader",
-            rating: 4.9,
-            reviews: 67
-        },
-        badges: ["Hot"],
-        exchangeAvailable: false,
-        dateAdded: "2024-01-10"
-    },
-    {
-        id: 3,
-        title: "1984",
-        author: "George Orwell",
-        price: 11.50,
-        condition: "new",
-        location: "Chicago, IL",
-        distance: "1.8 miles",
-        description: "A dystopian social science fiction novel about totalitarian control.",
-        cover: "https://images.unsplash.com/photo-1495640388908-05fa85288e61?w=300&h=400&fit=crop",
-        genre: "fiction",
-        format: "hardcover",
-        language: "english",
-        isbn: "978-0-452-28423-4",
-        publisher: "Plume",
-        year: 2003,
-        seller: {
-            name: "SciFiCollector",
-            rating: 4.7,
-            reviews: 23
-        },
-        badges: ["New Arrival"],
-        exchangeAvailable: true,
-        dateAdded: "2024-01-20"
-    },
-    {
-        id: 4,
-        title: "The Catcher in the Rye",
-        author: "J.D. Salinger",
-        price: 8.75,
-        condition: "acceptable",
-        location: "Houston, TX",
-        distance: "12.4 miles",
-        description: "A controversial novel about teenage rebellion and alienation.",
-        cover: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=400&fit=crop",
-        genre: "fiction",
-        format: "paperback",
-        language: "english",
-        isbn: "978-0-316-76948-0",
-        publisher: "Little, Brown",
-        year: 2001,
-        seller: {
-            name: "VintageBooks",
-            rating: 4.5,
-            reviews: 89
-        },
-        badges: [],
-        exchangeAvailable: true,
-        dateAdded: "2024-01-05"
-    },
-    {
-        id: 5,
-        title: "Pride and Prejudice",
-        author: "Jane Austen",
-        price: 10.25,
-        condition: "like-new",
-        location: "New York, NY",
-        distance: "3.7 miles",
-        description: "A romantic novel about manners, upbringing, morality, and marriage.",
-        cover: "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=300&h=400&fit=crop",
-        genre: "romance",
-        format: "paperback",
-        language: "english",
-        isbn: "978-0-14-143951-8",
-        publisher: "Penguin Classics",
-        year: 2003,
-        seller: {
-            name: "RomanceReader",
-            rating: 4.9,
-            reviews: 156
-        },
-        badges: ["Rare"],
-        exchangeAvailable: false,
-        dateAdded: "2024-01-12"
-    },
-    {
-        id: 6,
-        title: "The Hobbit",
-        author: "J.R.R. Tolkien",
-        price: 14.99,
-        condition: "new",
-        location: "Los Angeles, CA",
-        distance: "7.2 miles",
-        description: "A fantasy adventure about a hobbit's unexpected journey.",
-        cover: "https://images.unsplash.com/photo-1621351183012-e2f9972dd9bf?w=300&h=400&fit=crop",
-        genre: "fiction",
-        format: "hardcover",
-        language: "english",
-        isbn: "978-0-547-92822-7",
-        publisher: "Houghton Mifflin",
-        year: 2012,
-        seller: {
-            name: "FantasyFan",
-            rating: 4.8,
-            reviews: 34
-        },
-        badges: ["New Arrival", "Hot"],
-        exchangeAvailable: true,
-        dateAdded: "2024-01-18"
-    },
-    {
-        id: 7,
-        title: "The Da Vinci Code",
-        author: "Dan Brown",
-        price: 7.99,
-        condition: "good",
-        location: "Chicago, IL",
-        distance: "4.5 miles",
-        description: "A mystery thriller involving art, history, and secret societies.",
-        cover: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?w=300&h=400&fit=crop",
-        genre: "mystery",
-        format: "paperback",
-        language: "english",
-        isbn: "978-0-307-47572-5",
-        publisher: "Anchor",
-        year: 2009,
-        seller: {
-            name: "MysteryLover",
-            rating: 4.6,
-            reviews: 78
-        },
-        badges: [],
-        exchangeAvailable: true,
-        dateAdded: "2024-01-08"
-    },
-    {
-        id: 8,
-        title: "Sapiens",
-        author: "Yuval Noah Harari",
-        price: 16.99,
-        condition: "like-new",
-        location: "Houston, TX",
-        distance: "8.9 miles",
-        description: "A brief history of humankind from the Stone Age to the present.",
-        cover: "https://images.unsplash.com/photo-1553729459-efe14ef6055d?w=300&h=400&fit=crop",
-        genre: "non-fiction",
-        format: "paperback",
-        language: "english",
-        isbn: "978-0-06-231609-7",
-        publisher: "Harper",
-        year: 2015,
-        seller: {
-            name: "HistoryBuff",
-            rating: 4.9,
-            reviews: 92
-        },
-        badges: ["Hot"],
-        exchangeAvailable: false,
-        dateAdded: "2024-01-14"
-    }
-];
-
 let filteredBooks = [...booksData];
 let wishlist = [];
 let currentView = 'grid';
@@ -278,8 +73,8 @@ function createBookCard(book) {
         '<span class="exchange-indicator">Exchange Available</span>' : '';
 
     const priceDisplay = book.originalPrice ? 
-        `<span class="book-price">$${book.price} <small class="text-decoration-line-through text-muted">$${book.originalPrice}</small></span>` :
-        `<span class="book-price">$${book.price}</span>`;
+        `<span class="book-price">₹${book.price} <small class="text-decoration-line-through text-muted">₹${book.originalPrice}</small></span>` :
+        `<span class="book-price">₹${book.price}</span>`;
 
     col.innerHTML = `
         <div class="book-card position-relative">
@@ -343,7 +138,7 @@ function showBookDetails(bookId) {
             <div class="col-md-8">
                 <h4>${book.title}</h4>
                 <p class="text-muted">by ${book.author}</p>
-                <h5 class="text-success">$${book.price}</h5>
+                <h5 class="text-success">₹${book.price}</h5>
                 <p><strong>Condition:</strong> <span class="badge ${getConditionClass(book.condition)}">${formatCondition(book.condition)}</span></p>
                 <p><strong>Format:</strong> ${formatCondition(book.format)}</p>
                 <p><strong>Language:</strong> ${book.language.charAt(0).toUpperCase() + book.language.slice(1)}</p>
@@ -392,7 +187,7 @@ function showBookDetails(bookId) {
                         <img src="${relatedBook.cover}" class="card-img-top" style="height: 150px; object-fit: cover;">
                         <div class="card-body p-2">
                             <h6 class="card-title" style="font-size: 0.9rem;">${relatedBook.title}</h6>
-                            <p class="card-text text-success">$${relatedBook.price}</p>
+                            <p class="card-text text-success">₹${relatedBook.price}</p>
                         </div>
                     </div>
                 </div>
@@ -446,7 +241,7 @@ function updateWishlistModal() {
             <div class="col-9">
                 <h6>${book.title}</h6>
                 <p class="text-muted mb-1">by ${book.author}</p>
-                <p class="text-success mb-2">$${book.price}</p>
+                <p class="text-success mb-2">₹${book.price}</p>
                 <button class="btn btn-sm btn-primary me-2">View Details</button>
                 <button class="btn btn-sm btn-outline-danger" onclick="toggleWishlist(${book.id})">Remove</button>
             </div>
