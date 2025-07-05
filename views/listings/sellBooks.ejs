@@ -129,16 +129,16 @@
       <!-- Book Submission Form -->
       <section class="py-5">
         <div class="container">
-          <form>
+          <form action="/sell" method="POST" enctype="multipart/form-data">
             <h3 class="mb-4">A. Book Details</h3>
             <div class="row g-3">
               <div class="col-md-6">
                 <label class="form-label">Title <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" required>
+                <input type="text" class="form-control" name="title" required>
               </div>
               <div class="col-md-6">
                 <label class="form-label">Author(s) <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" required>
+                <input type="text" class="form-control" name="authors" required>
               </div>
               <div class="col-md-6">
                 <label class="form-label">Genre/Category</label>
@@ -155,7 +155,7 @@
               </div>
               <div class="col-md-6">
                 <label class="form-label">Publisher</label>
-                <input type="text" class="form-control">
+                <input type="text" name="publisher" class="form-control">
               </div>
               <div class="col-md-3">
                 <label class="form-label">Year of Publication</label>
@@ -184,7 +184,7 @@
               </div>
               <div class="col-12">
                 <label class="form-label">Description <span class="text-danger">*</span></label>
-                <textarea class="form-control" rows="4" required></textarea>
+                <textarea class="form-control" rows="4" name="description" required></textarea>
               </div>
             </div>
 
@@ -203,11 +203,11 @@
               </div>
               <div class="col-md-4">
                 <label class="form-label">Price (₹)</label>
-                <input type="number" class="form-control" required>
+                <input type="number" name="price" class="form-control" required>
               </div>
               <div class="col-md-4">
                 <label class="form-label">Original Price (optional)</label>
-                <input type="number" class="form-control">
+                <input type="number" name="originalPrice" class="form-control">
               </div>
               <div class="col-md-6">
                 <div class="form-check">
@@ -227,11 +227,11 @@
             <div class="row g-3">
               <div class="col-md-6">
                 <label class="form-label">Book Cover Photo <span class="text-danger">*</span></label>
-                <input type="file" class="form-control" required>
+                <input type="file" name="cover[image]" class="form-control" required>
               </div>
               <div class="col-md-6">
                 <label class="form-label">Additional Photos</label>
-                <input type="file" class="form-control" multiple>
+                <input type="file" name="additionalPhotos" class="form-control" multiple>
               </div>
             </div>
 
@@ -257,7 +257,7 @@
               </div>
               <div class="col-md-6">
                 <label class="form-label">Contact Details</label>
-                <input type="text" class="form-control" required>
+                <input type="text" name="contactDetails" class="form-control" required>
               </div>
             </div>
 
@@ -267,7 +267,7 @@
             <div class="row g-3">
               <div class="col-md-6">
                 <label class="form-label">Name</label>
-                <input type="text" class="form-control" value="Harsh Shukla" readonly>
+                <input type="text" name="seller[name]" class="form-control" value="Harsh Shukla" readonly>
               </div>
               <div class="col-md-3">
                 <label class="form-label">User Rating</label>
@@ -280,7 +280,7 @@
 
             <div class="d-flex gap-3">
               <button type="submit" class="btn btn-success px-4">Post Book</button>
-              <button type="button" class="btn btn-outline-secondary px-4">Preview</button>
+              <!-- <button type="button" class="btn btn-outline-secondary px-4">Preview</button> -->
             </div>
           </form>
         </div>
