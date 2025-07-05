@@ -524,13 +524,13 @@
                                                     <% }) %>
                                             </div>
                                             <% } %>
-                                                <img src="<%= book.cover %>" class="card-img-top"
-                                                    alt="<%= book.title %>" style="height:220px;object-fit:cover;">
+                                                <img src="/<%= book.bookCoverPhoto %>" class="card-img-top"
+                                                    alt="<%= book.title %>" style="height:500px;object-fit:cover;">
                                                 <div class="card-body">
                                                     <h5 class="card-title">
                                                         <%= book.title %>
                                                     </h5>
-                                                    <h6 class="card-subtitle mb-2 text-muted">by <%= book.author %>
+                                                    <h6 class="card-subtitle mb-2 text-muted">by <%= book.authors %>
                                                     </h6>
                                                     <p>
                                                         <% if (book.originalPrice) { %>
@@ -547,7 +547,7 @@
                                                         <%= book.condition %>
                                                     </span>
                                                     <p class="mt-2 mb-1"><i class="bi bi-geo-alt"></i>
-                                                        <%= book.location %> (<%= book.distance %>)
+                                                        <%= book.location %> (<%= book.deliveryDistanceKm %> km)
                                                     </p>
                                                     <p class="card-text">
                                                         <%= book.description %>
@@ -746,17 +746,17 @@
                     modalContent.innerHTML = `
              <div class="row">
             <div class="col-md-4">
-                <img src="${book.cover}" alt="${book.title}" class="img-fluid rounded">
+                <img src="${book.bookCoverPhoto}" alt="${book.title}" class="img-fluid rounded">
             </div>
             <div class="col-md-8">
                 <h4>${book.title}</h4>
-                <p class="text-muted">by ${book.author}</p>
+                <p class="text-muted">by ${book.authors}</p>
                 <h5 class="text-success">₹${book.price}</h5>
                 <p><strong>Condition:</strong> <span class="badge ${getConditionClass(book.condition)}">${formatCondition(book.condition)}</span></p>
                 <p><strong>Format:</strong> ${formatCondition(book.format)}</p>
                 <p><strong>Language:</strong> ${book.language.charAt(0).toUpperCase() + book.language.slice(1)}</p>
                 <p><strong>ISBN:</strong> ${book.isbn}</p>
-                <p><strong>Publisher:</strong> ${book.publisher} (${book.year})</p>
+                <p><strong>Publisher:</strong> ${book.publisher} (${book.yearOfPublication})</p>
                 <p><strong>Location:</strong> ${book.location}</p>
                 <p><strong>Description:</strong></p>
                 <p>${book.description}</p>                
@@ -767,7 +767,7 @@
                         <span class="rating-stars ms-2">
                             ${'★'.repeat(Math.floor(book.seller.rating))}${'☆'.repeat(5 - Math.floor(book.seller.rating))}
                         </span>
-                        <span class="ms-1">${book.seller.rating} (${book.seller.reviews} reviews)</span>
+                        <span class="ms-1">${book.seller.userRating}</span>
                     </div>
                 </div>
                 
