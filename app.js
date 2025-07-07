@@ -101,3 +101,29 @@ app.post(
     }
   }
 );
+
+app.get("/success", (req, res) => {
+  res.render("./listings/successList.ejs");
+});
+
+app.get("/myProfile", (req, res) => {
+  res.render("./listings/myProfile.ejs");
+});
+
+app.get("/about", (req, res) => {
+  res.render("./listings/about.ejs");
+});
+
+app.get("/contact", (req, res) => {
+  res.render("./listings/contact.ejs");
+});
+app.get("/privacy", (req, res) => {
+  res.render("./listings/privacy.ejs");
+}); 
+app.get("/faq", (req, res) => {
+  res.render("./listings/faq.ejs");
+});
+
+app.get("/terms", (req, res) => {
+  res.render("./listings/terms.ejs");
+}); 
