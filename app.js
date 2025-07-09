@@ -19,6 +19,7 @@ const Book = require("./models/bookCard.js");
 const multer = require("multer");
 const { storage } = require("./cloudConfig.js");
 const upload = multer({ storage });
+const { bookSchema } = require("./validateBook.js");
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -68,9 +69,19 @@ app.get("/browse", async (req, res) => {
 app.get("/sell", (req, res) => {
   res.render("./listings/sellBooks.ejs");
 });
+const validateSchema = (req, res, next) => {
+  let { error } = bookSchema.validate(req.body);
+  if (error) {
+    let errMsg = error.details.map((el) => el.message).join(",");
+    throw errMsg;
+  } else {
+    next();
+  }
+};
 
 app.post(
   "/sell",
+  validateSchema,
   upload.fields([
     { name: "cover[image]", maxCount: 1 },
     { name: "additionalPhotos", maxCount: 10 },
@@ -94,7 +105,7 @@ app.post(
       console.log("FILES:", req.files);
 
       await newBook.save();
-      res.redirect("/browse");
+      res.redirect("/success");
     } catch (err) {
       console.error(err);
       res.status(500).send("Error saving book");
@@ -106,7 +117,7 @@ app.get("/success", (req, res) => {
   res.render("./listings/successList.ejs");
 });
 
-app.get("/myProfile", (req, res) => {
+app.get("/myprofile", (req, res) => {
   res.render("./listings/myProfile.ejs");
 });
 
@@ -119,11 +130,11 @@ app.get("/contact", (req, res) => {
 });
 app.get("/privacy", (req, res) => {
   res.render("./listings/privacy.ejs");
-}); 
+});
 app.get("/faq", (req, res) => {
   res.render("./listings/faq.ejs");
 });
 
 app.get("/terms", (req, res) => {
   res.render("./listings/terms.ejs");
-}); 
+});
