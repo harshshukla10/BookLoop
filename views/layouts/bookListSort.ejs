@@ -58,7 +58,10 @@
         </div>
     </div>
     <% }) %>
-
+<!-- Book details modal --><!-- After your book cards in bookListSort.ejs -->
+<script>
+    window.booksData = <%- JSON.stringify(books) %>;
+    </script>
         <script>
             document.addEventListener("click", function (e) {
                 const btn = e.target.closest(".view-details-btn");

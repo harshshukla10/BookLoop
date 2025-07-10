@@ -58,15 +58,27 @@ app.get("/signup", (req, res) => {
 
 // Only fetch and render books, no wishlist
 app.get("/browse", async (req, res) => {
-  console.log("Route hit!");
   try {
-    // 1. Get sort value from query
-    const sort = req.query.sort || "price-low"; // default to 'newest'
+    // 1. Get sort and search values from query
+    const sort = req.query.sort || "newest"; // default to 'newest'
+    const search = req.query.search ? req.query.search.trim() : "";
 
-    // 2. Fetch books from DB
-    let books = await Book.find().lean(); // .lean() for plain JS objects
+    // 2. Build filter for search (by title, author, isbn, keywords)
+    let filter = {};
+    if (search) {
+      filter = {
+        $or: [
+          { title:    { $regex: search, $options: "i" } },
+          { authors:   { $regex: search, $options: "i" } }
+          
+        ]
+      };
+    }
 
-    // 3. Sort books in JS (or via MongoDB for efficiency)
+    // 3. Fetch filtered books from DB
+    let books = await Book.find(filter).lean();
+
+    // 4. Sort books in JS (or via MongoDB for efficiency)
     switch (sort) {
       case "newest":
         books.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -91,21 +103,22 @@ app.get("/browse", async (req, res) => {
         break;
     }
 
-    // 4. If AJAX request, render partial. Else, render full page
+    // 5. If AJAX request, render partial. Else, render full page
     if (req.xhr) {
       res.render("layouts/bookListSort", { books }, (err, html) => {
         if (err) return res.status(500).send("Error rendering partial");
         res.send(html);
       });
-    }
-     else {
+    } else {
       res.render("./listings/browseBooks", {
         books,
         currentView: "grid",
         sort,
+        search, // so you can preserve search value in the input
       });
     }
   } catch (err) {
+    console.error(err);
     res.status(500).send("Error loading books");
   }
 });
