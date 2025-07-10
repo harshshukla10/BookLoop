@@ -496,80 +496,13 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-6 text-end">
-                                    <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-outline-secondary btn-sm active"
-                                            id="grid-view">
-                                            <i class="bi bi-grid"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-outline-secondary btn-sm" id="list-view">
-                                            <i class="bi bi-list"></i>
-                                        </button>
-                                    </div>
-                                </div>
+                                <!-- Book List -->
                             </div>
                         </div>
 
                         <!-- Books Grid -->
-                        <div class="row">
-                            <% books.forEach(book=> { %>
-                                <div class="col-lg-4 col-md-6 mb-4">
-                                    <div class="card h-100 shadow position-relative">
-                                        <% if (book.badges && book.badges.length) { %>
-                                            <div class="position-absolute top-0 end-0 p-2">
-                                                <% book.badges.forEach(badge=> { %>
-                                                    <span class="badge bg-warning text-dark me-1">
-                                                        <%= badge %>
-                                                    </span>
-                                                    <% }) %>
-                                            </div>
-                                            <% } %>
-                                                <img src="<%= book.bookCoverPhoto %>" class="card-img-top"
-                                                    alt="<%= book.title %>" style="height:500px;object-fit:cover;">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">
-                                                        <%= book.title %>
-                                                    </h5>
-                                                    <h6 class="card-subtitle mb-2 text-muted">by <%= book.authors %>
-                                                    </h6>
-                                                    <p>
-                                                        <% if (book.originalPrice) { %>
-                                                            <span class="fw-bold text-success">₹<%= book.price %></span>
-                                                            <small class="text-decoration-line-through text-muted">₹<%=
-                                                                    book.originalPrice %></small>
-                                                            <% } else { %>
-                                                                <span class="fw-bold text-success">₹<%= book.price %>
-                                                                </span>
-                                                                <% } %>
-                                                    </p>
-                                                    <span
-                                                        class="badge <%= book.condition === 'New' ? 'bg-success' : (book.condition === 'Good' ? 'bg-primary' : 'bg-secondary') %>">
-                                                        <%= book.condition %>
-                                                    </span>
-                                                    <p class="mt-2 mb-1"><i class="bi bi-geo-alt"></i>
-                                                        <%= book.location %> (<%= book.deliveryDistanceKm %> km)
-                                                    </p>
-                                                    <p class="card-text">
-                                                        <%= book.description %>
-                                                    </p>
-                                                    <div class="d-flex gap-2 mt-2">
-                                                        <button class="btn btn-primary btn-sm"
-                                                            onclick="showBookDetails('<%= book._id %>')">
-                                                            <i class="bi bi-eye"></i> Details
-                                                        </button>
-                                                        <button class="btn btn-success btn-sm">
-                                                            <i class="bi bi-cart-plus"></i> Buy
-                                                        </button>
-                                                        <% if (book.exchangeAvailable) { %>
-                                                            <button class="btn btn-warning btn-sm"><i
-                                                                    class="bi bi-arrow-left-right"></i>
-                                                                Exchange</button>
-                                                            <% } %>
-                                                    </div>
-                                                </div>
-                                    </div>
-                                </div>
-                                <% }) %>
+                        <div class="row " id="book-list">
+                            <%- include('../layouts/bookListSort', { books }) %>
                         </div>
 
                         <!-- Pagination -->
@@ -715,81 +648,151 @@
                 </div>
             </div>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
             <script>
+                // DOM references
+                const sortDropdown = document.getElementById('sort-select');
+                const bookContainer = document.getElementById('book-list');
+              
+                // Sorting handler
+                sortDropdown.addEventListener('change', () => {
+                  const selectedSort = sortDropdown.value;
+                  const newUrl = `/browse?sort=${selectedSort}`;
+              
+                  // Update URL without reload
+                  window.history.pushState({}, '', newUrl);
+              
+                  // Show loading spinner
+                  bookContainer.innerHTML = `
+                    <div class="text-center my-4">
+                      <div class="spinner-border text-primary" role="status" aria-hidden="true"></div>
+                      <p class="mt-2">Loading sorted books...</p>
+                    </div>
+                  `;
+              
+                  // Fetch and update sorted book list
+                  fetch(newUrl, {
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                  })
+                  .then(response => response.text())
+                  .then(html => {
+                    bookContainer.innerHTML = html;
+                  })
+                  .catch(error => {
+                    console.error("Error fetching sorted books:", error);
+                    bookContainer.innerHTML = `
+                      <div class="text-danger text-center mt-3">
+                        Failed to load books. Please try again.
+                      </div>
+                    `;
+                  });
+                });
+              
+                // Handle browser navigation (back/forward)
+                window.addEventListener('popstate', () => {
+                  const sort = new URLSearchParams(window.location.search).get('sort') || 'newest';
+              
+                  bookContainer.innerHTML = `
+                    <div class="text-center my-4">
+                      <div class="spinner-border text-primary" role="status"></div>
+                      <p class="mt-2">Refreshing books...</p>
+                    </div>
+                  `;
+              
+                  fetch(`/browse?sort=${sort}`, {
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                  })
+                  .then(response => response.text())
+                  .then(html => {
+                    bookContainer.innerHTML = html;
+                  })
+                  .catch(error => {
+                    console.error("Error during navigation:", error);
+                  });
+                });
+              </script>
+              
+              <script>
+                // Book data and view mode
                 const booksData = <%- JSON.stringify(books) %>;
                 const currentView = "<%= currentView %>";
-                function getConditionClass(condition) {
-                    const classes = {
-                        'new': 'bg-success',
-                        'like-new': 'bg-info',
-                        'good': 'bg-warning',
-                        'acceptable': 'bg-secondary'
-                    };
-                    return classes[condition] || 'bg-secondary';
-                }
-                function getRelatedBooks(book) {
-                    return booksData
-                        .filter(b => b.id !== book.id && (b.genre === book.genre || b.author === book.author))
-                        .slice(0, 4);
-                }
-
-                function formatCondition(condition) {
-                    return condition.split('-').map(word =>
-                        word.charAt(0).toUpperCase() + word.slice(1)
-                    ).join(' ');
-                }
-
-                function showBookDetails(bookId) {
-                    const book = booksData.find(b => b._id == bookId);
-                    if (!book) return;
-                    const modalContent = document.getElementById('book-details-content');
-                    modalContent.innerHTML = `
-             <div class="row">
-            <div class="col-md-4">
-                <img src="${book.bookCoverPhoto}" alt="${book.title}" class="img-fluid rounded">
-            </div>
-            <div class="col-md-8">
-                <h4>${book.title}</h4>
-                <p class="text-muted">by ${book.authors}</p>
-                <h5 class="text-success">₹${book.price}</h5>
-                <p><strong>Condition:</strong> <span class="badge ${getConditionClass(book.condition)}">${formatCondition(book.condition)}</span></p>
-                <p><strong>Format:</strong> ${formatCondition(book.format)}</p>
-                <p><strong>Language:</strong> ${book.language.charAt(0).toUpperCase() + book.language.slice(1)}</p>
-                <p><strong>ISBN:</strong> ${book.isbn}</p>
-                <p><strong>Publisher:</strong> ${book.publisher} (${book.yearOfPublication})</p>
-                <p><strong>Location:</strong> ${book.location}</p>
-                <p><strong>Description:</strong></p>
-                <p>${book.description}</p>                
-                <div class="seller-info">
-                    <h6>Seller Information</h6>
-                    <div class="d-flex align-items-center">
-                        <strong>${book.seller.name}</strong>
-                        <span class="rating-stars ms-2">
-                            ${'★'.repeat(Math.floor(book.seller.rating))}${'☆'.repeat(5 - Math.floor(book.seller.rating))}
-                        </span>
-                        <span class="ms-1">${book.seller.userRating}</span>
-                    </div>
-                </div>
-                
-                <div class="mt-3 responsive-button-group">
-                    <button class="btn btn-success me-2">
-                        <i class="bi bi-cart-plus"></i> Add to Cart
-                    </button>
-                    ${book.exchangeAvailable ?
+              
+                // Helpers
+                const getConditionClass = (condition) => {
+                  return {
+                    'new': 'bg-success',
+                    'like-new': 'bg-info',
+                    'good': 'bg-warning',
+                    'acceptable': 'bg-secondary'
+                  }[condition] || 'bg-secondary';
+                };
+              
+                const getRelatedBooks = (book) => {
+                  return booksData
+                    .filter(b => b.id !== book.id && (b.genre === book.genre || b.author === book.author))
+                    .slice(0, 4);
+                };
+              
+                const formatCondition = (condition) => {
+                  return condition.split('-').map(word =>
+                    word.charAt(0).toUpperCase() + word.slice(1)
+                  ).join(' ');
+                };
+              
+                // Book modal renderer
+                window.showBookDetails = function(bookId) {
+                  const book = booksData.find(b => b._id === bookId);
+                  if (!book) return;
+              
+                  const modalContent = document.getElementById('book-details-content');
+                  modalContent.innerHTML = `
+                    <div class="row">
+                      <div class="col-md-4">
+                        <img src="${book.bookCoverPhoto}" alt="${book.title}" class="img-fluid rounded">
+                      </div>
+                      <div class="col-md-8">
+                        <h4>${book.title}</h4>
+                        <p class="text-muted">by ${book.authors}</p>
+                        <h5 class="text-success">₹${book.price}</h5>
+                        <p><strong>Condition:</strong> <span class="badge ${getConditionClass(book.condition)}">${formatCondition(book.condition)}</span></p>
+                        <p><strong>Format:</strong> ${formatCondition(book.format)}</p>
+                        <p><strong>Language:</strong> ${book.language.charAt(0).toUpperCase() + book.language.slice(1)}</p>
+                        <p><strong>ISBN:</strong> ${book.isbn}</p>
+                        <p><strong>Publisher:</strong> ${book.publisher} (${book.yearOfPublication})</p>
+                        <p><strong>Location:</strong> ${book.location}</p>
+                        <p><strong>Description:</strong></p>
+                        <p>${book.description}</p>
+              
+                        <div class="seller-info">
+                          <h6>Seller Information</h6>
+                          <div class="d-flex align-items-center">
+                            <strong>${book.seller.name}</strong>
+                            <span class="rating-stars ms-2">
+                              ${'★'.repeat(Math.floor(book.seller.rating))}${'☆'.repeat(5 - Math.floor(book.seller.rating))}
+                            </span>
+                            <span class="ms-1">${book.seller.userRating}</span>
+                          </div>
+                        </div>
+              
+                        <div class="mt-3 responsive-button-group">
+                          <button class="btn btn-success me-2">
+                            <i class="bi bi-cart-plus"></i> Add to Cart
+                          </button>
+                          ${book.exchangeAvailable ?
                             '<button class="btn btn-warning me-2"><i class="bi bi-arrow-left-right"></i> Request Exchange</button>' :
                             ''
-                        }
-                    <button class="btn btn-outline-primary me-2">
-                        <i class="bi bi-chat"></i> Contact Seller
-                    </button>
-                   
-                </div>
-            </div>
-        </div>
-        
-        <hr class="my-4">
-    `;
-                    new bootstrap.Modal(document.getElementById('bookDetailsModal')).show();
-                }
-            </script>
+                          }
+                          <button class="btn btn-outline-primary me-2">
+                            <i class="bi bi-chat"></i> Contact Seller
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <hr class="my-4">
+                  `;
+              
+                  new bootstrap.Modal(document.getElementById('bookDetailsModal')).show();
+                };
+              </script>
+              
     </body>
