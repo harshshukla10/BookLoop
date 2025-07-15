@@ -20,6 +20,36 @@ const multer = require("multer");
 const { storage } = require("./cloudConfig.js");
 const upload = multer({ storage });
 const { bookSchema } = require("./validateBook.js");
+const { userSignupSchema } = require("./validateUser.js");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+const User = require("./models/userSchema.js");
+
+const store = MongoStore.create({
+  mongoUrl: dbUrl,
+  crypto: {
+    secret: process.env.SECRET,
+  },
+  touchAfter: 24 * 3600,
+});
+
+store.on("error", () => {
+  console.log("ERROR in MONGO SESSION Store", err);
+});
+
+const sessionOptions = {
+  store,
+  secret: process.env.SECRET,
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
+    maxAge: 7 * 24 * 60 * 60,
+    httpOnly: true,
+  },
+};
+
+
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -27,7 +57,40 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.engine("ejs", ejsMate);
 app.use(express.static("public"));
+app.use(passport.initialize());
+app.use(session(sessionOptions));
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
 
+
+
+app.use((req, res, next) => {
+  // res.locals.success = req.flash("success");
+  // res.locals.error = req.flash("error");
+  res.locals.currUser = req.user;
+  next();
+});
+passport.use(User.createStrategy());
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+const validateBookSchema = (req, res, next) => {
+    const { error } = bookSchema.validate(req.body);
+    if (error) {
+      const errMsg = error.details.map((el) => el.message).join(", ");
+      return res.status(400).send({ error: errMsg }); // or render a page with the error
+    }
+    next();
+  };
+  
+  const validateUserSchema = (req, res, next) => {
+    const { error } = userSignupSchema.validate(req.body);
+    if (error) {
+      const errMsg = error.details.map((el) => el.message).join(", ");
+      return res.status(400).send({ error: errMsg }); // or use res.render if using EJS
+    }
+    next();
+  };
+  
 main()
   .then(() => {
     console.log("connected to DB");
@@ -52,9 +115,61 @@ app.get("/login", (req, res) => {
   res.render("./listings/login.ejs");
 });
 
+app.post("/login", (req, res, next) => {
+    passport.authenticate("local", (err, user, info) => {
+      if (err) {
+        console.error("Authentication error:", err);
+        return next(err);
+      }
+      if (!user) {
+        console.log("Login failed:", info.message); // << SEE WHY login failed
+        // Optionally: req.flash("error", info.message); if flash is configured
+        return res.redirect("/login");
+      }
+      req.logIn(user, (err) => {
+        if (err) {
+          console.error("Login error:", err);
+          return next(err);
+        }
+        return res.redirect("/browse");
+      });
+    })(req, res, next);
+  });
+  
+
+
 app.get("/signup", (req, res) => {
   res.render("./listings/signup.ejs");
 });
+
+app.post("/signup", validateUserSchema, async (req, res, next) => {
+     const { email, password, confirm_password, first_name, last_name, institute, grade } = req.body;
+   console.log(req.body);
+  
+   try {
+    if (password !== confirm_password) {
+     // req.flash("error", "Passwords do not match");
+     return res.redirect("/signup");
+    }
+  
+    const newUser = new User({ email, username: email, first_name, last_name, institute, grade });
+    const registeredUser = await User.register(newUser, password);
+  
+    console.log(registeredUser);
+  
+    req.login(registeredUser, (err) => {
+     if (err) return next(err);
+     res.redirect("/browse"); // or your homepage after login
+    });
+  
+ } catch (e) {
+   console.error(e);
+    // req.flash("error", e.message);
+    res.redirect("/signup");
+   }
+  });
+  
+
 
 // Only fetch and render books, no wishlist
 app.get("/browse", async (req, res) => {
@@ -126,19 +241,11 @@ app.get("/browse", async (req, res) => {
 app.get("/sell", (req, res) => {
   res.render("./listings/sellBooks.ejs");
 });
-const validateSchema = (req, res, next) => {
-  let { error } = bookSchema.validate(req.body);
-  if (error) {
-    let errMsg = error.details.map((el) => el.message).join(",");
-    throw errMsg;
-  } else {
-    next();
-  }
-};
+
 
 app.post(
   "/sell",
-  validateSchema,
+  validateBookSchema,
   upload.fields([
     { name: "cover[image]", maxCount: 1 },
     { name: "additionalPhotos", maxCount: 10 },

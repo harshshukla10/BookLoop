@@ -1,165 +1,204 @@
 <!-- Vibrant, Simple, and Aesthetic BookLoop Header using Bootstrap & Modern Custom CSS -->
 <style>
-    :root {
-      --primary: #3B82F6;
-      --secondary: #16A34A;
-      --accent: #F59E42;
-      --background: #F9FAFB;
-      --text: #111827;
-      --brand-font: 'Inter', 'Roboto', 'Open Sans', Arial, sans-serif;
-      --header-blur: blur(16px);
-    }
-  
-    header.bookloop-header {
-      background: linear-gradient(90deg, #3B82F6 55%, #F59E42 100%);
-      color: #fff;
-      font-family: var(--brand-font);
-      box-shadow: 0 4px 24px rgba(59,130,246,0.08);
-      position: sticky;
-      top: 0;
-      z-index: 1050;
-      backdrop-filter: var(--header-blur);
-      transition: box-shadow 0.3s;
-    }
-    .navbar .navbar-brand {
-      font-weight: 900;
-      font-size: 2rem;
-      letter-spacing: 1px;
-      color: #fff !important;
-      display: flex;
-      align-items: center;
-      gap: 0.65rem;
-      text-shadow: 0 3px 16px rgba(0,0,0,0.13);
-      transition: text-shadow 0.2s;
-    }
-    .navbar .brand-logo {
-      width: 2.3rem;
-      height: 2.3rem;
-      object-fit: contain;
-      border-radius: 50%;
-      background: #fff;
-      padding: 0.13rem;
-      box-shadow: 0 2px 8px rgba(59,130,246,0.14);
-    }
-    .navbar .navbar-brand:hover {
-      text-shadow: 0 5px 24px #fff, 0 3px 12px #3B82F6;
-    }
-    .navbar .nav-link {
-      color: #fff !important;
-      font-weight: 500;
-      font-size: 1.1rem;
-      border-radius: 99px;
-      padding: 0.47rem 1.20rem;
-      margin: 0 0.18rem;
-      letter-spacing: 0.2px;
-      transition: color 0.16s, background 0.16s;
-      position: relative;
-    
-    }
-    .navbar .nav-link.active,
-    .navbar .nav-link:hover,
-    .navbar .nav-link:focus {
-      /* background: rgba(255,255,255,0.16); */
-      color: #fff !important;
-      font-weight: 700;
-      box-shadow: 0 2px 12px rgba(245,158,66,0.10);
-      text-shadow: 0 1px 6px rgba(0,0,0,0.07);
-      /* outline: none; */
-      
-    }
+  :root {
+    --primary: #3B82F6;
+    --secondary: #16A34A;
+    --accent: #F59E42;
+    --background: #F9FAFB;
+    --text: #111827;
+    --brand-font: 'Inter', 'Roboto', 'Open Sans', Arial, sans-serif;
+    --header-blur: blur(16px);
+  }
+
+  header.bookloop-header {
+    background: linear-gradient(90deg, #3B82F6 55%, #F59E42 100%);
+    color: #fff;
+    font-family: var(--brand-font);
+    box-shadow: 0 4px 24px rgba(59, 130, 246, 0.08);
+    position: sticky;
+    top: 0;
+    z-index: 1050;
+    backdrop-filter: var(--header-blur);
+    transition: box-shadow 0.3s;
+  }
+
+  .navbar .navbar-brand {
+    font-weight: 900;
+    font-size: 2rem;
+    letter-spacing: 1px;
+    color: #fff !important;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    text-shadow: 0 3px 16px rgba(0, 0, 0, 0.13);
+    transition: text-shadow 0.2s;
+  }
+
+  .navbar .brand-logo {
+    width: 2.3rem;
+    height: 2.3rem;
+    object-fit: contain;
+    border-radius: 50%;
+    background: #fff;
+    padding: 0.13rem;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.14);
+  }
+
+  .navbar .navbar-brand:hover {
+    text-shadow: 0 5px 24px #fff, 0 3px 12px #3B82F6;
+  }
+
+  .navbar .nav-link {
+    color: #fff !important;
+    font-weight: 500;
+    font-size: 1.1rem;
+    border-radius: 99px;
+    padding: 0.47rem 1.20rem;
+    margin: 0 0.18rem;
+    letter-spacing: 0.2px;
+    transition: color 0.16s, background 0.16s;
+    position: relative;
+
+  }
+
+  .navbar .nav-link.active,
+  .navbar .nav-link:hover,
+  .navbar .nav-link:focus {
+    /* background: rgba(255,255,255,0.16); */
+    color: #fff !important;
+    font-weight: 700;
+    box-shadow: 0 2px 12px rgba(245, 158, 66, 0.10);
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.07);
+    /* outline: none; */
+
+  }
+
+  .logout-hover:hover {
+    background-color: #dc3545 !important;
+    /* Bootstrap's danger */
+    color: #fff !important;
+  }
+
+  .navbar .btn-login {
+    background: var(--secondary);
+    color: #fff;
+    font-weight: 700;
+    border-radius: 24px;
+    padding: 0.48rem 1.35rem;
+    margin-left: 1.1rem;
+    transition: background 0.16s, box-shadow 0.18s;
+    box-shadow: 0 2px 14px rgba(16, 163, 74, 0.09);
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 1.08rem;
+    letter-spacing: 0.1px;
+  }
+
+  .navbar .btn-login:hover,
+  .navbar .btn-login:focus {
+    background: #12803c;
+    color: #fff;
+    box-shadow: 0 4px 18px rgba(16, 163, 74, 0.16);
+    outline: none;
+  }
+
+  .navbar .nav-item+.nav-item {
+    margin-left: 0.13rem;
+  }
+
+  .navbar-nav {
+    align-items: center;
+  }
+
+  @media (max-width: 991px) {
     .navbar .btn-login {
-      background: var(--secondary);
-      color: #fff;
-      font-weight: 700;
-      border-radius: 24px;
-      padding: 0.48rem 1.35rem;
-      margin-left: 1.1rem;
-      transition: background 0.16s, box-shadow 0.18s;
-      box-shadow: 0 2px 14px rgba(16,163,74,0.09);
-      border: none;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 1.08rem;
-      letter-spacing: 0.1px;
+      margin: 0.8rem 0 0 0;
+      width: 100%;
+      justify-content: center;
     }
-    .navbar .btn-login:hover,
-    .navbar .btn-login:focus {
-      background: #12803c;
-      color: #fff;
-      box-shadow: 0 4px 18px rgba(16,163,74,0.16);
-      outline: none;
-    }
-    .navbar .nav-item + .nav-item {
-      margin-left: 0.13rem;
-    }
+
     .navbar-nav {
-      align-items: center;
+      text-align: center;
+      padding-bottom: 0.4rem;
     }
-    @media (max-width: 991px) {
-      .navbar .btn-login {
-        margin: 0.8rem 0 0 0;
-        width: 100%;
-        justify-content: center;
-      }
-      .navbar-nav {
-        text-align: center;
-        padding-bottom: 0.4rem;
-      }
-      .navbar .nav-link {
-        margin-bottom: 0.18rem;
-        padding: 0.6rem 1rem;
-      }
-      header.bookloop-header {
-        border-bottom-left-radius: 0.7rem;
-        border-bottom-right-radius: 0.7rem;
-      }
+
+    .navbar .nav-link {
+      margin-bottom: 0.18rem;
+      padding: 0.6rem 1rem;
     }
-    /* Subtle shadow under header */
-    header.bookloop-header:after {
-      content: '';
-      display: block;
-      height: 2px;
-      background: linear-gradient(90deg, #fff 0%, var(--primary) 60%, var(--accent) 100%);
-      opacity: 0.10;
-      margin-top: -2px;
-      border-radius: 1rem;
+
+    header.bookloop-header {
+      border-bottom-left-radius: 0.7rem;
+      border-bottom-right-radius: 0.7rem;
     }
-  </style>
-  
-  <header class="bookloop-header shadow-sm">
-    <nav class="navbar navbar-expand-lg navbar-dark py-3">
-      <div class="container">
-        <a class="navbar-brand" href="/">
-          <!-- <img src="/logo1.png" alt="BookLoop Logo" class="brand-logo d-none d-md-inline" /> -->
-          <span>
-            <i class="fas fa-book-open-reader me-2 d-inline d-md-none" style="font-size:1.5rem"></i>
-            BookLoop
-          </span>
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarBookLoop" aria-controls="navbarBookLoop" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarBookLoop">
-          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link" href="/">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/browse">Browse Books</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/sell">Sell a Book</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/about">About</a>
-            </li>
-          </ul>
+  }
+
+  /* Subtle shadow under header */
+  header.bookloop-header:after {
+    content: '';
+    display: block;
+    height: 2px;
+    background: linear-gradient(90deg, #fff 0%, var(--primary) 60%, var(--accent) 100%);
+    opacity: 0.10;
+    margin-top: -2px;
+    border-radius: 1rem;
+  }
+</style>
+
+<header class="bookloop-header shadow-sm">
+  <nav class="navbar navbar-expand-lg navbar-dark py-3">
+    <div class="container">
+      <a class="navbar-brand" href="/">
+        <!-- <img src="/logo1.png" alt="BookLoop Logo" class="brand-logo d-none d-md-inline" /> -->
+        <span>
+          <i class="fas fa-book-open-reader me-2 d-inline d-md-none" style="font-size:1.5rem"></i>
+          BookLoop
+        </span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarBookLoop"
+        aria-controls="navbarBookLoop" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarBookLoop">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/browse">Browse Books</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/sell">Sell a Book</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/about">About</a>
+          </li>
+        </ul>
+        <% if (!currUser) { %>
           <a href="/login" class="btn btn-login ms-lg-3 mt-2 mt-lg-0" tabindex="0">
             <i class="fas fa-user-circle"></i>
             <span class="d-none d-md-inline">Login/Signup</span>
           </a>
-        </div>
+          <% } else { %>
+            <div class="dropdown ms-lg-3 mt-2 mt-lg-0">
+              <button class="btn btn-primary dropdown-toggle" type="button" id="profileDropdown"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-user"></i>
+                <span class="d-none d-md-inline">My Profile</span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                <li><a class="dropdown-item" href="/myprofile">View Profile</a></li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item text-danger logout-hover" href="/logout">Logout</a></li>
+              </ul>
+            </div>
+            <% } %>
+
       </div>
-    </nav>
-  </header>
+    </div>
+  </nav>
+</header>
