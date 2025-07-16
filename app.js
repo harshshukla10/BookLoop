@@ -24,6 +24,7 @@ const { userSignupSchema } = require("./validateUser.js");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/userSchema.js");
+const {isLoggedIn} = require("./isLoggedIn.js");
 
 const store = MongoStore.create({
   mongoUrl: dbUrl,
@@ -49,8 +50,6 @@ const sessionOptions = {
   },
 };
 
-
-
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
@@ -62,8 +61,6 @@ app.use(session(sessionOptions));
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 
-
-
 app.use((req, res, next) => {
   // res.locals.success = req.flash("success");
   // res.locals.error = req.flash("error");
@@ -74,23 +71,23 @@ passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 const validateBookSchema = (req, res, next) => {
-    const { error } = bookSchema.validate(req.body);
-    if (error) {
-      const errMsg = error.details.map((el) => el.message).join(", ");
-      return res.status(400).send({ error: errMsg }); // or render a page with the error
-    }
-    next();
-  };
-  
-  const validateUserSchema = (req, res, next) => {
-    const { error } = userSignupSchema.validate(req.body);
-    if (error) {
-      const errMsg = error.details.map((el) => el.message).join(", ");
-      return res.status(400).send({ error: errMsg }); // or use res.render if using EJS
-    }
-    next();
-  };
-  
+  const { error } = bookSchema.validate(req.body);
+  if (error) {
+    const errMsg = error.details.map((el) => el.message).join(", ");
+    return res.status(400).send({ error: errMsg }); // or render a page with the error
+  }
+  next();
+};
+
+const validateUserSchema = (req, res, next) => {
+  const { error } = userSignupSchema.validate(req.body);
+  if (error) {
+    const errMsg = error.details.map((el) => el.message).join(", ");
+    return res.status(400).send({ error: errMsg }); // or use res.render if using EJS
+  }
+  next();
+};
+
 main()
   .then(() => {
     console.log("connected to DB");
@@ -116,60 +113,69 @@ app.get("/login", (req, res) => {
 });
 
 app.post("/login", (req, res, next) => {
-    passport.authenticate("local", (err, user, info) => {
-      if (err) {
-        console.error("Authentication error:", err);
-        return next(err);
-      }
-      if (!user) {
-        console.log("Login failed:", info.message); // << SEE WHY login failed
-        // Optionally: req.flash("error", info.message); if flash is configured
-        return res.redirect("/login");
-      }
-      req.logIn(user, (err) => {
-        if (err) {
-          console.error("Login error:", err);
-          return next(err);
-        }
-        return res.redirect("/browse");
-      });
-    })(req, res, next);
-  });
-  
-
+  passport.authenticate("local", (err, user, info) => {
+    if (err) {
+      console.error("Authentication error:", err);
+      return next(err);
+    }
+    if (!user) {
+      console.log("Login failed:", info.message); // << SEE WHY login failed // Optionally: req.flash("error", info.message); if flash is configured
+      return res.redirect("/login");
+    }
+    req.logIn(user, (err) => {
+      if (err) {
+        console.error("Login error:", err);
+        return next(err);
+      }
+      return res.redirect("/browse");
+    });
+  })(req, res, next);
+});
 
 app.get("/signup", (req, res) => {
   res.render("./listings/signup.ejs");
 });
 
 app.post("/signup", validateUserSchema, async (req, res, next) => {
-     const { email, password, confirm_password, first_name, last_name, institute, grade } = req.body;
-   console.log(req.body);
-  
-   try {
+  const {
+    email,
+    password,
+    confirm_password,
+    first_name,
+    last_name,
+    institute,
+    grade,
+  } = req.body;
+  console.log(req.body);
+
+  try {
     if (password !== confirm_password) {
-     // req.flash("error", "Passwords do not match");
-     return res.redirect("/signup");
+      // req.flash("error", "Passwords do not match");
+      return res.redirect("/signup");
     }
-  
-    const newUser = new User({ email, username: email, first_name, last_name, institute, grade });
-    const registeredUser = await User.register(newUser, password);
-  
-    console.log(registeredUser);
-  
-    req.login(registeredUser, (err) => {
-     if (err) return next(err);
-     res.redirect("/browse"); // or your homepage after login
+
+    const newUser = new User({
+      email,
+      username: email,
+      first_name,
+      last_name,
+      institute,
+      grade,
     });
-  
- } catch (e) {
-   console.error(e);
+    const registeredUser = await User.register(newUser, password);
+
+    console.log(registeredUser);
+
+    req.login(registeredUser, (err) => {
+      if (err) return next(err);
+      res.redirect("/browse"); // or your homepage after login
+    });
+  } catch (e) {
+    console.error(e);
     // req.flash("error", e.message);
     res.redirect("/signup");
-   }
-  });
-  
-
+  }
+});
 
 // Only fetch and render books, no wishlist
 app.get("/browse", async (req, res) => {
@@ -183,10 +189,9 @@ app.get("/browse", async (req, res) => {
     if (search) {
       filter = {
         $or: [
-          { title:    { $regex: search, $options: "i" } },
-          { authors:   { $regex: search, $options: "i" } }
-          
-        ]
+          { title: { $regex: search, $options: "i" } },
+          { authors: { $regex: search, $options: "i" } },
+        ],
       };
     }
 
@@ -238,13 +243,13 @@ app.get("/browse", async (req, res) => {
   }
 });
 
-app.get("/sell", (req, res) => {
+
+app.get("/sell",isLoggedIn, (req, res) => {
   res.render("./listings/sellBooks.ejs");
 });
 
-
 app.post(
-  "/sell",
+  "/sell",isLoggedIn,
   validateBookSchema,
   upload.fields([
     { name: "cover[image]", maxCount: 1 },
@@ -253,6 +258,7 @@ app.post(
   async (req, res) => {
     try {
       const bookData = req.body;
+      bookData.userEmail = req.user.email;
       const coverImage = req.files["cover[image]"]
         ? req.files["cover[image]"][0].path
         : null;
@@ -281,8 +287,16 @@ app.get("/success", (req, res) => {
   res.render("./listings/successList.ejs");
 });
 
-app.get("/myprofile", (req, res) => {
-  res.render("./listings/myProfile.ejs");
+app.get('/myprofile',isLoggedIn, async (req, res) => {
+  try {
+    const userEmail = req.user.email; // from Passport session
+    const userBooks = await Book.find({ userEmail }); // filter
+    
+    res.render('./listings/myProfile.ejs', { userBooks}); // 👈 pass books
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Something went wrong.');
+  }
 });
 
 app.get("/about", (req, res) => {

@@ -1,380 +1,255 @@
 <% layout("/layouts/boilerplate") %>
-    
+
     <style>
-        body {
-            background-color: #f8f9fa;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
         .profile-header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 2rem 0;
-            margin-bottom: 2rem;
         }
-        
-        .profile-picture {
+
+        .profile-avatar {
             width: 120px;
             height: 120px;
             border-radius: 50%;
             border: 4px solid white;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             object-fit: cover;
         }
-        
-        .book-card {
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+        .stats-card {
             border: none;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
         }
-        
+
+        .stats-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .book-card {
+            border: none;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+            margin-bottom: 1rem;
+        }
+
         .book-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
-        
-        .book-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-        
+
         .status-badge {
             font-size: 0.75rem;
             padding: 0.25rem 0.5rem;
         }
-        
-        .status-pending {
-            background-color: #ffc107;
-            color: #000;
+
+        .book-image {
+            width: 80px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 4px;
         }
-        
-        .status-approved {
-            background-color: #198754;
-            color: white;
-        }
-        
-        .status-sold {
-            background-color: #6c757d;
-            color: white;
-        }
-        
-        .condition-badge {
-            font-size: 0.75rem;
-            padding: 0.25rem 0.5rem;
-        }
-        
-        .condition-new {
-            background-color: #0d6efd;
-            color: white;
-        }
-        
-        .condition-like-new {
-            background-color: #20c997;
-            color: white;
-        }
-        
-        .condition-used {
-            background-color: #fd7e14;
-            color: white;
-        }
-        
-        .price-tag {
-            font-size: 1.25rem;
-            font-weight: bold;
-            color: #198754;
-        }
-        
-        .section-title {
-            border-bottom: 3px solid #667eea;
-            padding-bottom: 0.5rem;
-            margin-bottom: 2rem;
-            display: inline-block;
-        }
-        
-        .action-buttons {
-            margin-bottom: 2rem;
-        }
-        
-        .btn-custom {
-            border-radius: 25px;
-            padding: 0.5rem 1.5rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-primary-custom {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border: none;
-            color: white;
-        }
-        
-        .btn-primary-custom:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-        }
-        
-        .btn-outline-custom {
-            border: 2px solid #667eea;
-            color: #667eea;
-            background: transparent;
-        }
-        
-        .btn-outline-custom:hover {
-            background: #667eea;
-            color: white;
-            transform: translateY(-2px);
-        }
-        
-        .stats-card {
-            background: white;
-            border-radius: 15px;
-            padding: 1.5rem;
+
+        .no-listings {
             text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-bottom: 1rem;
-        }
-        
-        .stats-number {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #667eea;
-        }
-        
-        .stats-label {
+            padding: 3rem;
             color: #6c757d;
-            font-size: 0.9rem;
         }
-        
+
+        .action-buttons {
+            gap: 0.5rem;
+        }
+
         @media (max-width: 768px) {
-            .profile-picture {
-                width: 100px;
-                height: 100px;
+            .profile-avatar {
+                width: 80px;
+                height: 80px;
             }
-            
-            .book-card {
-                margin-bottom: 1rem;
-            }
-            
-            .action-buttons {
-                text-align: center;
-            }
-            
-            .action-buttons .btn {
-                width: 100%;
-                margin-bottom: 0.5rem;
+
+            .book-image {
+                width: 60px;
+                height: 75px;
             }
         }
     </style>
-</head>
-<body>
-    <%
-        // Placeholder user data
-        const user = {
-            name: "Sarah Johnson",
-            email: "sarah.johnson@email.com",
-            profilePicture: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=300&h=300&fit=crop&crop=face",
-            memberSince: "January 2023",
-            totalListings: 12,
-            soldBooks: 8,
-            activeListings: 4
-        };
-        
-        // Placeholder books data
-        const books = [
-            {
-                id: 1,
-                title: "The Great Gatsby",
-                author: "F. Scott Fitzgerald",
-                price: 15.99,
-                condition: "Like New",
-                status: "Approved",
-                image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=300&h=400&fit=crop"
-            },
-            {
-                id: 2,
-                title: "To Kill a Mockingbird",
-                author: "Harper Lee",
-                price: 12.50,
-                condition: "Used",
-                status: "Sold",
-                image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=400&fit=crop"
-            },
-            {
-                id: 3,
-                title: "1984",
-                author: "George Orwell",
-                price: 18.00,
-                condition: "New",
-                status: "Pending Approval",
-                image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=300&h=400&fit=crop"
-            },
-            {
-                id: 4,
-                title: "Pride and Prejudice",
-                author: "Jane Austen",
-                price: 14.75,
-                condition: "Like New",
-                status: "Approved",
-                image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=400&fit=crop"
-            },
-            {
-                id: 5,
-                title: "The Catcher in the Rye",
-                author: "J.D. Salinger",
-                price: 13.25,
-                condition: "Used",
-                status: "Approved",
-                image: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=300&h=400&fit=crop"
-            },
-            {
-                id: 6,
-                title: "Lord of the Flies",
-                author: "William Golding",
-                price: 11.99,
-                condition: "Used",
-                status: "Sold",
-                image: "https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=300&h=400&fit=crop"
-            }
-        ];
-    %>
 
-    <!-- Profile Header -->
-    <div class="profile-header">
-        <div class="container">
-            <div class="row align-items-center">
-                
-                <div class="col-md-6">
-                    <h1 class="mb-2"><%= user.name %></h1>
-                    <p class="mb-1"><i class="bi bi-envelope"></i> <%= user.email %></p>
-                    <p class="mb-0"><i class="bi bi-calendar"></i> Member since <%= user.memberSince %></p>
-                </div>
-                <div class="col-md-3">
-                   
-                </div>
-            </div>
-        </div>
-    </div>
+    <body class="bg-light">
 
-    <!-- Main Content -->
-    <div class="container">
-        <!-- Action Buttons -->
-        <div class="action-buttons">
-            <div class="row">
-                <div class="col-md-6 mb-2">
-                    <button class="btn btn-primary-custom btn-custom w-100">
-                        <i class="bi bi-person-gear"></i> Edit Profile
-                    </button>
-                </div>
-                <div class="col-md-6 mb-2">
-                    <button class="btn btn-outline-custom btn-custom w-100">
-                        <i class="bi bi-plus-circle"></i> Add New Book
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- My Listings Section -->
-        <div class="row">
-            <div class="col-12">
-                <h2 class="section-title">📚 My Listings</h2>
-            </div>
-        </div>
-
-        <div class="row">
-            <% books.forEach(function(book) { %>
-                <div class="col-lg-4 col-md-6 col-sm-12">
-                    <div class="card book-card h-100">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-4">
-                                    <img src="<%= book.image %>" alt="<%= book.title %>" class="book-image">
-                                </div>
-                                <div class="col-8">
-                                    <h5 class="card-title mb-2"><%= book.title %></h5>
-                                    <p class="card-text text-muted mb-2">by <%= book.author %></p>
-                                    <div class="price-tag mb-2">$<%= book.price.toFixed(2) %></div>
-                                    
-                                    <div class="mb-2">
-                                        <span class="badge condition-badge condition-<%= book.condition.toLowerCase().replace(' ', '-') %>">
-                                            <%= book.condition %>
-                                        </span>
-                                    </div>
-                                    
-                                    <div class="mb-3">
-                                        <span class="badge status-badge status-<%= book.status.toLowerCase().replace(' ', '-') %>">
-                                            <%= book.status %>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="row mt-3">
-                                <div class="col-6">
-                                    <button class="btn btn-outline-primary btn-sm w-100">
-                                        <i class="bi bi-pencil"></i> Edit
-                                    </button>
-                                </div>
-                                <div class="col-6">
-                                    <button class="btn btn-outline-danger btn-sm w-100">
-                                        <i class="bi bi-trash"></i> Delete
-                                    </button>
-                                </div>
-                            </div>
+        <!-- Profile Header -->
+        <section class="profile-header">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-3 text-center">
+                        <img src="profilepicture.png" alt="Profile Picture" class="profile-avatar">
+                    </div>
+                    <div class="col-md-6">
+                        <h1 class="mb-2">
+                            <%= currUser.first_name %>
+                                <%= currUser.last_name %>
+                        </h1>
+                        <p class="mb-1"><i class="fas fa-envelope"></i>
+                            <%= currUser.email %>
+                        </p>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <div class="action-buttons d-flex flex-column">
+                            <a href="/profile/edit" class="btn btn-light btn-sm mb-2">
+                                <i class="fas fa-edit"></i> Edit Profile
+                            </a>
+                            <a href="/books/new" class="btn btn-warning btn-sm">
+                                <i class="fas fa-plus"></i> List a Book
+                            </a>
                         </div>
                     </div>
                 </div>
-            <% }); %>
-        </div>
+            </div>
+        </section>
 
-        <!-- Empty State (if no books) -->
-        <% if (books.length === 0) { %>
-            <div class="row">
-                <div class="col-12 text-center py-5">
-                    <i class="bi bi-book display-1 text-muted"></i>
-                    <h3 class="mt-3 text-muted">No books listed yet</h3>
-                    <p class="text-muted">Start by adding your first book to the marketplace!</p>
-                    <button class="btn btn-primary-custom btn-custom">
-                        <i class="bi bi-plus-circle"></i> Add Your First Book
-                    </button>
+        <!-- Stats Section -->
+        <section class="py-4">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 col-sm-6 mb-3">
+                        <div class="card stats-card text-center">
+                            <div class="card-body">
+                                <i class="fas fa-book-open fa-2x text-primary mb-2"></i>
+                                <h4 class="card-title">
+                                    <%= userBooks.length %>
+                                </h4>
+                                <p class="card-text text-muted">Total Listings</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 mb-3">
+                        <div class="card stats-card text-center">
+                            <div class="card-body">
+                                <i class="fas fa-check-circle fa-2x text-success mb-2"></i>
+                                <h4 class="card-title">
+                                    <%= userBooks.filter(book=> book.status === 'approved').length %>
+                                </h4>
+                                <p class="card-text text-muted">Approved</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 mb-3">
+                        <div class="card stats-card text-center">
+                            <div class="card-body">
+                                <i class="fas fa-clock fa-2x text-warning mb-2"></i>
+                                <h4 class="card-title">
+                                    <%= userBooks.filter(book=> book.status === 'pending').length %>
+                                </h4>
+                                <p class="card-text text-muted">Pending</p>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
-        <% } %>
-    </div>
+        </section>
+
+        <!-- My Listings Section -->
+        <section class="py-4">
+            <div class="container">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2><i class="fas fa-list"></i> My Listings Preview</h2>
+                    <a href="/sell" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Add New Listing
+                    </a>
+                </div>
+
+                <% if (userBooks && userBooks.length> 0) { %>
+                    <div class="row">
+                        <% userBooks.forEach(book=> { %>
+                            <div class="col-lg-6 col-xl-4 mb-3">
+                                <div class="card book-card h-100">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <% if (book.bookCoverPhoto) { %>
+                                                    <img src="<%= book.bookCoverPhoto %>" alt="<%= book.title %>"
+                                                        class="book-image">
+                                                    <% } else { %>
+                                                        <div
+                                                            class="book-image bg-secondary d-flex align-items-center justify-content-center">
+                                                            <i class="fas fa-book text-white"></i>
+                                                        </div>
+                                                        <% } %>
+                                            </div>
+                                            <div class="col-8">
+                                                <h6 class="card-title mb-2">
+                                                    <%= book.title %>
+                                                </h6>
+                                                <p class="card-text text-muted small mb-2">
+                                                    <%= book.description ? book.description.substring(0, 80) + '...'
+                                                        : 'No description available' %>
+                                                </p>
+                                                <div class="mb-2">
+                                                    <% if (book.status==='approved' ) { %>
+                                                        <span class="badge bg-success status-badge">
+                                                            <i class="fas fa-check"></i> Approved
+                                                        </span>
+                                                        <% } else if (book.status==='pending' ) { %>
+                                                            <span class="badge bg-warning status-badge">
+                                                                <i class="fas fa-clock"></i> Pending
+                                                            </span>
+                                                            <% } else if (book.status==='rejected' ) { %>
+                                                                <span class="badge bg-danger status-badge">
+                                                                    <i class="fas fa-times"></i> Rejected
+                                                                </span>
+                                                                <% } %>
+                                                </div>
+                                                <div class="d-flex gap-1">
+                                                    <a href="/books/<%= book._id %>/edit"
+                                                        class="btn btn-outline-primary btn-sm">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    <button class="btn btn-outline-danger btn-sm"
+                                                        onclick="confirmDelete('<%= book._id %>', '<%= book.title %>')">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer bg-transparent">
+                                        <small class="text-muted">
+                                            <i class="fas fa-calendar"></i>
+                                            Listed on <%= new Date(book.createdAt).toLocaleDateString() %>
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                            <% }); %>
+                    </div>
+                    <% } %>
+
+            </div>
+        </section>
+
+        <!-- Delete Confirmation Modal -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete "<span id="bookTitle"></span>"?</p>
+                        <p class="text-muted">This action cannot be undone.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <form id="deleteForm" method="POST" style="display: inline;">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Add some interactivity
-        document.addEventListener('DOMContentLoaded', function() {
-            // Add click handlers for buttons
-            const editButtons = document.querySelectorAll('.btn:contains("Edit")');
-            const deleteButtons = document.querySelectorAll('.btn-outline-danger');
-            
-            // Edit Profile button
-            document.querySelector('.btn-primary-custom').addEventListener('click', function() {
-                alert('Edit Profile functionality would be implemented here');
-            });
-            
-            // Add New Book button
-            document.querySelector('.btn-outline-custom').addEventListener('click', function() {
-                alert('Add New Book functionality would be implemented here');
-            });
-            
-            // Book card hover effects
-            const bookCards = document.querySelectorAll('.book-card');
-            bookCards.forEach(card => {
-                card.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-5px)';
-                });
-                
-                card.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(0)';
-                });
-            });
-        });
-    </script>
-</body>
-</html>
+    </body>
