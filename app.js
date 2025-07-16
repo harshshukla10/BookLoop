@@ -225,8 +225,12 @@ app.get("/browse", async (req, res) => {
 
     // 5. If AJAX request, render partial. Else, render full page
     if (req.xhr) {
-      res.render("layouts/bookListSort", { books }, (err, html) => {
-        if (err) return res.status(500).send("Error rendering partial");
+      res.render("layouts/bookListSort", { books, currentView: 'grid', }, (err, html) => {
+        if (err){
+            console.log(err);
+            return res.status(500).send("Error rendering book list");
+        } 
+      
         res.send(html);
       });
     } else {
