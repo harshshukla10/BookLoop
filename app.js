@@ -25,7 +25,9 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/userSchema.js");
 const { isLoggedIn } = require("./isLoggedIn.js");
+const { isAdmin } = require("./onlyAdmin.js");
 const Notification = require("./models/notificationSchema.js");
+const flash = require("connect-flash");
 
 const store = MongoStore.create({
   mongoUrl: dbUrl,
@@ -60,12 +62,14 @@ app.use(express.static("public"));
 app.use(passport.initialize());
 app.use(session(sessionOptions));
 app.use(passport.session());
+app.use(flash());
 passport.use(new LocalStrategy(User.authenticate()));
 
 app.use((req, res, next) => {
-  // res.locals.success = req.flash("success");
-  // res.locals.error = req.flash("error");
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
   res.locals.currUser = req.user;
+  res.locals.messages = req.flash();
   next();
 });
 passport.use(User.createStrategy());
@@ -84,7 +88,8 @@ const validateUserSchema = (req, res, next) => {
   const { error } = userSignupSchema.validate(req.body);
   if (error) {
     const errMsg = error.details.map((el) => el.message).join(", ");
-    return res.status(400).send({ error: errMsg }); // or use res.render if using EJS
+    req.flash("error", errMsg);
+    return res.redirect("/signup");
   }
   next();
 };
@@ -116,25 +121,31 @@ app.get("/login", (req, res) => {
 app.post("/login", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) {
-      console.error("Authentication error:", err);
-      return next(err);
-    }
-    if (!user) {
-      console.log("Login failed:", info.message);
+      req.flash("error", err.message);
       return res.redirect("/login");
     }
+
+    if (!user) {
+      req.flash("error", info.message || "Invalid credentials");
+      return res.redirect("/login");
+    }
+
     req.logIn(user, (err) => {
       if (err) {
-        console.error("Login error:", err);
-        return next(err);
+        req.flash("error", err.message);
+        return res.redirect("/login");
       }
 
-      // 🔐 Check if the user's email is the admin email
+      const welcomeMessage = `Welcome to BookNLoop, ${
+        user.first_name || user.email
+      }!`;
+
+      req.flash("success", welcomeMessage);
+
       if (user.email === "admin@bookloop.in") {
         return res.redirect("/admin");
       }
 
-      // 🎯 Normal user gets redirected to browse
       return res.redirect("/browse");
     });
   })(req, res, next);
@@ -158,7 +169,7 @@ app.post("/signup", validateUserSchema, async (req, res, next) => {
 
   try {
     if (password !== confirm_password) {
-      // req.flash("error", "Passwords do not match");
+      req.flash("error", "Passwords do not match");
       return res.redirect("/signup");
     }
 
@@ -176,11 +187,14 @@ app.post("/signup", validateUserSchema, async (req, res, next) => {
 
     req.login(registeredUser, (err) => {
       if (err) return next(err);
-      res.redirect("/browse"); // or your homepage after login
+      req.flash(
+        "success",
+        `Welcome aboard, ${registeredUser.first_name || registeredUser.email}!`
+      );
+      res.redirect("/browse");
     });
   } catch (e) {
-    console.error(e);
-    // req.flash("error", e.message);
+    req.flash("error", e.message);
     res.redirect("/signup");
   }
 });
@@ -201,14 +215,13 @@ app.get("/browse", isLoggedIn, async (req, res) => {
     }).sort({ timestamp: -1 });
 
     // 2. Build filter for search (by title, author, isbn, keywords)
-    let filter = {};
+    let filter = { status: "accepted" };
+
     if (search) {
-      filter = {
-        $or: [
-          { title: { $regex: search, $options: "i" } },
-          { authors: { $regex: search, $options: "i" } },
-        ],
-      };
+      filter.$or = [
+        { title: { $regex: search, $options: "i" } },
+        { authors: { $regex: search, $options: "i" } },
+      ];
     }
 
     // 3. Fetch filtered books from DB
@@ -263,9 +276,8 @@ app.get("/browse", isLoggedIn, async (req, res) => {
         search, // so you can preserve search value in the input
       });
     }
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Error loading books");
+  } catch (e) {
+    req.flash("error", e.message);
   }
 });
 
@@ -303,9 +315,8 @@ app.post(
 
       await newBook.save();
       res.redirect("/success");
-    } catch (err) {
-      console.error(err);
-      res.status(500).send("Error saving book");
+    } catch (e) {
+      req.flash("error", e.message);
     }
   }
 );
@@ -320,9 +331,8 @@ app.get("/myprofile", isLoggedIn, async (req, res) => {
     const userBooks = await Book.find({ userEmail }); // filter
 
     res.render("./listings/myProfile.ejs", { userBooks }); // 👈 pass books
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Something went wrong.");
+  } catch (e) {
+    req.flash("error", e.message);
   }
 });
 
@@ -367,15 +377,14 @@ app.get("/browse/:id/buy", isLoggedIn, async (req, res) => {
     res.status(500).send("Server error");
   }
 });
-app.get("/admin", async (req, res) => {
+app.get("/admin", isAdmin, async (req, res) => {
   const pendingBooks = await Book.find({ status: "pending" });
   res.render("./listings/adminDashboard.ejs", { books: pendingBooks });
 });
-app.post("/admin/books/:id/approve", async (req, res) => {
+app.post("/admin/books/:id/approve", isAdmin, async (req, res) => {
   try {
     const book = await Book.findById(req.params.id);
- 
-    
+
     if (!book) {
       return res.status(404).send("Book not found");
     }
@@ -392,24 +401,21 @@ app.post("/admin/books/:id/approve", async (req, res) => {
       recipientEmail: book.userEmail.trim().toLowerCase(),
       message: "✅ Your book listing has been approved!",
       type: "listing_update",
-      read: false
+      read: false,
     });
 
     await newNotification.save();
-
+    req.flash("success", "Book approved successfully!");
     res.redirect("/admin");
   } catch (err) {
-    console.error("Error approving book:", err);
-    res.status(500).send("Server error");
+    req.flash("error", err.message);
   }
 });
 
-
-app.post("/admin/books/:id/reject", async (req, res) => {
+app.post("/admin/books/:id/reject", isAdmin, async (req, res) => {
   try {
     const book = await Book.findById(req.params.id);
-  
-    
+
     if (!book) {
       return res.status(404).send("Book not found");
     }
@@ -426,23 +432,21 @@ app.post("/admin/books/:id/reject", async (req, res) => {
       recipientEmail: book.userEmail.trim().toLowerCase(),
       message: "❌ Your book listing has been rejected!",
       type: "listing_update",
-      read: false
+      read: false,
     });
 
     await newNotification.save();
-
+    req.flash("success", "Book rejected successfully!");
     res.redirect("/admin");
   } catch (err) {
-    console.error("Error approving book:", err);
-    res.status(500).send("Server error");
+    req.flash("error", err.message);
   }
 });
 
-app.post("/admin/books/:id/alter", async (req, res) => {
+app.post("/admin/books/:id/alter", isAdmin, async (req, res) => {
   try {
     const book = await Book.findById(req.params.id);
-  
-    
+
     if (!book) {
       return res.status(404).send("Book not found");
     }
@@ -459,21 +463,19 @@ app.post("/admin/books/:id/alter", async (req, res) => {
       recipientEmail: book.userEmail.trim().toLowerCase(),
       message: "⚠️ Your book listing need alteration!",
       type: "listing_update",
-      read: false
+      read: false,
     });
 
     await newNotification.save();
-
+    req.flash("success", "Book alteration requested successfully!");
     res.redirect("/admin");
   } catch (err) {
-    console.error("Error approving book:", err);
-    res.status(500).send("Server error");
+    req.flash("error", err.message);
   }
-  
 });
 
 // Route: Send notification to specific user
-app.post("/admin/notifyUser", async (req, res) => {
+app.post("/admin/notifyUser", isAdmin, async (req, res) => {
   try {
     const { email, message, type } = req.body;
 
@@ -497,11 +499,10 @@ app.post("/admin/notifyUser", async (req, res) => {
     });
 
     await newNotification.save();
-
+    req.flash("success", "Notification sent successfully!");
     res.redirect("/admin"); // or res.status(200).send("Notification sent.");
   } catch (err) {
-    console.error("Error sending notification:", err);
-    res.status(500).send("Server error");
+    req.flash("error", err.message);
   }
 });
 
@@ -524,9 +525,12 @@ app.get("/books/:id/edit", isLoggedIn, async (req, res) => {
 
     if (!book) return res.status(404).send("Book not found");
 
-    if (book.userEmail !== req.user.email || 
-      (book.status !== "alteration_requested" && book.status !== "rejected" && book.status !== "pending")) {
-  
+    if (
+      book.userEmail !== req.user.email ||
+      (book.status !== "alteration_requested" &&
+        book.status !== "rejected" &&
+        book.status !== "pending")
+    ) {
       return res.status(403).send("Unauthorized to edit this listing");
     }
 
@@ -540,8 +544,13 @@ app.get("/books/:id/edit", isLoggedIn, async (req, res) => {
 app.post("/books/:id/edit", isLoggedIn, async (req, res) => {
   try {
     const book = await Book.findById(req.params.id);
-    if (!book || book.userEmail !== req.user.email ||
-       (book.status !== "alteration_requested" && book.status !== "rejected" && book.status !== "pending")) {
+    if (
+      !book ||
+      book.userEmail !== req.user.email ||
+      (book.status !== "alteration_requested" &&
+        book.status !== "rejected" &&
+        book.status !== "pending")
+    ) {
       return res.status(403).send("Unauthorized to update");
     }
 
@@ -567,6 +576,7 @@ app.post("/books/:id/edit", isLoggedIn, async (req, res) => {
     res.status(500).send("Server error");
   }
 });
+
 app.post("/books/:id/interest", isLoggedIn, async (req, res) => {
   const book = await Book.findById(req.params.id);
   console.log("Book found:", book);
@@ -580,11 +590,28 @@ app.post("/books/:id/interest", isLoggedIn, async (req, res) => {
     recipientEmail: sellerEmail,
     type: "listing_update",
     message: `📬 Someone is interested in your book: "${book.title}". Kindly check your Contact`,
-    read: false
+    read: false,
   });
 
   res.json({
     contactDetails: book.contactDetails,
-    contactPreference: book.contactPreference
+    contactPreference: book.contactPreference,
   });
+});
+
+app.post("/books/:id/delete", isLoggedIn, async (req, res) => {
+  try {
+    const book = await Book.findById(req.params.id);
+
+    // Only allow the owner to delete
+    if (!book || book.userEmail !== req.user.email) {
+      return res.status(403).send("Unauthorized to delete this listing.");
+    }
+
+    await Book.findByIdAndDelete(req.params.id);
+    res.redirect("/myprofile"); // or wherever your profile/listings are shown
+  } catch (err) {
+    console.error("Delete error:", err);
+    res.status(500).send("Server error.");
+  }
 });

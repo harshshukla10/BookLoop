@@ -5,25 +5,25 @@ const notificationSchema = new mongoose.Schema({
     type: String,
     required: true,
     lowercase: true,
-    trim: true
+    trim: true,
   },
   type: {
     type: String,
     enum: ["admin_message", "offer", "exchange_request", "listing_update"],
-    default: "admin_message"
+    default: "admin_message",
   },
   message: {
     type: String,
-    required: true
+    required: true,
   },
   read: {
     type: Boolean,
-    default: false
+    default: false,
   },
   timestamp: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
 module.exports = mongoose.model("Notification", notificationSchema);

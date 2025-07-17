@@ -92,8 +92,8 @@
                     </div>
                     <div class="col-md-3 text-center">
                         <div class="action-buttons d-flex flex-column">
-                           
-                            <a href="/browse" class="btn btn-warning btn-sm">
+
+                            <a href="/sell" class="btn btn-warning btn-sm">
                                 <i class="fas fa-plus"></i> List a Book
                             </a>
                         </div>
@@ -206,10 +206,12 @@
                                                         class="btn btn-outline-primary btn-sm">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
-                                                    <button class="btn btn-outline-danger btn-sm"
-                                                        onclick="confirmDelete('<%= book._id %>', '<%= book.title %>')">
-                                                        <i class="fas fa-trash"></i>
+                                                    <button class="btn btn-danger" data-bs-toggle="modal"
+                                                        data-bs-target="#deleteModal"
+                                                        onclick='prepareDelete("<%= book._id %>", "<%= book.title %>")'>
+                                                        Delete
                                                     </button>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -251,7 +253,14 @@
                 </div>
             </div>
         </div>
+        <script>
+            function prepareDelete(bookId, title) {
+                document.getElementById("bookTitle").innerText = title;
+                const form = document.getElementById("deleteForm");
+                form.action = `/books/${bookId}/delete`; // route for deletion
+            }
 
+        </script>
 
 
 
