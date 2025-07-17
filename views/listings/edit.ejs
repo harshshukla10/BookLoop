@@ -1,0 +1,72 @@
+<% layout("/layouts/boilerplate") %>
+<body>
+    
+    <div class="container py-5">
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <div class="card shadow-sm border-0">
+              <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">📚 Edit Book Listing</h4>
+              </div>
+              <div class="card-body">
+                <form method="POST" action="/books/<%= book._id %>/edit">
+      
+                  <!-- Title -->
+                  <div class="mb-3">
+                    <label class="form-label">Title</label>
+                    <input type="text" name="title" class="form-control" value="<%= book.title %>" required>
+                  </div>
+      
+                  <!-- Authors -->
+                  <div class="mb-3">
+                    <label class="form-label">Author(s)</label>
+                    <input type="text" name="authors" class="form-control" value="<%= book.authors %>" required>
+                  </div>
+      
+                  <!-- Genre & Condition -->
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Genre</label>
+                      <select name="genre" class="form-select" required>
+                        <% ["Academic", "Fiction", "Non-Fiction", "Mystery"].forEach(g => { %>
+                          <option value="<%= g %>" <%= book.genre === g ? "selected" : "" %>><%= g %></option>
+                        <% }) %>
+                      </select>
+                    </div>
+      
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Condition</label>
+                      <select name="condition" class="form-select" required>
+                        <% ["New", "Like New", "Good", "Acceptable"].forEach(c => { %>
+                          <option value="<%= c %>" <%= book.condition === c ? "selected" : "" %>><%= c %></option>
+                        <% }) %>
+                      </select>
+                    </div>
+                  </div>
+      
+                  <!-- Price -->
+                  <div class="mb-3">
+                    <label class="form-label">Price (₹)</label>
+                    <input type="number" name="price" class="form-control" value="<%= book.price %>" required>
+                  </div>
+      
+                  <!-- Description -->
+                  <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <textarea name="description" class="form-control" rows="5" required><%= book.description %></textarea>
+                  </div>
+      
+                  <div class="text-end">
+                    <button type="submit" class="btn btn-success">
+                      ✅ Resubmit for Approval
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+</body>

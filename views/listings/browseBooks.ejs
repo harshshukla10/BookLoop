@@ -3,334 +3,354 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet" />
     <link rel="stylesheet" href="browseBooks.css" />
 
-    <body >
-         <main class="main-content">
+    <body>
+        <main class="main-content">
 
             <section id="banner">
 
                 <img src="browse.png" class="img-fluid w-100" alt="Event Banner"
-                  style="object-fit: cover; max-height: 550px; margin-top: 50px" />
-              </section>
-        <div class="container-fluid mt-4">
-            <div class="row">
-                <!-- Main Content -->
-                <div class="col-12">
-                    <!-- Search Bar with Notification and Wishlist Integration, styled and responsive with Bootstrap 5 -->
-                    <div class="container my-4">
-                        <div class="row align-items-center gy-2">
-                            <!-- Search Input -->
+                    style="object-fit: cover; max-height: 550px; margin-top: 50px" />
+            </section>
+            <div class="container-fluid mt-4">
+                <div class="row">
+                    <!-- Main Content -->
+                    <div class="col-12">
+                        <!-- Search Bar with Notification and Wishlist Integration, styled and responsive with Bootstrap 5 -->
+                        <div class="container my-4">
+                            <div class="row align-items-center gy-2">
+                                <!-- Search Input -->
 
-                            <div class="col-12 col-md-7">
-                                <form method="GET" action="/browse" id="search-form"
-                                    class="row g-2 align-items-center mb-4">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" name="search" id="main-search"
-                                            placeholder="Search by title, author, ISBN, or keywords..."
-                                            value="<%= typeof search !== 'undefined' ? search : '' %>" />
-                                        <button class="btn btn-primary" type="submit" id="search-btn">
-                                            <i class="bi bi-search"></i>
-                                            <span class="d-none d-sm-inline">Search</span>
-                                        </button>
-                                    </div>
-                            </div>
-                            </form>
-                            <!-- Notification and Wishlist -->
-                            <div class="col-12 col-md-5">
-                                <div
-                                    class="d-flex justify-content-md-end justify-content-start align-items-center gap-3 mt-2 mt-md-0">
-                                    <!-- Notifications -->
-                                    <!-- 🔔 Notifications -->
-<div class="dropdown">
-    <button class="btn btn-outline-primary position-relative" type="button"
-            id="notificationsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-      <i class="bi bi-bell"></i>
-      <% if (unreadCount > 0) { %>
-        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.7em;">
-          <%= unreadCount %>
-          <span class="visually-hidden">unread notifications</span>
-        </span>
-      <% } %>
-    </button>
-  
-    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationsDropdown" style="min-width: 320px;">
-      <li><h6 class="dropdown-header">Notifications</h6></li>
-  
-      <% if (notifications.length === 0) { %>
-        <li>
-          <span class="dropdown-item text-muted">No new notifications</span>
-        </li>
-      <% } else { %>
-        <% notifications.slice(0, 5).forEach(n => { %>
-          <li>
-            <a class="dropdown-item small" href="#">
-              <i class="bi bi-info-circle-fill text-primary me-2"></i> <%= n.message %>
-              <div class="text-muted small"><%= new Date(n.timestamp).toLocaleString() %></div>
-            </a>
-          </li>
-        <% }) %>
-        <li><hr class="dropdown-divider" /></li>
-        <li>
-          <a class="dropdown-item text-center" href="/notifications">View all notifications</a>
-        </li>
-      <% } %>
-    </ul>
-  </div>
-  
-                                    <!-- Wishlist (always visible) -->
-                                    <div>
-                                        <a href="#" class="btn btn-outline-danger position-relative"
-                                            data-bs-toggle="modal" data-bs-target="#wishlistModal">
-                                            <i class="bi bi-heart"></i>
-                                            <span class="d-none d-sm-inline">Wishlist</span> (
-                                            <span id="wishlist-count">0</span>)
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-                        </div>
-
-                        <!-- Sort Options -->
-                        <div class="sort-container">
-                            <div class="row align-items-center">
-                                <div class="col-md-6">
-                                    <form method="GET" action="/browse" id="search-form">
-                                        <div class="d-flex align-items-center">
-                                            <label for="sort-select" class="form-label me-2 mb-0">Sort by:</label>
-                                            <select class="form-select" name="sort" id="sort-select">
-                                                <option value="newest" <%=sort==='newest' ? 'selected' : '' %>>Newest
-                                                    First</option>
-                                                <option value="oldest" <%=sort==='oldest' ? 'selected' : '' %>>Oldest
-                                                    First</option>
-                                                <option value="price-low" <%=sort==='price-low' ? 'selected' : '' %>
-                                                    >Price: Low to High</option>
-                                                <option value="price-high" <%=sort==='price-high' ? 'selected' : '' %>
-                                                    >Price: High to Low</option>
-                                                <option value="popularity" <%=sort==='popularity' ? 'selected' : '' %>
-                                                    >Most Popular</option>
-                                                <option value="alphabetical" <%=sort==='alphabetical' ? 'selected' : ''
-                                                    %>>A-Z</option>
-                                                <option value="alphabetical-desc" <%=sort==='alphabetical-desc'
-                                                    ? 'selected' : '' %>>Z-A</option>
-                                            </select>
+                                <div class="col-12 col-md-7">
+                                    <form method="GET" action="/browse" id="search-form"
+                                        class="row g-2 align-items-center mb-4">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" name="search" id="main-search"
+                                                placeholder="Search by title, author, ISBN, or keywords..."
+                                                value="<%= typeof search !== 'undefined' ? search : '' %>" />
+                                            <button class="btn btn-primary" type="submit" id="search-btn">
+                                                <i class="bi bi-search"></i>
+                                                <span class="d-none d-sm-inline">Search</span>
+                                            </button>
                                         </div>
-                                    </form>
                                 </div>
-                                <!-- Book List -->
-                            </div>
-                        </div>
+                                </form>
+                                <!-- Notification and Wishlist -->
+                                <div class="col-12 col-md-5">
+                                    <div
+                                        class="d-flex justify-content-md-end justify-content-start align-items-center gap-3 mt-2 mt-md-0">
+                                        <!-- Notifications -->
+                                        <!-- 🔔 Notifications -->
+                                        <div class="dropdown">
+                                            <button class="btn btn-outline-primary position-relative" type="button"
+                                                id="notificationsDropdown" data-bs-toggle="dropdown"
+                                                aria-expanded="false">
+                                                <i class="bi bi-bell"></i>
+                                                <% if (unreadCount> 0) { %>
+                                                    <span
+                                                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                                        style="font-size: 0.7em;">
+                                                        <%= unreadCount %>
+                                                            <span class="visually-hidden">unread notifications</span>
+                                                    </span>
+                                                    <% } %>
+                                            </button>
 
-                        <!-- Books Grid -->
-                        <div class="row " id="book-list">
-                            <%- include('../layouts/bookListSort', { books }) %>
-                        </div>
+                                            <ul class="dropdown-menu dropdown-menu-end"
+                                                aria-labelledby="notificationsDropdown" style="min-width: 320px;">
+                                                <li>
+                                                    <h6 class="dropdown-header">Notifications</h6>
+                                                </li>
 
-                      
-                       
-                    </div>
-                </div>
-            </div>
+                                                <% if (notifications.length===0) { %>
+                                                    <li>
+                                                        <span class="dropdown-item text-muted">No new
+                                                            notifications</span>
+                                                    </li>
+                                                    <% } else { %>
+                                                        <% notifications.slice(0, 5).forEach(n=> { %>
+                                                            <li>
+                                                                <a class="dropdown-item small" href="#">
+                                                                    <i
+                                                                        class="bi bi-info-circle-fill text-primary me-2"></i>
+                                                                    <%= n.message %>
+                                                                        <div class="text-muted small">
+                                                                            <%= new Date(n.timestamp).toLocaleString()
+                                                                                %>
+                                                                        </div>
+                                                                </a>
+                                                            </li>
+                                                            <% }) %>
+                                                                <li>
+                                                                    <hr class="dropdown-divider" />
+                                                                </li>
+                                                                <li>
+                                                                    <a class="dropdown-item text-center"
+                                                                        href="/notifications">View all notifications</a>
+                                                                </li>
+                                                                <% } %>
+                                            </ul>
+                                        </div>
 
-            <!-- Book Details Modal -->
-            <div class="modal fade" id="bookDetailsModal" tabindex="-1">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Book Details</h5>
-                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                        </div>
-                        <div class="modal-body" id="book-details-content">
-                            <!-- Content will be populated by JavaScript -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Login Modal -->
-            <div class="modal fade" id="loginModal" tabindex="-1">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Login to BookExchange</h5>
-                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form>
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="email" required />
-                                </div>
-                                <div class="mb-3">
-                                    <label for="password" class="form-label">Password</label>
-                                    <input type="password" class="form-control" id="password" required />
-                                </div>
-                                <div class="mb-3 form-check">
-                                    <input type="checkbox" class="form-check-input" id="remember" />
-                                    <label class="form-check-label" for="remember">Remember me</label>
-                                </div>
-                                <button type="submit" class="btn btn-primary w-100">Login</button>
-                            </form>
-                            <hr />
-                            <div class="text-center">
-                                <p>
-                                    Don't have an account?
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#signupModal">Sign up</a>
-                                </p>
-                                <p><a href="#">Forgot password?</a></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Wishlist Modal -->
-            <div class="modal fade" id="wishlistModal" tabindex="-1">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">My Wishlist</h5>
-                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div id="wishlist-content">
-                                <p class="text-center text-muted">
-                                    Your wishlist is empty. Start adding books you're interested in!
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Notifications Modal -->
-            <div class="modal fade" id="notificationsModal" tabindex="-1">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Notifications</h5>
-                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="list-group">
-                                <div class="list-group-item">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-1">New Mystery Books Available</h6>
-                                        <small>2 hours ago</small>
+                                        <!-- Wishlist (always visible) -->
+                                        <div>
+                                            <a href="#" class="btn btn-outline-danger position-relative"
+                                                data-bs-toggle="modal" data-bs-target="#wishlistModal">
+                                                <i class="bi bi-heart"></i>
+                                                <span class="d-none d-sm-inline">Wishlist</span> (
+                                                <span id="wishlist-count">0</span>)
+                                            </a>
+                                        </div>
                                     </div>
-                                    <p class="mb-1">
-                                        5 new mystery books have been added in your area.
+                                </div>
+
+
+
+                            </div>
+
+                            <!-- Sort Options -->
+                            <div class="sort-container">
+                                <div class="row align-items-center">
+                                    <div class="col-md-6">
+                                        <form method="GET" action="/browse" id="search-form">
+                                            <div class="d-flex align-items-center">
+                                                <label for="sort-select" class="form-label me-2 mb-0">Sort by:</label>
+                                                <select class="form-select" name="sort" id="sort-select">
+                                                    <option value="newest" <%=sort==='newest' ? 'selected' : '' %>
+                                                        >Newest
+                                                        First</option>
+                                                    <option value="oldest" <%=sort==='oldest' ? 'selected' : '' %>
+                                                        >Oldest
+                                                        First</option>
+                                                    <option value="price-low" <%=sort==='price-low' ? 'selected' : '' %>
+                                                        >Price: Low to High</option>
+                                                    <option value="price-high" <%=sort==='price-high' ? 'selected' : ''
+                                                        %>
+                                                        >Price: High to Low</option>
+                                                    <option value="popularity" <%=sort==='popularity' ? 'selected' : ''
+                                                        %>
+                                                        >Most Popular</option>
+                                                    <option value="alphabetical" <%=sort==='alphabetical' ? 'selected'
+                                                        : '' %>>A-Z</option>
+                                                    <option value="alphabetical-desc" <%=sort==='alphabetical-desc'
+                                                        ? 'selected' : '' %>>Z-A</option>
+                                                </select>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <!-- Book List -->
+                                </div>
+                            </div>
+
+                            <!-- Books Grid -->
+                            <div class="row " id="book-list">
+                                <%- include('../layouts/bookListSort', { books }) %>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Book Details Modal -->
+                <div class="modal fade" id="bookDetailsModal" tabindex="-1">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Book Details</h5>
+                                <button type="button" class="btn-close btn-close-white"
+                                    data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body" id="book-details-content">
+                                <!-- Content will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Login Modal -->
+                <div class="modal fade" id="loginModal" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Login to BookExchange</h5>
+                                <button type="button" class="btn-close btn-close-white"
+                                    data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="email" required />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label">Password</label>
+                                        <input type="password" class="form-control" id="password" required />
+                                    </div>
+                                    <div class="mb-3 form-check">
+                                        <input type="checkbox" class="form-check-input" id="remember" />
+                                        <label class="form-check-label" for="remember">Remember me</label>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary w-100">Login</button>
+                                </form>
+                                <hr />
+                                <div class="text-center">
+                                    <p>
+                                        Don't have an account?
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#signupModal">Sign up</a>
+                                    </p>
+                                    <p><a href="#">Forgot password?</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Wishlist Modal -->
+                <div class="modal fade" id="wishlistModal" tabindex="-1">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">My Wishlist</h5>
+                                <button type="button" class="btn-close btn-close-white"
+                                    data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div id="wishlist-content">
+                                    <p class="text-center text-muted">
+                                        Your wishlist is empty. Start adding books you're interested in!
                                     </p>
                                 </div>
-                                <div class="list-group-item">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-1">Price Drop Alert</h6>
-                                        <small>1 day ago</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notifications Modal -->
+                <div class="modal fade" id="notificationsModal" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Notifications</h5>
+                                <button type="button" class="btn-close btn-close-white"
+                                    data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="list-group">
+                                    <div class="list-group-item">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h6 class="mb-1">New Mystery Books Available</h6>
+                                            <small>2 hours ago</small>
+                                        </div>
+                                        <p class="mb-1">
+                                            5 new mystery books have been added in your area.
+                                        </p>
                                     </div>
-                                    <p class="mb-1">"The Great Gatsby" is now $8.99 (was $12.99)</p>
-                                </div>
-                                <div class="list-group-item">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-1">Exchange Request</h6>
-                                        <small>3 days ago</small>
+                                    <div class="list-group-item">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h6 class="mb-1">Price Drop Alert</h6>
+                                            <small>1 day ago</small>
+                                        </div>
+                                        <p class="mb-1">"The Great Gatsby" is now $8.99 (was $12.99)</p>
                                     </div>
-                                    <p class="mb-1">
-                                        Someone wants to exchange "1984" for your "Animal Farm"
-                                    </p>
+                                    <div class="list-group-item">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h6 class="mb-1">Exchange Request</h6>
+                                            <small>3 days ago</small>
+                                        </div>
+                                        <p class="mb-1">
+                                            Someone wants to exchange "1984" for your "Animal Farm"
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
 
-            <div class="modal fade" id="bookDetailsModal" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-body" id="book-details-content"></div>
+                <div class="modal fade" id="bookDetailsModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-body" id="book-details-content"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
         </main>
     </body>
-            <script>
-                // DOM references
-                const sortDropdown = document.getElementById('sort-select');
-                const bookContainer = document.getElementById('book-list');
-                const searchInput = document.getElementById('main-search'); // Add this line
+    <script>
+        // DOM references
+        const sortDropdown = document.getElementById('sort-select');
+        const bookContainer = document.getElementById('book-list');
+        const searchInput = document.getElementById('main-search'); // Add this line
 
-                // Sorting handler
-                sortDropdown.addEventListener('change', () => {
-                    const selectedSort = sortDropdown.value;
-                    const currentSearch = searchInput.value; // Get current search value
+        // Sorting handler
+        sortDropdown.addEventListener('change', () => {
+            const selectedSort = sortDropdown.value;
+            const currentSearch = searchInput.value; // Get current search value
 
-                    // Build URL with both sort and search (if search is present)
-                    let newUrl = `/browse?sort=${encodeURIComponent(selectedSort)}`;
-                    if (currentSearch) {
-                        newUrl += `&search=${encodeURIComponent(currentSearch)}`;
-                    }
+            // Build URL with both sort and search (if search is present)
+            let newUrl = `/browse?sort=${encodeURIComponent(selectedSort)}`;
+            if (currentSearch) {
+                newUrl += `&search=${encodeURIComponent(currentSearch)}`;
+            }
 
-                    // Update URL without reload
-                    window.history.pushState({}, '', newUrl);
+            // Update URL without reload
+            window.history.pushState({}, '', newUrl);
 
-                    // Show loading spinner
-                    bookContainer.innerHTML = `
+            // Show loading spinner
+            bookContainer.innerHTML = `
                     <div class="text-center my-4">
                       <div class="spinner-border text-primary" role="status" aria-hidden="true"></div>
                       <p class="mt-2">Loading sorted books...</p>
                     </div>
                   `;
 
-                    // Fetch and update sorted book list
-                    fetch(newUrl, {
-                        headers: { 'X-Requested-With': 'XMLHttpRequest' }
-                    })
-                        .then(response => response.text())
-                        .then(html => {
-                            bookContainer.innerHTML = html;
-                        })
-                        .catch(error => {
-                            console.error("Error fetching sorted books:", error);
-                            bookContainer.innerHTML = `
+            // Fetch and update sorted book list
+            fetch(newUrl, {
+                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+            })
+                .then(response => response.text())
+                .then(html => {
+                    bookContainer.innerHTML = html;
+                })
+                .catch(error => {
+                    console.error("Error fetching sorted books:", error);
+                    bookContainer.innerHTML = `
                       <div class="text-danger text-center mt-3">
                         Failed to load books. Please try again.
                       </div>
                     `;
-                        });
                 });
+        });
 
-                // Handle browser navigation (back/forward)
-                window.addEventListener('popstate', () => {
-                    const urlParams = new URLSearchParams(window.location.search);
-                    const sort = urlParams.get('sort') || 'newest';
-                    const search = urlParams.get('search') || '';
+        // Handle browser navigation (back/forward)
+        window.addEventListener('popstate', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const sort = urlParams.get('sort') || 'newest';
+            const search = urlParams.get('search') || '';
 
-                    bookContainer.innerHTML = `
+            bookContainer.innerHTML = `
                     <div class="text-center my-4">
                       <div class="spinner-border text-primary" role="status"></div>
                       <p class="mt-2">Refreshing books...</p>
                     </div>
                   `;
 
-                    let fetchUrl = `/browse?sort=${encodeURIComponent(sort)}`;
-                    if (search) {
-                        fetchUrl += `&search=${encodeURIComponent(search)}`;
-                    }
+            let fetchUrl = `/browse?sort=${encodeURIComponent(sort)}`;
+            if (search) {
+                fetchUrl += `&search=${encodeURIComponent(search)}`;
+            }
 
-                    fetch(fetchUrl, {
-                        headers: { 'X-Requested-With': 'XMLHttpRequest' }
-                    })
-                        .then(response => response.text())
-                        .then(html => {
-                            bookContainer.innerHTML = html;
-                        })
-                        .catch(error => {
-                            console.error("Error during navigation:", error);
-                        });
+            fetch(fetchUrl, {
+                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+            })
+                .then(response => response.text())
+                .then(html => {
+                    bookContainer.innerHTML = html;
+                })
+                .catch(error => {
+                    console.error("Error during navigation:", error);
                 });
-            </script>
-
-            
-  
+        });
+    </script>

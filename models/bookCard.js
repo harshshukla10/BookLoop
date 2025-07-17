@@ -67,7 +67,7 @@ const BookSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ["pending", "accepted", "rejected, alteration_requested"],
+    enum: ["pending", "accepted", "rejected", "alteration_requested"],
     default: "pending"
   }
   

@@ -116,7 +116,7 @@
                             <h5 class="text-success">₹${book.price}</h5>
                             <p><strong>Condition:</strong> <span class="badge ${getConditionClass(book.condition)}">${formatCondition(book.condition)}</span></p>
                             <p><strong>Format:</strong> ${formatCondition(book.format)}</p>
-                            <p><strong>Language:</strong> ${book.language.charAt(0).toUpperCase() + book.language.slice(1)}</p>
+                            <p><strong>Language:</strong> ${book.language}</p>
                             <p><strong>ISBN:</strong> ${book.isbn}</p>
                             <p><strong>Publisher:</strong> ${book.publisher} (${book.yearOfPublication})</p>
                             <p><strong>Location:</strong> ${book.location}</p>
@@ -133,22 +133,9 @@
                                 <span class="ms-1">${book.seller.userRating}</span>
                               </div>
                             </div>
-                  
-                            <div class="mt-3 responsive-button-group">
-                              <button class="btn btn-success me-2">
-                                <i class="bi bi-cart-plus"></i> Add to Cart
-                              </button>
-                              ${book.exchangeAvailable ?
-                                '<button class="btn btn-warning me-2"><i class="bi bi-arrow-left-right"></i> Request Exchange</button>' :
-                                ''
-                            }
-                              <button class="btn btn-outline-primary me-2">
-                                <i class="bi bi-chat"></i> Contact Seller
-                              </button>
-                            </div>
                           </div>
                         </div>
-                        <hr class="my-4">
+                        
                       `;
     
                     

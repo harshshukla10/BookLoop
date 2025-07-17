@@ -140,7 +140,6 @@ app.post("/login", (req, res, next) => {
   })(req, res, next);
 });
 
-
 app.get("/signup", (req, res) => {
   res.render("./listings/signup.ejs");
 });
@@ -187,15 +186,18 @@ app.post("/signup", validateUserSchema, async (req, res, next) => {
 });
 
 // Only fetch and render books, no wishlist
-app.get("/browse",isLoggedIn, async (req, res) => {
+app.get("/browse", isLoggedIn, async (req, res) => {
   try {
     // 1. Get sort and search values from query
     const sort = req.query.sort || "newest"; // default to 'newest'
     const search = req.query.search ? req.query.search.trim() : "";
     const userEmail = req.user.email.toLowerCase();
-    const unreadCount = await Notification.countDocuments({ recipientEmail: userEmail, read: false });
+    const unreadCount = await Notification.countDocuments({
+      recipientEmail: userEmail,
+      read: false,
+    });
     const notifications = await Notification.find({
-      recipientEmail: userEmail
+      recipientEmail: userEmail,
     }).sort({ timestamp: -1 });
 
     // 2. Build filter for search (by title, author, isbn, keywords)
@@ -351,7 +353,7 @@ app.get("/logout", (req, res, next) => {
   });
 });
 
-app.get("/browse/:id/buy",isLoggedIn, async (req, res) => {
+app.get("/browse/:id/buy", isLoggedIn, async (req, res) => {
   const bookId = req.params.id;
   try {
     const book = await Book.findById(bookId);
@@ -370,21 +372,105 @@ app.get("/admin", async (req, res) => {
   res.render("./listings/adminDashboard.ejs", { books: pendingBooks });
 });
 app.post("/admin/books/:id/approve", async (req, res) => {
-  await Book.findByIdAndUpdate(req.params.id, { status: "approved" });
-  res.redirect("/admin");
+  try {
+    const book = await Book.findById(req.params.id);
+ 
+    
+    if (!book) {
+      return res.status(404).send("Book not found");
+    }
+    if (!book.userEmail) {
+      return res.status(400).send("Seller email missing");
+    }
+
+    // Update status
+    book.status = "accepted";
+    await book.save();
+
+    // Create notification
+    const newNotification = new Notification({
+      recipientEmail: book.userEmail.trim().toLowerCase(),
+      message: "✅ Your book listing has been approved!",
+      type: "listing_update",
+      read: false
+    });
+
+    await newNotification.save();
+
+    res.redirect("/admin");
+  } catch (err) {
+    console.error("Error approving book:", err);
+    res.status(500).send("Server error");
+  }
 });
 
+
 app.post("/admin/books/:id/reject", async (req, res) => {
-  await Book.findByIdAndUpdate(req.params.id, { status: "rejected" });
-  res.redirect("/admin");
+  try {
+    const book = await Book.findById(req.params.id);
+  
+    
+    if (!book) {
+      return res.status(404).send("Book not found");
+    }
+    if (!book.userEmail) {
+      return res.status(400).send("Seller email missing");
+    }
+
+    // Update status
+    book.status = "rejected";
+    await book.save();
+
+    // Create notification
+    const newNotification = new Notification({
+      recipientEmail: book.userEmail.trim().toLowerCase(),
+      message: "❌ Your book listing has been rejected!",
+      type: "listing_update",
+      read: false
+    });
+
+    await newNotification.save();
+
+    res.redirect("/admin");
+  } catch (err) {
+    console.error("Error approving book:", err);
+    res.status(500).send("Server error");
+  }
 });
 
 app.post("/admin/books/:id/alter", async (req, res) => {
-  await Book.findByIdAndUpdate(req.params.id, { status: "alteration_requested" });
-  // Optional: Trigger a notification object for the seller
-  res.redirect("/admin");
-});
+  try {
+    const book = await Book.findById(req.params.id);
+  
+    
+    if (!book) {
+      return res.status(404).send("Book not found");
+    }
+    if (!book.userEmail) {
+      return res.status(400).send("Seller email missing");
+    }
 
+    // Update status
+    book.status = "alteration_requested";
+    await book.save();
+
+    // Create notification
+    const newNotification = new Notification({
+      recipientEmail: book.userEmail.trim().toLowerCase(),
+      message: "⚠️ Your book listing need alteration!",
+      type: "listing_update",
+      read: false
+    });
+
+    await newNotification.save();
+
+    res.redirect("/admin");
+  } catch (err) {
+    console.error("Error approving book:", err);
+    res.status(500).send("Server error");
+  }
+  
+});
 
 // Route: Send notification to specific user
 app.post("/admin/notifyUser", async (req, res) => {
@@ -407,7 +493,7 @@ app.post("/admin/notifyUser", async (req, res) => {
       recipientEmail: email.trim().toLowerCase(),
       message: message.trim(),
       type: type || "admin_message",
-      read: false
+      read: false,
     });
 
     await newNotification.save();
@@ -419,4 +505,86 @@ app.post("/admin/notifyUser", async (req, res) => {
   }
 });
 
+app.get("/notifications", isLoggedIn, async (req, res) => {
+  try {
+    const userEmail = req.user.email.toLowerCase();
+    const notifications = await Notification.find({
+      recipientEmail: userEmail,
+    }).sort({ timestamp: -1 });
+    res.render("./listings/notification.ejs", { notifications });
+  } catch (err) {
+    console.error("Error fetching notifications:", err);
+    res.status(500).send("Server error");
+  }
+});
+// GET route to render edit form
+app.get("/books/:id/edit", isLoggedIn, async (req, res) => {
+  try {
+    const book = await Book.findById(req.params.id);
 
+    if (!book) return res.status(404).send("Book not found");
+
+    if (book.userEmail !== req.user.email || 
+      (book.status !== "alteration_requested" && book.status !== "rejected" && book.status !== "pending")) {
+  
+      return res.status(403).send("Unauthorized to edit this listing");
+    }
+
+    res.render("./listings/edit.ejs", { book });
+  } catch (err) {
+    console.error("Edit route error:", err);
+    res.status(500).send("Server error");
+  }
+});
+// POST route to update edited book
+app.post("/books/:id/edit", isLoggedIn, async (req, res) => {
+  try {
+    const book = await Book.findById(req.params.id);
+    if (!book || book.userEmail !== req.user.email ||
+       (book.status !== "alteration_requested" && book.status !== "rejected" && book.status !== "pending")) {
+      return res.status(403).send("Unauthorized to update");
+    }
+
+    // Update relevant fields
+    book.title = req.body.title;
+    book.authors = req.body.authors;
+    book.genre = req.body.genre;
+    book.description = req.body.description;
+    book.price = req.body.price;
+    book.condition = req.body.condition;
+    book.publisher = req.body.publisher;
+    book.edition = req.body.edition;
+    book.language = req.body.language;
+    book.format = req.body.format;
+
+    // Reset status to pending after edits
+    book.status = "pending";
+
+    await book.save();
+    res.redirect("/myprofile");
+  } catch (err) {
+    console.error("Update error:", err);
+    res.status(500).send("Server error");
+  }
+});
+app.post("/books/:id/interest", isLoggedIn, async (req, res) => {
+  const book = await Book.findById(req.params.id);
+  console.log("Book found:", book);
+  if (!book) return res.status(404).send("Book not found");
+
+  const sellerEmail = book.userEmail;
+  console.log("Seller Email:", sellerEmail);
+
+  // Save notification for seller
+  await Notification.create({
+    recipientEmail: sellerEmail,
+    type: "listing_update",
+    message: `📬 Someone is interested in your book: "${book.title}". Kindly check your Contact`,
+    read: false
+  });
+
+  res.json({
+    contactDetails: book.contactDetails,
+    contactPreference: book.contactPreference
+  });
+});
