@@ -1,0 +1,442 @@
+<% layout("/layouts/boilerplate") %>
+<style>
+    .book-cover {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        transition: transform 0.3s ease;
+    }
+    
+    .book-cover:hover {
+        transform: scale(1.02);
+    }
+    
+    .book-cover-placeholder {
+        width: 100%;
+        height: 400px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 3rem;
+    }
+    
+    .seller-card {
+        border: none;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+    }
+    
+    .seller-avatar {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+    
+    .rating-stars {
+        color: #ffc107;
+    }
+    
+    .price-tag {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #28a745;
+    }
+    
+    .condition-badge {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.8rem;
+    }
+    
+    .genre-tag {
+        background-color: #e9ecef;
+        color: #495057;
+        padding: 0.25rem 0.5rem;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        margin: 0.2rem;
+        display: inline-block;
+    }
+    
+    .book-info-section {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .action-buttons {
+        position: sticky;
+        bottom: 20px;
+        background: white;
+        padding: 1rem;
+        border-radius: 12px;
+        box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .contact-preference {
+        display: inline-flex;
+        align-items: center;
+        background: #e3f2fd;
+        color: #1976d2;
+        padding: 0.3rem 0.6rem;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        margin: 0.2rem;
+    }
+    
+    .breadcrumb {
+        background: transparent;
+        padding: 0;
+    }
+    
+    @media (max-width: 768px) {
+        .book-cover-placeholder {
+            height: 300px;
+            font-size: 2rem;
+        }
+        
+        .action-buttons {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            border-radius: 0;
+            border-top: 1px solid #dee2e6;
+        }
+        
+        body {
+            padding-bottom: 80px;
+        }
+    }
+</style>
+
+    <body>
+        <main class="main-content">
+            <section id="banner">
+
+                <img src="/book.png" class="img-fluid w-100" alt="Event Banner"
+                    style="object-fit: cover; max-height: 550px; margin-top: 50px" />
+            </section>
+        </main>
+        <div class="alert alert-danger text-center my-4 mx-auto" role="alert">
+            Kindly find the contact details of the seller and reach out according to their preferred method.
+        </div>
+        
+        
+        <div class="container my-4">
+            <div class="row">
+                <!-- Book Cover Column -->
+                <div class="col-lg-4 col-md-5 mb-4">
+                    <div class="text-center">
+                        <% if (book.bookCoverPhoto) { %>
+                            <img src="<%= book.bookCoverPhoto %>" alt="<%= book.title %>" class="book-cover">
+                        <% } else { %>
+                            <div class="book-cover-placeholder">
+                                <i class="fas fa-book"></i>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+    
+                <!-- Book Details Column -->
+                <div class="col-lg-8 col-md-7">
+                    <!-- Book Title & Basic Info -->
+                    <div class="mb-4">
+                        <h1 class="display-5 mb-2"><%= book.title %></h1>
+                        <h5 class="text-muted mb-3">by <%= book.authors %></h5>
+                        
+                        <!-- Genre Tags -->
+                        <div class="mb-3">
+                            <% if (book.genre) { %>
+                                <% if (Array.isArray(book.genre)) { %>
+                                    <% book.genre.forEach(function(g) { %>
+                                        <span class="genre-tag"><%= g %></span>
+                                    <% }); %>
+                                <% } else { %>
+                                    <span class="genre-tag"><%= book.genre %></span>
+                                <% } %>
+                            <% } %>
+                        </div>
+    
+                        <!-- Price -->
+                        <div class="price-tag mb-3">
+                            <% if (book.price && book.price > 0) { %>
+                                ₹<%= book.price.toFixed(2) %>
+                            <% } else { %>
+                                <span class="text-success">Free Exchange</span>
+                            <% } %>
+                        </div>
+                    </div>
+    
+                    <!-- Book Information Section -->
+                    <div class="book-info-section">
+                        <h5 class="mb-3"><i class="fas fa-info-circle"></i> Book Information</h5>
+                        <div class="row">
+                            <div class="col-sm-6 mb-3">
+                                <strong>Condition:</strong>
+                                <% if (book.condition === 'New') { %>
+                                    <span class="badge bg-success condition-badge ms-2">
+                                        <i class="fas fa-star"></i> New
+                                    </span>
+                                <% } else if (book.condition === 'Good') { %>
+                                    <span class="badge bg-primary condition-badge ms-2">
+                                        <i class="fas fa-thumbs-up"></i> Good
+                                    </span>
+                                <% } else if (book.condition === 'Like New') { %>
+                                    <span class="badge bg-warning condition-badge ms-2">
+                                        <i class="fas fa-exclamation-triangle"></i> Like New
+                                    </span>
+                                <% } else if (book.condition === 'Acceptable') { %>
+                                    <span class="badge bg-danger condition-badge ms-2">
+                                        <i class="fas fa-times"></i> Acceptable
+                                    </span>
+                                <% } %>
+                            </div>
+                            <div class="col-sm-6 mb-3">
+                                <strong>Format:</strong>
+                                <span class="ms-2">
+                                    <% if (book.format === 'hardcover') { %>
+                                        <i class="fas fa-book text-primary"></i> Hardcover
+                                    <% } else if (book.format === 'paperback') { %>
+                                        <i class="fas fa-book-open text-info"></i> Paperback
+                                    <% } else if (book.format === 'ebook') { %>
+                                        <i class="fas fa-tablet-alt text-success"></i> E-book
+                                    <% } else { %>
+                                        <%= book.format || 'Not specified' %>
+                                    <% } %>
+                                </span>
+                            </div>
+                            <div class="col-sm-6 mb-3">
+                                <strong>Language:</strong>
+                                <span class="ms-2">
+                                    <i class="fas fa-globe"></i> <%= book.language || 'English' %>
+                                </span>
+                            </div>
+                            <div class="col-sm-6 mb-3">
+                                <strong>ISBN:</strong>
+                                <span class="ms-2"><%= book.isbn || 'Not provided' %></span>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <!-- Seller Information -->
+                    <div class="card seller-card mb-4">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0"><i class="fas fa-user"></i> Seller Information</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-auto">
+                                    <img src="<%= book.seller.profilePicture || '/profilepicture.png' %>" 
+                                         alt="<%= book.seller.name %>" 
+                                         class="seller-avatar">
+                                </div>
+                                <div class="col">
+                                    <h6 class="mb-1"><%= book.seller.name %></h6>
+                                    <p class="text-muted mb-1">
+                                        <% if (book.contactPreference && book.contactPreference.includes('Email')) { %>
+                                          <i class="fas fa-envelope me-1"></i> <%= book.contactDetails %>
+                                        <% } else if (book.contactPreference && book.contactPreference.includes('Phone')) { %>
+                                          <i class="fas fa-phone me-1"></i> <%= book.contactDetails %>
+                                        <% } else { %>
+                                          <i class="fas fa-comment me-1"></i> <%= book.contactDetails %>
+                                        <% } %>
+                                      </p>
+                                      
+                                      
+                                    <!-- Rating -->
+                                    <% if (book.seller.userRating) { %>
+                                        <div class="rating-stars mb-2">
+                                            <% for (let i = 1; i <= 5; i++) { %>
+                                                <% if (i <= book.seller.userRating) { %>
+                                                    <i class="fas fa-star"></i>
+                                                <% } else if (i - 0.5 <= book.seller.userRating) { %>
+                                                    <i class="fas fa-star-half-alt"></i>
+                                                <% } else { %>
+                                                    <i class="far fa-star"></i>
+                                                <% } %>
+                                            <% } %>
+                                            
+                                        </div>
+                                    <% } %>
+    
+                                    <!-- Contact Preferences -->
+                                    <div>
+                                        <strong>Contact via:</strong>
+                                        <% if (book.contactPreference) { %>
+                                            <% if (book.contactPreference.includes('Email')) { %>
+                                                <span class="contact-preference">
+                                                    <i class="fas fa-envelope me-1"></i> Email
+                                                </span>
+                                            <% } %>
+                                            <% if (book.contactPreference.includes('Phone')) { %>
+                                                <span class="contact-preference">
+                                                    <i class="fas fa-phone me-1"></i> Phone
+                                                </span>
+                                            <% } %>
+                                            <% if (book.contactPreference.includes('In-app Chat')) { %>
+                                                <span class="contact-preference">
+                                                    <i class="fas fa-comment me-1"></i> Message
+                                                </span>
+                                            <% } %>
+                                        <% } else { %>
+                                            <span class="contact-preference">
+                                                <i class="fas fa-envelope me-1"></i> Email
+                                            </span>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <!-- Book Description -->
+                    <% if (book.description || book.summary || book.notes) { %>
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-align-left"></i> Description</h5>
+                            </div>
+                            <div class="card-body">
+                                <% if (book.description) { %>
+                                    <h6>Summary:</h6>
+                                    <p class="mb-3"><%= book.description %></p>
+                                <% } %>
+                                
+                                <% if (book.summary && book.summary !== book.description) { %>
+                                    <h6>Additional Summary:</h6>
+                                    <p class="mb-3"><%= book.summary %></p>
+                                <% } %>
+                                
+                                <% if (book.notes) { %>
+                                    <h6>Seller's Notes:</h6>
+                                    <p class="mb-0 text-muted"><%= book.notes %></p>
+                                <% } %>
+                            </div>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Action Buttons -->
+        <div class="container">
+            <div class="action-buttons">
+                <div class="row">
+                    <div class="col-md-6 mb-2">
+                        <button class="btn btn-primary btn-lg w-100" 
+                                onclick="showInterestModal()" 
+                                <% if (!currUser) { %>onclick="window.location.href='/login'"<% } %>>
+                            <i class="fas fa-heart"></i> I'm Interested
+                        </button>
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        <a href="/books" class="btn btn-outline-secondary btn-lg w-100">
+                            <i class="fas fa-arrow-left"></i> Back to Listings
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Interest Modal -->
+        <div class="modal fade" id="interestModal" tabindex="-1" aria-labelledby="interestModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="interestModalLabel">Contact Seller</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="text-center mb-3">
+                            <img src="<%= book.seller.profilePicture || '/images/default-avatar.png' %>" 
+                                 alt="<%= book.seller.name %>" 
+                                 class="seller-avatar mb-2">
+                            <h6><%= book.seller.name %></h6>
+                        </div>
+                        
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i>
+                            You're interested in "<strong><%= book.title %></strong>" by <%= book.author %>
+                        </div>
+    
+                        <h6>Contact Options:</h6>
+                        <div class="list-group">
+                            <a href="mailto:<%= book.seller.email %>?subject=Interest in '<%= book.title %>'&body=Hi <%= book.seller.name %>,%0D%0A%0D%0AI'm interested in your book '<%= book.title %>' listed on BookExchange.%0D%0A%0D%0APlease let me know if it's still available.%0D%0A%0D%0AThank you!" 
+                               class="list-group-item list-group-item-action">
+                                <i class="fas fa-envelope text-primary"></i>
+                                <strong>Send Email</strong>
+                                <br>
+                                <small class="text-muted"><%= book.seller.email %></small>
+                            </a>
+                            
+                            <% if (book.seller.phone) { %>
+                                <a href="tel:<%= book.seller.phone %>" class="list-group-item list-group-item-action">
+                                    <i class="fas fa-phone text-success"></i>
+                                    <strong>Call</strong>
+                                    <br>
+                                    <small class="text-muted"><%= book.seller.phone %></small>
+                                </a>
+                            <% } %>
+                            
+                            <% if (currUser) { %>
+                                <button class="list-group-item list-group-item-action" onclick="sendInternalMessage()">
+                                    <i class="fas fa-comment text-info"></i>
+                                    <strong>Send Internal Message</strong>
+                                    <br>
+                                    <small class="text-muted">Message through BookExchange</small>
+                                </button>
+                            <% } %>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            function showInterestModal() {
+                 if (!currUser) { 
+                    window.location.href = '/login?redirect=' + encodeURIComponent(window.location.pathname);
+                 } else { 
+                    new bootstrap.Modal(document.getElementById('interestModal')).show();
+                 } 
+            }
+    
+            function sendInternalMessage() {
+                // This would typically open a message composer or redirect to a messaging page
+                window.location.href = '/messages/new?to=<%= book.seller._id %>&subject=Interest in "<%= book.title %>"';
+            }
+    
+            // Track book view (optional analytics)
+             if (currUser && currUser._id !== book.seller._id.toString()) { 
+                fetch('/api/books/<%= book._id %>/view', { method: 'POST' })
+                    .catch(err => console.log('View tracking failed'));
+             } 
+    
+            // Show success/error messages if they exist
+            if (typeof message !== 'undefined') { 
+                const alertDiv = document.createElement('div');
+                alertDiv.className = 'alert alert-<%= messageType || "info" %> alert-dismissible fade show position-fixed';
+                alertDiv.style.top = '20px';
+                alertDiv.style.right = '20px';
+                alertDiv.style.zIndex = '9999';
+                alertDiv.innerHTML = `
+                    <%= message %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                `;
+                document.body.appendChild(alertDiv);
+                
+                setTimeout(() => {
+                    if (alertDiv.parentNode) {
+                        alertDiv.remove();
+                    }
+                }, 5000);
+             } 
+        </script>
+    </body>

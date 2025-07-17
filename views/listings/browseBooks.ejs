@@ -39,52 +39,43 @@
                                 <div
                                     class="d-flex justify-content-md-end justify-content-start align-items-center gap-3 mt-2 mt-md-0">
                                     <!-- Notifications -->
-                                    <div class="dropdown">
-                                        <button class="btn btn-outline-primary position-relative" type="button"
-                                            id="notificationsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="bi bi-bell"></i>
-                                            <span
-                                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-                                                style="font-size: 0.7em">
-                                                3
-                                                <span class="visually-hidden">unread notifications</span>
-                                            </span>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-end"
-                                            aria-labelledby="notificationsDropdown" style="min-width: 320px">
-                                            <li>
-                                                <h6 class="dropdown-header">Notifications</h6>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item small" href="#">
-                                                    <i class="bi bi-bookmark-star-fill text-success me-2"></i> New
-                                                    arrival in <b>Science
-                                                        Fiction</b>
-                                                    <div class="text-muted small">Just now</div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item small" href="#">
-                                                    <i class="bi bi-tag-fill text-warning me-2"></i> Price dropped for
-                                                    <b>The Great Gatsby</b>
-                                                    <div class="text-muted small">5 min ago</div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item small" href="#">
-                                                    <i class="bi bi-arrow-repeat text-info me-2"></i> Exchange request
-                                                    from <b>Amit</b>
-                                                    <div class="text-muted small">10 min ago</div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <hr class="dropdown-divider" />
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item text-center" href="#">View all notifications</a>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                    <!-- 🔔 Notifications -->
+<div class="dropdown">
+    <button class="btn btn-outline-primary position-relative" type="button"
+            id="notificationsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-bell"></i>
+      <% if (unreadCount > 0) { %>
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.7em;">
+          <%= unreadCount %>
+          <span class="visually-hidden">unread notifications</span>
+        </span>
+      <% } %>
+    </button>
+  
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationsDropdown" style="min-width: 320px;">
+      <li><h6 class="dropdown-header">Notifications</h6></li>
+  
+      <% if (notifications.length === 0) { %>
+        <li>
+          <span class="dropdown-item text-muted">No new notifications</span>
+        </li>
+      <% } else { %>
+        <% notifications.slice(0, 5).forEach(n => { %>
+          <li>
+            <a class="dropdown-item small" href="#">
+              <i class="bi bi-info-circle-fill text-primary me-2"></i> <%= n.message %>
+              <div class="text-muted small"><%= new Date(n.timestamp).toLocaleString() %></div>
+            </a>
+          </li>
+        <% }) %>
+        <li><hr class="dropdown-divider" /></li>
+        <li>
+          <a class="dropdown-item text-center" href="/notifications">View all notifications</a>
+        </li>
+      <% } %>
+    </ul>
+  </div>
+  
                                     <!-- Wishlist (always visible) -->
                                     <div>
                                         <a href="#" class="btn btn-outline-danger position-relative"

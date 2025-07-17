@@ -1,0 +1,75 @@
+<% layout("/layouts/boilerplate") %>
+<body>
+    
+    <section class="py-4">
+        <div class="container">
+          <h2 class="mb-4">📋 Pending Listings Management</h2>
+          <% if (books.length > 0) { %>
+            <div class="row">
+              <% books.forEach(book => { %>
+                <div class="col-md-6 col-lg-4 mb-3">
+                  <div class="card h-100">
+                    <div class="card-body">
+                      <h5><%= book.title %></h5>
+                      <p><%= book.description %></p>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between">
+                      <form method="POST" action="/admin/books/<%= book._id %>/approve">
+                        <button class="btn btn-success btn-sm">✔️ Accept</button>
+                      </form>
+                      <form method="POST" action="/admin/books/<%= book._id %>/reject">
+                        <button class="btn btn-danger btn-sm">❌ Reject</button>
+                      </form>
+                      <form method="POST" action="/admin/books/<%= book._id %>/alter">
+                        <button class="btn btn-warning btn-sm">✏️ Request Alteration</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              <% }) %>
+            </div>
+          <% } else { %>
+            <p class="text-muted text-center">No pending listings at the moment.</p>
+          <% } %>
+        </div>
+      </section>
+      <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+          📬 Notify a Specific User
+        </div>
+        <div class="card-body">
+          <form method="POST" action="/admin/notifyUser">
+            <!-- Email -->
+            <div class="mb-3">
+              <label for="recipientEmail" class="form-label">User Email</label>
+              <input type="email" class="form-control" id="recipientEmail" name="email" placeholder="Enter user's email" required>
+            </div>
+      
+            <!-- Message -->
+            <div class="mb-3">
+              <label for="notificationMessage" class="form-label">Notification Message</label>
+              <textarea class="form-control" id="notificationMessage" name="message" rows="4" placeholder="Type your message..." required></textarea>
+            </div>
+      
+            <!-- Type Selector (Optional) -->
+            <div class="mb-3">
+              <label for="notificationType" class="form-label">Notification Type</label>
+              <select class="form-select" id="notificationType" name="type">
+                <option value="admin_message" selected>Admin Message</option>
+                <option value="offer">Offer</option>
+                <option value="listing_update">Listing Update</option>
+                <option value="exchange_request">Exchange Request</option>
+              </select>
+            </div>
+      
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-success">
+              ✅ Send Notification
+            </button>
+          </form>
+        </div>
+      </div>
+      
+      
+      
+</body>

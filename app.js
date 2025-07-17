@@ -24,7 +24,8 @@ const { userSignupSchema } = require("./validateUser.js");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/userSchema.js");
-const {isLoggedIn} = require("./isLoggedIn.js");
+const { isLoggedIn } = require("./isLoggedIn.js");
+const Notification = require("./models/notificationSchema.js");
 
 const store = MongoStore.create({
   mongoUrl: dbUrl,
@@ -119,7 +120,7 @@ app.post("/login", (req, res, next) => {
       return next(err);
     }
     if (!user) {
-      console.log("Login failed:", info.message); // << SEE WHY login failed // Optionally: req.flash("error", info.message); if flash is configured
+      console.log("Login failed:", info.message);
       return res.redirect("/login");
     }
     req.logIn(user, (err) => {
@@ -127,10 +128,18 @@ app.post("/login", (req, res, next) => {
         console.error("Login error:", err);
         return next(err);
       }
+
+      // 🔐 Check if the user's email is the admin email
+      if (user.email === "admin@bookloop.in") {
+        return res.redirect("/admin");
+      }
+
+      // 🎯 Normal user gets redirected to browse
       return res.redirect("/browse");
     });
   })(req, res, next);
 });
+
 
 app.get("/signup", (req, res) => {
   res.render("./listings/signup.ejs");
@@ -178,11 +187,16 @@ app.post("/signup", validateUserSchema, async (req, res, next) => {
 });
 
 // Only fetch and render books, no wishlist
-app.get("/browse", async (req, res) => {
+app.get("/browse",isLoggedIn, async (req, res) => {
   try {
     // 1. Get sort and search values from query
     const sort = req.query.sort || "newest"; // default to 'newest'
     const search = req.query.search ? req.query.search.trim() : "";
+    const userEmail = req.user.email.toLowerCase();
+    const unreadCount = await Notification.countDocuments({ recipientEmail: userEmail, read: false });
+    const notifications = await Notification.find({
+      recipientEmail: userEmail
+    }).sort({ timestamp: -1 });
 
     // 2. Build filter for search (by title, author, isbn, keywords)
     let filter = {};
@@ -225,19 +239,25 @@ app.get("/browse", async (req, res) => {
 
     // 5. If AJAX request, render partial. Else, render full page
     if (req.xhr) {
-      res.render("layouts/bookListSort", { books, currentView: 'grid', }, (err, html) => {
-        if (err){
+      res.render(
+        "layouts/bookListSort",
+        { books, currentView: "grid" },
+        (err, html) => {
+          if (err) {
             console.log(err);
             return res.status(500).send("Error rendering book list");
-        } 
-      
-        res.send(html);
-      });
+          }
+
+          res.send(html);
+        }
+      );
     } else {
       res.render("./listings/browseBooks", {
         books,
         currentView: "grid",
         sort,
+        notifications,
+        unreadCount,
         search, // so you can preserve search value in the input
       });
     }
@@ -247,13 +267,13 @@ app.get("/browse", async (req, res) => {
   }
 });
 
-
-app.get("/sell",isLoggedIn, (req, res) => {
+app.get("/sell", isLoggedIn, (req, res) => {
   res.render("./listings/sellBooks.ejs");
 });
 
 app.post(
-  "/sell",isLoggedIn,
+  "/sell",
+  isLoggedIn,
   validateBookSchema,
   upload.fields([
     { name: "cover[image]", maxCount: 1 },
@@ -263,6 +283,7 @@ app.post(
     try {
       const bookData = req.body;
       bookData.userEmail = req.user.email;
+      bookData.seller.sellerEmail = req.user.email;
       const coverImage = req.files["cover[image]"]
         ? req.files["cover[image]"][0].path
         : null;
@@ -291,15 +312,15 @@ app.get("/success", (req, res) => {
   res.render("./listings/successList.ejs");
 });
 
-app.get('/myprofile',isLoggedIn, async (req, res) => {
+app.get("/myprofile", isLoggedIn, async (req, res) => {
   try {
     const userEmail = req.user.email; // from Passport session
     const userBooks = await Book.find({ userEmail }); // filter
-    
-    res.render('./listings/myProfile.ejs', { userBooks}); // 👈 pass books
+
+    res.render("./listings/myProfile.ejs", { userBooks }); // 👈 pass books
   } catch (err) {
     console.error(err);
-    res.status(500).send('Something went wrong.');
+    res.status(500).send("Something went wrong.");
   }
 });
 
@@ -320,3 +341,82 @@ app.get("/faq", (req, res) => {
 app.get("/terms", (req, res) => {
   res.render("./listings/terms.ejs");
 });
+app.get("/logout", (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+
+    res.redirect("/");
+  });
+});
+
+app.get("/browse/:id/buy",isLoggedIn, async (req, res) => {
+  const bookId = req.params.id;
+  try {
+    const book = await Book.findById(bookId);
+    if (!book) return res.status(404).send("Book not found");
+    res.render("./listings/buyBook.ejs", {
+      book,
+      message: "Your action was successful!",
+      messageType: "success",
+    });
+  } catch (err) {
+    res.status(500).send("Server error");
+  }
+});
+app.get("/admin", async (req, res) => {
+  const pendingBooks = await Book.find({ status: "pending" });
+  res.render("./listings/adminDashboard.ejs", { books: pendingBooks });
+});
+app.post("/admin/books/:id/approve", async (req, res) => {
+  await Book.findByIdAndUpdate(req.params.id, { status: "approved" });
+  res.redirect("/admin");
+});
+
+app.post("/admin/books/:id/reject", async (req, res) => {
+  await Book.findByIdAndUpdate(req.params.id, { status: "rejected" });
+  res.redirect("/admin");
+});
+
+app.post("/admin/books/:id/alter", async (req, res) => {
+  await Book.findByIdAndUpdate(req.params.id, { status: "alteration_requested" });
+  // Optional: Trigger a notification object for the seller
+  res.redirect("/admin");
+});
+
+
+// Route: Send notification to specific user
+app.post("/admin/notifyUser", async (req, res) => {
+  try {
+    const { email, message, type } = req.body;
+
+    // Basic validation
+    if (!email || !message) {
+      return res.status(400).send("Email and message are required.");
+    }
+
+    // Optional: Check if user exists
+    const user = await User.findOne({ email: email.trim().toLowerCase() });
+    if (!user) {
+      return res.status(404).send("No user found with that email.");
+    }
+
+    // Create and save notification
+    const newNotification = new Notification({
+      recipientEmail: email.trim().toLowerCase(),
+      message: message.trim(),
+      type: type || "admin_message",
+      read: false
+    });
+
+    await newNotification.save();
+
+    res.redirect("/admin"); // or res.status(200).send("Notification sent.");
+  } catch (err) {
+    console.error("Error sending notification:", err);
+    res.status(500).send("Server error");
+  }
+});
+
+

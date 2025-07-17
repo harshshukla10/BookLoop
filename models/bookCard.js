@@ -54,6 +54,7 @@ const BookSchema = new mongoose.Schema({
   seller: {
     name: { type: String, required: true },
     userRating: { type: String, default: "5.0 ★" }, // or Number if you prefer
+    sellerEmail: { type: String, required: true, lowercase: true, trim: true },
   },
 
   // Meta
@@ -66,7 +67,7 @@ const BookSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ["pending", "accepted", "rejected"],
+    enum: ["pending", "accepted", "rejected, alteration_requested"],
     default: "pending"
   }
   

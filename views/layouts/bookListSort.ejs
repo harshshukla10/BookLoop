@@ -53,9 +53,10 @@
                                         <i class="bi bi-eye"></i> Details
                                     </button>
 
-                                    <button class="btn btn-success btn-sm">
+                                    <a href="/browse/<%= book._id %>/buy" class="btn btn-success btn-sm">
                                         <i class="bi bi-cart-plus"></i> Buy
-                                    </button>
+                                    </a>
+                                    
                                     <% if (book.exchangeAvailable) { %>
                                         <button class="btn btn-warning btn-sm"><i class="bi bi-arrow-left-right"></i>
                                             Exchange</button>
