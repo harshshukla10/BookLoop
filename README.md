@@ -106,6 +106,6 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## 📧 Contact
 
-Your Name - Harsh Shukla
+Harsh Shukla
 
 Project Link: https://bookloop-ek2a.onrender.com/
